@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nortiqa Lab</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --accent: #7c6af7;
+      --accent2: #a78bfa;
+      --text: #e2e2f0;
+      --muted: #6b6b8a;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+    }
+    .logo-text { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+    .logo-text span { color: var(--muted); font-weight: 400; }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(124,106,247,0.1);
+      border: 1px solid rgba(124,106,247,0.3);
+      color: var(--accent2);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+    h1 .grad {
+      background: linear-gradient(135deg, var(--accent2) 0%, #c4b5fd 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    p.sub {
+      color: var(--muted);
+      font-size: 1.15rem;
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+    .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--muted); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      max-width: 700px;
+      width: 100%;
+      margin-top: 5rem;
+    }
+    .card {
+      background: var(--surface);
+      padding: 2rem 1.5rem;
+      text-align: left;
+    }
+    .card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    footer {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-mark"></div>
+    <div class="logo-text">Nortiqa <span>Lab</span></div>
+  </header>
+
+  <main>
+    <div class="badge">En construcción</div>
+    <h1>Building AI<br><span class="grad">infrastructure</span></h1>
+    <p class="sub">Agentes inteligentes, automatización y herramientas de IA para equipos que quieren moverse más rápido.</p>
+    <div class="cta-group">
+      <a href="https://nortiqalab.com" class="btn btn-primary">Ir al sitio</a>
+      <a href="https://github.com/nortiqa-lab" class="btn btn-ghost">GitHub</a>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Agentes IA</h3>
+        <p>Automatizaciones con Claude y modelos locales vía Ollama.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <h3>Infraestructura</h3>
+        <p>Stack propio en Hetzner con CI/CD automático desde GitHub.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>Integraciones</h3>
+        <p>n8n, MCP, APIs y webhooks conectados entre sí.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Nortiqa Lab &nbsp;·&nbsp; <a href="https://github.com/nortiqa-lab">github.com/nortiqa-lab</a></p>
+  </footer>
+</body>
+</html>
