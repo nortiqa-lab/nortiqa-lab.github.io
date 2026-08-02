@@ -1,0 +1,20 @@
+# nortiqa-lab/nortiqa-lab.github.io — DEV-EXEC-001
+
+**Entidad:** Nortiqa Lab (público)  
+**Rol:** Ejecutor de código (Cursor). No dictámenes. No gobernanza. No Notion/AppFlowy.  
+**Flujo:** DEV → Dictamen Claude → Ratificación Gio → PROD
+
+## Contexto
+
+Site público de Nortiqa Lab (GitHub Pages). Solo contenido publicable.
+
+## Restricciones
+
+- Nunca publicar secretos, IPs internas, credenciales ni datos de cliente
+- No mezclar marcas de Valent Capital / LLA / SC2027 en este site salvo acuerdo explícito
+- Cambios de mensaje institucional sensibles → ratificación Gio
+
+## Preferencias
+
+- HTML/CSS estático simple y reversible
+- Coordinar con `nortiqa-lab` local/`site` si hay duplicación de assets
