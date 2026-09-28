@@ -1,0 +1,7 @@
+# DEV — CODEOWNERS baseline
+# Estado: DEV / Borrador. Requiere dictamen Claude + ratificación Gio antes de PROD.
+# Owner temporal de seguridad/gobernanza mientras se crean Teams formales.
+* @giovanyalbea-dotcom
+
+# Superficies críticas
+/.github/ @giovanyalbea-dotcom
