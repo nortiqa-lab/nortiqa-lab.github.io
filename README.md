@@ -5,9 +5,16 @@ dependencies, no build step and no framework**. The hero is a WebGL scene
 written against the raw API — 697 lines of it — and the whole thing opens from
 the filesystem with a double click.
 
-> This is the redesign, not the live site. Production still serves the previous
-> WordPress build. Every page carries `noindex, nofollow` and `robots.txt`
-> blocks crawling, so the preview never competes with the real site in search.
+## Production status
+
+This redesign is the live public site at `https://nortiqalab.com`. Production
+serves the static files through the `nortiqa-newweb` container. The production
+branch removes the preview `noindex` directive and publishes `robots.txt` and
+`sitemap.xml` for normal indexing.
+
+The commit tagged `prod-nortiqalab-2026-09-29-1` was verified file by file
+against the deployed site on 2026-09-29. Deployments must originate from this
+repository and preserve a recoverable backup and an auditable commit reference.
 
 ## Why it is built this way
 
