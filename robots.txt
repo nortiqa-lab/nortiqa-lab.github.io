@@ -1,0 +1,8 @@
+# Sitio en produccion: se indexa todo salvo las paginas de tramite, que no
+# funcionan como entrada desde un buscador.
+
+User-agent: *
+Disallow: /aviso-legal.html
+Disallow: /privacidad.html
+
+Sitemap: https://nortiqalab.com/sitemap.xml

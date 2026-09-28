@@ -1,0 +1,203 @@
+{
+  "date": "2026-09-10",
+  "pages": {
+    "aviso-legal.html": {
+      "source": "https://nortiqalab.com/aviso-legal/",
+      "source_sha256": "52ef1125e0b82920c79d6615e61eea7e8bb974226e086a92882883fc49aebe93",
+      "words": 153,
+      "content_preserved": true
+    },
+    "contacto.html": {
+      "source": "https://nortiqalab.com/contacto/",
+      "source_sha256": "141462086732ec8856352f46bf1fad511bdef66505b70eb8c4f6e56b427c1d1a",
+      "words": 150,
+      "content_preserved": true
+    },
+    "index.html": {
+      "source": "https://nortiqalab.com/",
+      "source_sha256": "121a4ea6628abcdac918b63f7cd5697fa09cabed57c028254342199bc9efc501",
+      "words": 576,
+      "content_preserved": true
+    },
+    "privacidad.html": {
+      "source": "https://nortiqalab.com/privacidad/",
+      "source_sha256": "4a3393a3305f690b2fa4c388c93842ae22374159d887d637c2224dd7cd3bacff",
+      "words": 205,
+      "content_preserved": true
+    },
+    "productos-ia.html": {
+      "source": "https://nortiqalab.com/productos-ia/",
+      "source_sha256": "851f1498d2e97b50a2b83edd16079b2acadef5594df830e071b50eab5bf1bce5",
+      "words": 273,
+      "content_preserved": true
+    },
+    "programas-startup-ia.html": {
+      "source": "https://nortiqalab.com/programas-startup-ia/",
+      "source_sha256": "55b39e6e29f267be69d6e6a2240ab07709885ecf78d620f25991ffa184997144",
+      "words": 324,
+      "content_preserved": true
+    },
+    "query-os.html": {
+      "source": "https://nortiqalab.com/query-os/",
+      "source_sha256": "c7e0e31709ec1829388ec99c3a8df106995ba76e339dc43c84c2f3b30c59d9e6",
+      "words": 253,
+      "content_preserved": true
+    },
+    "val-cv-intelligence.html": {
+      "source": "https://nortiqalab.com/val-cv-intelligence/",
+      "source_sha256": "7fc16b7f4c81620d6242217f3e009d1533e97dd083f57df7526abf51d75f742b",
+      "words": 251,
+      "content_preserved": true
+    }
+  },
+  "validation": "8 pages; text preserved; internal files and anchors resolve; no scripts, inline styles, classes, or remote resource dependencies; styles.css is empty",
+  "terceros": {
+    "_nota": "Todo lo de terceros que VIAJA con el sitio. Cero dependencias remotas: ver prueba-dependencias.mjs.",
+    "tipografia": {
+      "nombre": "Hanken Grotesk",
+      "origen": "Google Fonts (fonts.gstatic.com)",
+      "licencia": "SIL Open Font License 1.1",
+      "archivos": [
+        "assets/fonts/hanken-grotesk-latin.woff2",
+        "assets/fonts/hanken-grotesk-latin-ext.woff2"
+      ],
+      "nota": "Variable 100-900: dos archivos para toda la familia.",
+      "sha256": {
+        "hanken-grotesk-latin.woff2": "e9201eddf1d41d0b62253295d869ce3cf65768f7102b797f02c7f8c876b4a9d5",
+        "hanken-grotesk-latin-ext.woff2": "768af2923e0ab1549f1dfba0a5c8ea749c4c01f01d8e77ffaf7fcd12f57a0a24"
+      }
+    },
+    "tipografia_mono": {
+      "nombre": "JetBrains Mono",
+      "origen": "https://github.com/JetBrains/JetBrainsMono",
+      "licencia": "SIL Open Font License 1.1",
+      "texto_licencia": "assets/licenses/jetbrains-mono.txt",
+      "archivos": [
+        "assets/fonts/jetbrains-mono-latin.woff2"
+      ],
+      "nota": "Solo la terminal de Aplicaciones. Subconjunto latino y sin tablas de sustitucion: de 90 KB a 8,3. Las ligaduras se quitaron a proposito — convertirian un `--flag` en una raya.",
+      "sha256": {
+        "jetbrains-mono-latin.woff2": "8b2905fd4a080941c1444180fda430389fb6679fa38dd21d2e44751945d92f56"
+      }
+    },
+    "iconos": {
+      "nombre": "Lucide",
+      "origen": "https://lucide.dev  ·  github.com/lucide-icons/lucide",
+      "licencia": "ISC",
+      "texto_licencia": "assets/licenses/lucide.txt",
+      "usados": [
+        "layout-grid",
+        "target",
+        "diamond",
+        "gauge",
+        "trending-up",
+        "file-user",
+        "bot",
+        "database-zap",
+        "workflow"
+      ],
+      "donde": "index.html, incrustados en la tira del hero",
+      "nota": "Incrustados y no como <img> para que tomen currentColor del capitulo. Trazo bajado de 2 a 1.5."
+    },
+    "logos_marcas": {
+      "nombre": "Simple Icons",
+      "origen": "https://simpleicons.org · github.com/simple-icons/simple-icons",
+      "licencia": "CC0-1.0",
+      "usados": [
+        "n8n",
+        "ubuntu",
+        "postgresql",
+        "letsencrypt",
+        "odoo",
+        "git",
+        "docker",
+        "metabase",
+        "python",
+        "nginx",
+        "github",
+        "claude",
+        "googlegemini",
+        "opencode"
+      ],
+      "donde": "index.html, carrusel de tecnologias en #arquitectura",
+      "nota": "Monocromos, incrustados, tomando color del capitulo. Barra a todo el ancho. Son el stack que el lab opera segun la infra de srv-erp."
+    },
+    "logos_ia": {
+      "nombre": "Logos de IA en la barra de tecnologías",
+      "_nota": "Los tres de Simple Icons están arriba. Acá van los que hubo que buscar en otra fuente porque Simple Icons no los tiene.",
+      "chatgpt": {
+        "origen": "github.com/gilbarbara/logos — logos/openai-icon.svg",
+        "licencia": "CC0-1.0",
+        "nota": "Una sola ruta monocroma. Simple Icons no tiene el de OpenAI."
+      },
+      "openclaw": {
+        "origen": "github.com/openclaw/openclaw — ui/public/favicon.svg",
+        "licencia": "MIT (del repositorio)",
+        "nota": "APLANADA del favicon del proyecto: fuera el degradado y la animacion SMIL. Los OJOS son elementos <circle>, no <path>: una primera extraccion que solo tomo rutas los perdio y quedaba un bicho sin cara. Van como huecos de una <mask>, que es la unica forma de calarlos manteniendo una sola tinta sobre cualquier fondo. La MIT del repositorio cubre el codigo, no la marca."
+      },
+      "hermes": {
+        "origen": "hermes-agent.nousresearch.com — el favicon que sirve el sitio en vivo. El vector sale de web-assets.nousresearch.com/.../hermes-landing/nous-girl-badge.svg",
+        "licencia": "Marca de Nous Research. Sin licencia abierta: figura como tecnología, no como sociedad.",
+        "nota": "OJO 1: el website/static/img/favicon.svg DEL REPOSITORIO esta desactualizado -es el caracter U+2624- y no es lo que el sitio publica. El logo real es la ilustracion que sirve hermes-agent.nousresearch.com. OJO 2: la ruta NO se puede redondear. Se intento y rompio el dibujo: el logo es un badge con la figura CALADA, y el calado depende de precision por debajo de la centesima. Redondeando a 2 decimales la tinta pasaba de 57% a 98,7% -un bloque solido- y a 1 decimal, 99,2%. Va con sus 45.101 bytes intactos. Quitarle el azul propio para que herede el color de la barra si es seguro."
+      },
+      "aws": {
+        "origen": "assets/img/marcas/aws.svg — gilbarbara/logos, el MISMO archivo que usa la tira de partners",
+        "licencia": "CC0-1.0 (el trazado). La marca es de Amazon.",
+        "nota": "Simple Icons NO tiene AWS: Amazon pidio que lo sacaran. Se reusa el archivo que ya viaja con el sitio, inline y sin sus dos colores (#252F3E y #FF9900) para que herede el gris de la barra. Reemplaza a Hetzner."
+      }
+    },
+    "logos_partners": {
+      "nombre": "gilbarbara/logos",
+      "origen": "https://github.com/gilbarbara/logos",
+      "licencia": "CC0-1.0",
+      "archivos": [
+        "assets/img/marcas/aws.svg",
+        "assets/img/marcas/google-cloud.svg",
+        "assets/img/marcas/microsoft.svg",
+        "assets/img/marcas/nvidia.svg"
+      ],
+      "donde": "index.html, fila de partners en #roadmap",
+      "nota": "A COLOR y como <img>: son marcas ajenas, conservan su color. Alto ajustado a mano por logo para igualar peso optico.",
+      "aviso": "CC0 cubre los archivos SVG; las marcas siguen siendo de sus duenos. El parrafo dice 'Buscamos partners': son programas a los que se aspira, no acuerdos vigentes.",
+      "sha256": {
+        "aws.svg": "3a4720542e42a50cd738f6150f54efe8161c1aaed601af07ea4ad3a19d5f18c2",
+        "google-cloud.svg": "a7cc972c92cdc55a369d1509e6e20383a8a6372d18b441d414e2395af4c6677c",
+        "microsoft.svg": "bb4e29fe2cdc2e80e39c3f6c10b54ea59f66ca0fbf23934ef0cc6a47dad93082",
+        "nvidia.svg": "5a7d8491e42d335210691072118ed3a17b056e0c98882903af6b2133cb07ddeb"
+      }
+    },
+    "componentes_ui": {
+      "_nota": "Efectos portados de bibliotecas de componentes. Ninguno trae la biblioteca: se reescribio el mecanismo a CSS y JS sin dependencias, que es la regla del proyecto.",
+      "terminal": {
+        "nombre": "terminal-animation",
+        "origen": "https://cult-ui.com/docs/components/terminal-animation",
+        "licencia": "MIT",
+        "donde": "assets/js/terminal.js — seccion 05, Aplicaciones",
+        "nota": "De React a vanilla. Se corrigio un error del original: tipea con command.slice(0, n), asi que los caracteres no escritos no existen en el DOM. Aca se anima el ancho en `ch` y el texto esta entero desde el vamos."
+      },
+      "tablero_led": {
+        "nombre": "lightboard",
+        "origen": "https://cult-ui.com/docs/components/lightboard",
+        "licencia": "MIT",
+        "donde": "assets/js/tablero.js — seccion 04, Arquitectura",
+        "nota": "De React a vanilla. Corregido un error del original: al escalar la fuente hace cell === '1' ? '1' : '3', o sea que las celdas APAGADAS quedan en el color mas brillante y el texto sale invertido."
+      },
+      "aro_nucleo": {
+        "nombre": "lucky-falcon-75",
+        "autor": "xXJollyHAKERXx",
+        "origen": "https://uiverse.io/xXJollyHAKERXx/lucky-falcon-75",
+        "licencia": "MIT",
+        "donde": "assets/css/styles.css — el nucleo NQ de #arquitectura",
+        "nota": "Copia LITERAL de las tres reglas publicadas. Tres cosas se le agregan aparte, sin tocar la copia: la colocacion, la velocidad -5,1 s, el triple de lento que el original, que es un loader y tiene que verse ocupado- y un solo valor cambiado: el disco que tapa pasa de rgb(36,36,36) a var(--cap-fondo), porque ese gris no era un color elegido sino el fondo de la pagina de uiverse, donde el disco desaparece y solo queda el aro."
+      },
+      "onda": {
+        "nombre": "fondo de onda",
+        "origen": "https://codepen.io/yukiloz7/pen/yLgYpWM",
+        "licencia": "MIT (CodePen, por defecto)",
+        "donde": "assets/js/onda.js — fondo de #metodo (seccion 03)",
+        "nota": "Un solo fragment shader, portado a mano y sin dependencias. Los colores y las constantes son las del pen. Dos cambios, los dos porque la seccion es CLARA: el lienzo va transparente y la intensidad sale por ALFA -el pen SUMA luz sobre negro-, y el techo es bajo -0,16- porque es un detalle de fondo, no un grafico. Se ajusta con --onda-techo desde el CSS. La onda se muda de capitulo moviendo el <canvas>: la regla cuelga del #onda, no de la seccion.",
+        "aprendido": "El `distortion` del pen es 0.050. Con un valor grande las tres muestras de color caen en fases distintas y salen ondas SEPARADAS en vez de aberracion cromatica."
+      }
+    }
+  }
+}

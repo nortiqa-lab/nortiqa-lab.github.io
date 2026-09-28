@@ -1,175 +1,469 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nortiqa Lab</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --border: #1e1e2e;
-      --accent: #7c6af7;
-      --accent2: #a78bfa;
-      --text: #e2e2f0;
-      --muted: #6b6b8a;
-    }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .logo-mark {
-      width: 32px; height: 32px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-radius: 8px;
-    }
-    .logo-text { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
-    .logo-text span { color: var(--muted); font-weight: 400; }
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(124,106,247,0.1);
-      border: 1px solid rgba(124,106,247,0.3);
-      color: var(--accent2);
-      font-size: 0.75rem;
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      margin-bottom: 2rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.05;
-      margin-bottom: 1.5rem;
-    }
-    h1 .grad {
-      background: linear-gradient(135deg, var(--accent2) 0%, #c4b5fd 50%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    p.sub {
-      color: var(--muted);
-      font-size: 1.15rem;
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 3rem;
-    }
-    .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .btn {
-      padding: 0.8rem 1.8rem;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border: 1px solid var(--accent);
-    }
-    .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--muted); }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      max-width: 700px;
-      width: 100%;
-      margin-top: 5rem;
-    }
-    .card {
-      background: var(--surface);
-      padding: 2rem 1.5rem;
-      text-align: left;
-    }
-    .card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-    .card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-    footer {
-      padding: 1.5rem 2rem;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-    footer a { color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="logo-mark"></div>
-    <div class="logo-text">Nortiqa <span>Lab</span></div>
-  </header>
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Nortiqa — sistemas de inteligencia organizacional. Transformamos estructuras en organizaciones capaces de aprender, adaptarse y evolucionar.">
+    <meta name="theme-color" content="#040E0C">
+    <title>Nortiqa Lab – Inteligencia artificial aplicada para operaciones reales.</title>
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/scene.js" defer></script>
+    <script src="assets/js/haz.js" defer></script>
+    <script src="assets/js/onda.js" defer></script>
+    <script src="assets/js/marcas.js" defer></script>
+    <script src="assets/js/terminal.js" defer></script>
+    <script src="assets/js/tablero.js" defer></script>
+    <script src="assets/js/volanta.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+  </head>
+  <body class="home">
+    <a href="#contenido"><span>Saltar al contenido</span></a>
 
-  <main>
-    <div class="badge">En construcción</div>
-    <h1>Building AI<br><span class="grad">infrastructure</span></h1>
-    <p class="sub">Agentes inteligentes, automatización y herramientas de IA para equipos que quieren moverse más rápido.</p>
-    <div class="cta-group">
-      <a href="https://nortiqalab.com" class="btn btn-primary">Ir al sitio</a>
-      <a href="https://github.com/nortiqa-lab" class="btn btn-ghost">GitHub</a>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Agentes IA</h3>
-        <p>Automatizaciones con Claude y modelos locales vía Ollama.</p>
+    <!-- El porcentaje mide la compilación real del shader y el primer cuadro.
+         No es una barra decorativa. -->
+    <div id="precarga" role="status" aria-live="polite">
+      <div class="precarga-grilla" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
       </div>
-      <div class="card">
-        <div class="card-icon">🔧</div>
-        <h3>Infraestructura</h3>
-        <p>Stack propio en Hetzner con CI/CD automático desde GitHub.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🔗</div>
-        <h3>Integraciones</h3>
-        <p>n8n, MCP, APIs y webhooks conectados entre sí.</p>
+      <div class="precarga-pie hud">
+        <span>Construyendo escena</span>
+        <span><b id="pct">0</b>%</span>
       </div>
     </div>
-  </main>
 
-  <footer>
-    <p>&copy; 2026 Nortiqa Lab &nbsp;·&nbsp; <a href="https://github.com/nortiqa-lab">github.com/nortiqa-lab</a></p>
-  </footer>
-</body>
+    <canvas id="escena" aria-hidden="true"></canvas>
+
+    <header>
+      <a href="index.html" aria-label="Nortiqa, inicio">
+        NORTIQA<small>Sistemas de Inteligencia Organizacional</small>
+      </a>
+      <button type="button" class="hamburguesa" aria-expanded="false" aria-controls="nav-principal">
+        <span class="hamburguesa-lineas" aria-hidden="true"></span>
+        <span class="solo-lectores">Menú</span>
+      </button>
+      <nav aria-label="Principal" id="nav-principal">
+        <div id="nav-links">
+          <a href="#productos">Productos</a>
+          <a href="#metodo">Método</a>
+          <a href="#roadmap">Programas</a>
+        </div>
+        <a href="#contacto">Hablemos</a>
+      </nav>
+    </header>
+
+    <!-- El rail no es decoración: el contenido ya venía numerado 01–07 y
+         es la secuencia real del argumento. -->
+    <nav id="capitulos" aria-label="Capítulos">
+      <a href="#hero" aria-current="true"><span>Inicio</span></a>
+      <a href="#enfoque"><span>Enfoque</span></a>
+      <a href="#productos"><span>Productos</span></a>
+      <a href="#metodo"><span>Método</span></a>
+      <a href="#arquitectura"><span>Arquitectura</span></a>
+      <a href="#aplicaciones"><span>Aplicaciones</span></a>
+      <a href="#roadmap"><span>Roadmap</span></a>
+      <a href="#contacto"><span>Conversemos</span></a>
+    </nav>
+
+    <main id="contenido">
+      <section id="hero" aria-labelledby="inicio-titulo">
+        <div class="hero-copy">
+          <!-- La volanta se escribe sola, como una línea de terminal. Va
+               `aria-hidden` porque su texto cambia cada tres segundos y un lector
+               de pantalla lo anunciaría entero cada vez. La frase completa y quieta
+               queda en el párrafo de abajo, que además es de donde `volanta.js`
+               saca las palabras: en el HTML, no en el JS. -->
+          <p class="volanta" aria-hidden="true"><span class="volanta-signo"><span class="volanta-tilde">~</span> <span class="volanta-punta">&gt;</span></span><span class="volanta-txt"></span><span class="volanta-cursor"></span></p>
+          <p class="volanta-lectura solo-lectores">Arquitectura · Sistemas vivos · Capacidad emergente</p>
+          <h1 id="inicio-titulo">Sistemas de inteligencia <em>organizacional.</em></h1>
+          <p>Transformamos estructuras en organizaciones capaces de aprender, adaptarse y evolucionar más allá de las personas que las integran.</p>
+          <div class="acciones">
+            <a href="#productos"><span>Conocer más →</span></a>
+            <a href="#metodo"><span>Ver método</span></a>
+          </div>
+        </div>
+        <div class="capacidades tira" aria-label="Capacidades Nortiqa">
+          <!-- Iconos de Lucide (lucide.dev), licencia ISC. Copia de la licencia
+               en assets/licenses/lucide.txt. Van incrustados y no como
+               <img> para que tomen `currentColor` del capítulo. -->
+          <p class="capacidad"><svg class="icono icono--grilla" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span><strong>Diagnóstico</strong><small>Inteligente</small></span></p>
+          <p class="capacidad"><svg class="icono icono--diana" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <circle cx="12" cy="12" r="6" /> <circle cx="12" cy="12" r="2" /></svg><span><strong>Arquitectura</strong><small>Organizacional</small></span></p>
+          <p class="capacidad"><svg class="icono icono--aguja" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg><span><strong>Medición</strong><small>Capacidad (NOI)</small></span></p>
+          <p class="capacidad"><svg class="icono icono--alza" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span><strong>Evolución</strong><small>Continua</small></span></p>
+        </div>
+      </section>
+
+      <section id="enfoque" class="cap cap--claro-2" aria-labelledby="enfoque-titulo">
+        <div class="cap-cols">
+          <header class="cap-cabeza">
+            <p class="hud">01 / Enfoque</p>
+            <h2 id="enfoque-titulo">Sistemas antes que herramientas.</h2>
+          </header>
+          <div class="cap-texto">
+            <p>La tecnología es un medio. La capacidad organizacional es el producto.</p>
+            <p>No reemplazamos procesos con promesas abstractas. Transformamos tareas concretas en flujos controlados, auditables y útiles para equipos reales.</p>
+            <div class="chips">
+              <span class="chip">Control humano</span>
+              <span class="chip">Trazabilidad</span>
+              <span class="chip">Integración</span>
+              <span class="chip">Medición</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="productos" class="cap cap--azul" aria-labelledby="productos-titulo">
+        <header class="cap-cabeza">
+          <p class="hud">02 / Productos</p>
+          <h2 id="productos-titulo">Sistemas en construcción</h2>
+        </header>
+        <p>Productos propios y módulos listos para convertirse en pilotos concretos.</p>
+        <div class="riel">
+          <div class="tarjetas tarjetas--fila">
+            <article class="tarjeta">
+              <svg class="icono icono--prod" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M16 22a4 4 0 0 0-8 0" /> <circle cx="12" cy="15" r="3" /></svg>
+              <span class="hud">01 · MVP funcional</span>
+              <h3>VAL-CV <em>Intelligence</em></h3>
+              <p>Convierte CVs dispersos en perfiles master comparables, detecta brechas y genera entregables profesionales consistentes. El MVP ya se abre en nortiqalab.com/val-cv.</p>
+              <ul>
+                <li>Normalización inteligente</li>
+                <li>Diagnóstico de calidad</li>
+                <li>Detección de información faltante</li>
+              </ul>
+            </article>
+            <article class="tarjeta">
+              <svg class="icono icono--prod" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg>
+              <span class="hud">02 · Pilotos AI</span>
+              <h3>Agentes <em>operativos</em></h3>
+              <p>Asistentes conectados a documentos, datos, APIs y herramientas que consultan, preparan y ejecutan tareas controladas.</p>
+              <ul>
+                <li>Soporte documental</li>
+                <li>Seguimiento de tareas</li>
+                <li>Flujos conectados a n8n</li>
+              </ul>
+            </article>
+            <article class="tarjeta">
+              <svg class="icono icono--prod" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 15 21.84" /> <path d="M21 5V8" /> <path d="M21 12L18 17H22L19 22" /> <path d="M3 12A9 3 0 0 0 14.59 14.87" /></svg>
+              <span class="hud">03 · Prototipo DB</span>
+              <h3>Query <em>OS</em></h3>
+              <p>Exploración de datos en lenguaje natural con acceso gobernado, validación previa y registro de cada consulta.</p>
+              <ul>
+                <li>Consultas en lenguaje natural</li>
+                <li>Fuentes permitidas</li>
+                <li>Ejecución segura y auditable</li>
+              </ul>
+            </article>
+            <article class="tarjeta">
+              <svg class="icono icono--prod" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="8" x="3" y="3" rx="2" /> <path d="M7 11v4a2 2 0 0 0 2 2h4" /> <rect width="8" height="8" x="13" y="13" rx="2" /></svg>
+              <span class="hud">04 · Modular ↻</span>
+              <h3>Automatizaciones <em>IA</em></h3>
+              <p>Pipelines de clasificación, resumen, generación documental y seguimiento para reducir carga repetitiva.</p>
+              <ul>
+                <li>Clasificación automática</li>
+                <li>Reportes y borradores</li>
+                <li>Control de procesos</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="metodo" class="cap cap--claro" aria-labelledby="metodo-titulo">
+        <!-- La onda de fondo. Port a mano del pen de yukiloz7 -un solo
+             fragment shader, `onda.js`-. Es un ADORNO: no dice nada, y por eso
+             va `aria-hidden` y fuera del alcance del puntero. -->
+        <canvas id="onda" aria-hidden="true"></canvas>
+        <header class="cap-cabeza">
+          <p class="hud">03 / Método</p>
+          <h2 id="metodo-titulo">Primero el proceso. Después la IA.</h2>
+        </header>
+        <p>La tecnología entra cuando ya entendimos qué debe pasar, quién valida y qué tiene que quedar registrado.</p>
+        <ol class="pasos">
+          <li class="paso">
+            <span class="hud">01</span>
+            <h3>Diagnóstico operativo</h3>
+            <p>Mapeamos fricciones, tareas, documentos, datos y responsables.</p>
+          </li>
+          <li class="paso">
+            <span class="hud">02</span>
+            <h3>Diseño del flujo</h3>
+            <p>Definimos automatización, validaciones humanas, reglas y trazabilidad.</p>
+          </li>
+          <li class="paso">
+            <span class="hud">03</span>
+            <h3>Prototipo funcional</h3>
+            <p>Construimos una primera versión usable enfocada en un problema concreto.</p>
+          </li>
+          <li class="paso">
+            <span class="hud">04</span>
+            <h3>Medición y ajuste</h3>
+            <p>Evaluamos calidad, tiempo, errores, consistencia y utilidad real.</p>
+          </li>
+          <li class="paso">
+            <span class="hud">05</span>
+            <h3>Escala controlada</h3>
+            <p>Integramos y desplegamos solo después de validar el flujo.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="arquitectura" class="cap cap--claro-2" aria-labelledby="arquitectura-titulo">
+        <div class="cap-cols cap-cols--par">
+          <div class="cap-lado">
+            <header class="cap-cabeza">
+            <p class="hud">04 / Arquitectura</p>
+            <h2 id="arquitectura-titulo">Modular por diseño. Auditable por defecto.</h2>
+            </header>
+            <div class="cap-texto">
+              <p>Combinamos la tecnología necesaria para cada caso sin sumar complejidad porque sí.</p>
+              <p>Cada componente tiene un rol, límites definidos y una señal observable.</p>
+            </div>
+          </div>
+          <div class="arq">
+          <div class="mapa" role="img" aria-label="Núcleo Nortiqa rodeado de modelos de IA, agentes, n8n, datos, APIs y logs">
+          <!-- El núcleo. Adentro, `lucky-falcon-75` de xXJollyHAKERXx
+               (uiverse.io, MIT) copiado tal cual —sus dos divs— y el rótulo.
+               El envoltorio existe porque el `.spinner` GIRA: el rótulo tiene
+               que quedarse quieto, así que no puede ir adentro de él. Y porque
+               en teléfono los dos se mueven juntos a su propia fila. -->
+          <span class="nucleo">
+            <div class="spinner"><div class="spinner1"></div></div>
+            <span class="nucleo-texto"><strong>NQ</strong><small class="hud">Core</small></span>
+          </span>
+          <span class="chip mapa-item m1">Modelos IA</span>
+          <span class="chip mapa-item m2">Agentes</span>
+          <span class="chip mapa-item m3">n8n</span>
+          <span class="chip mapa-item m4">Datos</span>
+          <span class="chip mapa-item m5">APIs</span>
+          <span class="chip mapa-item m6">Logs</span>
+          </div>
+          <!-- El tablero de LEDs dibuja estas mismas palabras en un canvas.
+               `.arq-cadena` NO se borra: queda en el documento, oculta a la
+               vista pero no a los lectores de pantalla, y es de donde
+               `tablero.js` lee el texto. Un canvas no tiene contenido: si la
+               lista viviera sólo en el JS, la sección lo perdería para quien
+               no ve. -->
+          <div class="arq-cadena solo-lectores">
+          <span>Agentes operativos</span><i>◆</i>
+          <span>Automatización</span><i>◆</i>
+          <span>Datos</span><i>◆</i>
+          <span>Trazabilidad</span><i>◆</i>
+          <span>Productos IA</span>
+          </div>
+          <div class="tablero" id="tablero"></div>
+          </div>
+        </div>
+        <div class="marcas" aria-label="Tecnologías que operamos">
+          <!-- Logos de Simple Icons (simpleicons.org), CC0-1.0. Las marcas siguen
+               siendo de sus dueños; acá figuran como stack, no como sociedad. -->
+          <div class="marca-col">
+            <span class="marca on" role="img" aria-label="n8n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4737 5.6842c-1.1772 0-2.1663.8051-2.4468 1.8947h-2.8955c-1.235 0-2.289.893-2.492 2.111l-.1038.623a1.263 1.263 0 0 1-1.246 1.0555H11.289c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947s-2.1663.8051-2.4467 1.8947H4.973c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947C1.1311 9.4737 0 10.6047 0 12s1.131 2.5263 2.5263 2.5263c1.1772 0 2.1663-.8051 2.4468-1.8947h1.4223c.2804 1.0896 1.2696 1.8947 2.4467 1.8947 1.1772 0 2.1663-.8051 2.4468-1.8947h1.0008a1.263 1.263 0 0 1 1.2459 1.0555l.1038.623c.203 1.218 1.257 2.111 2.492 2.111h.3692c.2804 1.0895 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263c-1.1772 0-2.1664.805-2.4468 1.8947h-.3692a1.263 1.263 0 0 1-1.246-1.0555l-.1037-.623A2.52 2.52 0 0 0 13.9607 12a2.52 2.52 0 0 0 .821-1.4794l.1038-.623a1.263 1.263 0 0 1 1.2459-1.0555h2.8955c.2805 1.0896 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263m0 1.2632a1.263 1.263 0 0 1 1.2631 1.2631 1.263 1.263 0 0 1-1.2631 1.2632 1.263 1.263 0 0 1-1.2632-1.2632 1.263 1.263 0 0 1 1.2632-1.2631M2.5263 10.7368A1.263 1.263 0 0 1 3.7895 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 1.2632 12a1.263 1.263 0 0 1 1.2631-1.2632m6.3158 0A1.263 1.263 0 0 1 10.1053 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 7.579 12a1.263 1.263 0 0 1 1.2632-1.2632m10.1053 3.7895a1.263 1.263 0 0 1 1.2631 1.2632 1.263 1.263 0 0 1-1.2631 1.2631 1.263 1.263 0 0 1-1.2632-1.2631 1.263 1.263 0 0 1 1.2632-1.2632"/></svg></span>
+            <span class="marca" role="img" aria-label="Ubuntu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.61.455a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zM12.92.8C8.923.777 5.137 2.941 3.148 6.451a4.5 4.5 0 0 1 .26-.007 4.92 4.92 0 0 1 2.585.737A8.316 8.316 0 0 1 12.688 3.6 4.944 4.944 0 0 1 13.723.834 11.008 11.008 0 0 0 12.92.8zm9.226 4.994a4.915 4.915 0 0 1-1.918 2.246 8.36 8.36 0 0 1-.273 8.303 4.89 4.89 0 0 1 1.632 2.54 11.156 11.156 0 0 0 .559-13.089zM3.41 7.932A3.41 3.41 0 0 0 0 11.342a3.41 3.41 0 0 0 3.41 3.409 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zm2.027 7.866a4.908 4.908 0 0 1-2.915.358 11.1 11.1 0 0 0 7.991 6.698 11.234 11.234 0 0 0 2.422.249 4.879 4.879 0 0 1-.999-2.85 8.484 8.484 0 0 1-.836-.136 8.304 8.304 0 0 1-5.663-4.32zm11.405.928a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41z"/></svg></span>
+            <span class="marca" role="img" aria-label="ChatGPT"><svg viewBox="0 0 256 260" aria-hidden="true"><path d="M239.183914,106.202783 C245.054304,88.5242096 243.02228,69.1733805 233.607599,53.0998864 C219.451678,28.4588021 190.999703,15.7836129 163.213007,21.739505 C147.554077,4.32145883 123.794909,-3.42398554 100.87901,1.41873898 C77.9631105,6.26146349 59.3690093,22.9572536 52.0959621,45.2214219 C33.8436494,48.9644867 18.0901721,60.392749 8.86672513,76.5818033 C-5.443491,101.182962 -2.19544431,132.215255 16.8986662,153.320094 C11.0060865,170.990656 13.0197283,190.343991 22.4238231,206.422991 C36.5975553,231.072344 65.0680342,243.746566 92.8695738,237.783372 C105.235639,251.708249 123.001113,259.630942 141.623968,259.52692 C170.105359,259.552169 195.337611,241.165718 204.037777,214.045661 C222.28734,210.296356 238.038489,198.869783 247.267014,182.68528 C261.404453,158.127515 258.142494,127.262775 239.183914,106.202783 L239.183914,106.202783 Z M141.623968,242.541207 C130.255682,242.559177 119.243876,238.574642 110.519381,231.286197 L112.054146,230.416496 L163.724595,200.590881 C166.340648,199.056444 167.954321,196.256818 167.970781,193.224005 L167.970781,120.373788 L189.815614,133.010026 C190.034132,133.121423 190.186235,133.330564 190.224885,133.572774 L190.224885,193.940229 C190.168603,220.758427 168.442166,242.484864 141.623968,242.541207 Z M37.1575749,197.93062 C31.456498,188.086359 29.4094818,176.546984 31.3766237,165.342426 L32.9113895,166.263285 L84.6329973,196.088901 C87.2389349,197.618207 90.4682717,197.618207 93.0742093,196.088901 L156.255402,159.663793 L156.255402,184.885111 C156.243557,185.149771 156.111725,185.394602 155.89729,185.550176 L103.561776,215.733903 C80.3054953,229.131632 50.5924954,221.165435 37.1575749,197.93062 Z M23.5493181,85.3811273 C29.2899861,75.4733097 38.3511911,67.9162648 49.1287482,64.0478825 L49.1287482,125.438515 C49.0891492,128.459425 50.6965386,131.262556 53.3237748,132.754232 L116.198014,169.025864 L94.3531808,181.662102 C94.1132325,181.789434 93.8257461,181.789434 93.5857979,181.662102 L41.3526015,151.529534 C18.1419426,138.076098 10.1817681,108.385562 23.5493181,85.125333 L23.5493181,85.3811273 Z M203.0146,127.075598 L139.935725,90.4458545 L161.7294,77.8607748 C161.969348,77.7334434 162.256834,77.7334434 162.496783,77.8607748 L214.729979,108.044502 C231.032329,117.451747 240.437294,135.426109 238.871504,154.182739 C237.305714,172.939368 225.050719,189.105572 207.414262,195.67963 L207.414262,134.288998 C207.322521,131.276867 205.650697,128.535853 203.0146,127.075598 Z M224.757116,94.3850867 L223.22235,93.4642272 L171.60306,63.3828173 C168.981293,61.8443751 165.732456,61.8443751 163.110689,63.3828173 L99.9806554,99.8079259 L99.9806554,74.5866077 C99.9533004,74.3254088 100.071095,74.0701869 100.287609,73.9215426 L152.520805,43.7889738 C168.863098,34.3743518 189.174256,35.2529043 204.642579,46.0434841 C220.110903,56.8340638 227.949269,75.5923959 224.757116,94.1804513 L224.757116,94.3850867 Z M88.0606409,139.097931 L66.2158076,126.512851 C65.9950399,126.379091 65.8450965,126.154176 65.8065367,125.898945 L65.8065367,65.684966 C65.8314495,46.8285367 76.7500605,29.6846032 93.8270852,21.6883055 C110.90411,13.6920079 131.063833,16.2835462 145.5632,28.338998 L144.028434,29.2086986 L92.3579852,59.0343142 C89.7419327,60.5687513 88.1282597,63.3683767 88.1117998,66.4011901 L88.0606409,139.097931 Z M99.9294965,113.5185 L128.06687,97.3011417 L156.255402,113.5185 L156.255402,145.953218 L128.169187,162.170577 L99.9806554,145.953218 L99.9294965,113.5185 Z"/></svg></span>
+          </div>
+          <div class="marca-col">
+            <span class="marca on" role="img" aria-label="PostgreSQL"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"/></svg></span>
+            <span class="marca" role="img" aria-label="Let's Encrypt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.9914 0a.8829.8829 0 00-.8718.817v3.0209A.8829.8829 0 0012 4.7207a.8829.8829 0 00.8803-.8803V.817a.8829.8829 0 00-.889-.817zm7.7048 3.1089a.8804.8804 0 00-.5214.1742l-2.374 1.9482a.8804.8804 0 00.5592 1.5622.8794.8794 0 00.5592-.2001l2.3714-1.9506a.8804.8804 0 00-.5944-1.534zm-15.3763.0133a.8829.8829 0 00-.611 1.5206l2.37 1.9506a.876.876 0 00.5606.2001v-.002a.8804.8804 0 00.5597-1.5602L4.8277 3.2831a.8829.8829 0 00-.5078-.161zm7.6598 3.2275a5.0456 5.0456 0 00-5.0262 5.0455v1.4876H5.787a.9672.9672 0 00-.9647.9643v9.1887a.9672.9672 0 00.9647.9643H18.213a.9672.9672 0 00.9643-.9643v-9.1907a.9672.9672 0 00-.9643-.9623h-1.1684v-1.4876a5.0456 5.0456 0 00-5.0649-5.0455zm.0127 2.8933a2.1522 2.1522 0 012.1593 2.1522v1.4876H9.8473v-1.4876a2.1522 2.1522 0 012.145-2.1522zm7.3812.5033a.8829.8829 0 10.0705 1.7632h3.0267a.8829.8829 0 000-1.7609H19.444a.8829.8829 0 00-.0705-.0023zm-17.8444.0023a.8829.8829 0 000 1.7609h2.9983a.8829.8829 0 000-1.7609zm10.4596 6.7746a1.2792 1.2792 0 01.641 2.3926v1.2453a.6298.6298 0 01-1.2595 0v-1.2453a1.2792 1.2792 0 01.6185-2.3926z"/></svg></span>
+            <span class="marca" role="img" aria-label="Claude"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span>
+          </div>
+          <div class="marca-col">
+            <span class="marca on" role="img" aria-label="Odoo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.1002 15.7957c-1.6015 0-2.8997-1.2983-2.8997-2.8998s1.2983-2.8997 2.8997-2.8997c1.6015 0 2.8998 1.2982 2.8998 2.8997 0 1.5999-1.2979 2.8998-2.8998 2.8998zm0-1.2c.9388.0006 1.7003-.7601 1.7008-1.6989.0004-.9388-.7602-1.7003-1.699-1.7007h-.0018c-.9388.0004-1.6994.7619-1.699 1.7007.0005.9381.761 1.6985 1.699 1.699zm-6.0655 1.2c-1.6014 0-2.8997-1.2983-2.8997-2.8998s1.2983-2.8997 2.8997-2.8997c1.6015 0 2.8998 1.2982 2.8998 2.8997 0 1.5999-1.2999 2.8998-2.8998 2.8998zm0-1.2c.9389.0006 1.7003-.7601 1.7008-1.6989.0005-.9388-.7602-1.7003-1.699-1.7007h-.0018c-.9388.0004-1.6994.7619-1.699 1.7007.0005.9381.761 1.6985 1.699 1.699zM11.865 12.858c0 1.6199-1.2979 2.9378-2.8977 2.9378s-2.8998-1.314-2.8998-2.9358 1.1799-2.8597 2.8998-2.8597c.6359 0 1.2239.134 1.6998.484v-1.68a.6.6 0 0 1 1.2 0v4.0537h-.002zm-2.8977 1.7399c.9388.0005 1.7002-.7602 1.7007-1.699.0005-.9388-.7602-1.7003-1.699-1.7007h-.0017c-.9389.0004-1.6995.7619-1.699 1.7007.0004.9381.7608 1.6985 1.699 1.699zm-6.0675 1.1979C1.2983 15.7957 0 14.4974 0 12.8959s1.2983-2.8997 2.8998-2.8997 2.8997 1.2982 2.8997 2.8997c0 1.5999-1.2999 2.8998-2.8997 2.8998zm0-1.2c.9388.0006 1.7002-.7601 1.7007-1.699.0005-.9387-.7602-1.7002-1.699-1.7006h-.0017c-.9388.0004-1.6995.7619-1.699 1.7007.0004.9381.7608 1.6985 1.699 1.699z"/></svg></span>
+            <span class="marca" role="img" aria-label="Git"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z"/></svg></span>
+            <span class="marca" role="img" aria-label="Gemini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg></span>
+          </div>
+          <div class="marca-col">
+            <span class="marca on" role="img" aria-label="Docker"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/></svg></span>
+            <span class="marca" role="img" aria-label="Metabase"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.385 6.136c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-1.438 2.63c-.794 0-1.438.654-1.438 1.461s.644 1.461 1.438 1.461 1.438-.654 1.438-1.461-.644-1.461-1.438-1.461zm5.465-2.63c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.499-1.088 1.111.488 1.111 1.088 1.111 1.088-.498 1.088-1.111zm-1.088 5.592c.794 0 1.438-.654 1.438-1.461s-.644-1.461-1.438-1.461-1.438.654-1.438 1.461.643 1.461 1.438 1.461zm5.464-5.592c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111S11.4 7.247 12 7.247s1.088-.498 1.088-1.111zm.35-4.675c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461S11.206 0 12 0s1.438.654 1.438 1.461zm-.35 0C13.088.848 12.6.35 12 .35s-1.088.498-1.088 1.111S11.4 2.572 12 2.572s1.088-.498 1.088-1.111zm.35 8.806c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111.488 1.111 1.088 1.111 1.088-.499 1.088-1.111zm4.376-4.131c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111.488 1.111 1.088 1.111 1.088-.498 1.088-1.111zm2.939 1.461c.794 0 1.438-.654 1.438-1.461s-.644-1.461-1.438-1.461-1.438.654-1.438 1.461.644 1.461 1.438 1.461zm-4.027 1.209c-.794 0-1.438.654-1.438 1.461s.644 1.461 1.438 1.461 1.438-.654 1.438-1.461-.643-1.461-1.438-1.461zm4.027 0c-.794 0-1.438.654-1.438 1.461s.644 1.461 1.438 1.461 1.438-.654 1.438-1.461-.644-1.461-1.438-1.461zM3.947 12.857a1.45 1.45 0 0 0-1.438 1.461c0 .807.644 1.461 1.438 1.461s1.438-.654 1.438-1.461a1.45 1.45 0 0 0-1.438-1.461zm5.465 1.5c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.655 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111.488 1.111 1.088 1.111 1.088-.498 1.088-1.111zM12 12.896c-.794 0-1.438.654-1.438 1.461s.644 1.461 1.438 1.461 1.438-.654 1.438-1.461-.644-1.461-1.438-1.461zm5.464 1.461c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.655 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111.488 1.111 1.088 1.111 1.088-.498 1.088-1.111zm2.939-1.461c-.794 0-1.438.654-1.438 1.461s.644 1.461 1.438 1.461 1.438-.654 1.438-1.461-.644-1.461-1.438-1.461zM3.947 16.948c-.794 0-1.438.654-1.438 1.461s.644 1.461 1.438 1.461 1.438-.654 1.438-1.461-.644-1.461-1.438-1.461zm5.465 1.5c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111.488 1.111 1.088 1.111 1.088-.498 1.088-1.111zm4.376 0c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111.488 1.111 1.088 1.111 1.088-.498 1.088-1.111zm.35 4.091c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111S11.4 23.65 12 23.65s1.088-.498 1.088-1.111zm4.376-4.091c0 .807-.644 1.461-1.438 1.461s-1.438-.654-1.438-1.461.644-1.461 1.438-1.461 1.438.654 1.438 1.461zm-.35 0c0-.613-.488-1.111-1.088-1.111s-1.088.498-1.088 1.111.488 1.111 1.088 1.111 1.088-.498 1.088-1.111zm2.939-1.461c-.794 0-1.438.654-1.438 1.461s.644 1.461 1.438 1.461 1.438-.654 1.438-1.461-.644-1.461-1.438-1.461z"/></svg></span>
+            <span class="marca" role="img" aria-label="OpenClaw"><svg viewBox="0 0 120 120" aria-hidden="true"><mask id="claw-m" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120"><rect width="120" height="120" fill="#000"/><path d="M60 10 C30 10 15 35 15 55 C15 75 30 95 45 100 L45 110 L55 110 L55 100 C55 100 60 102 65 100 L65 110 L75 110 L75 100 C90 95 105 75 105 55 C105 35 90 10 60 10Z" fill="#fff"/><path d="M20 45 C5 40 0 50 5 60 C10 70 20 65 25 55 C28 48 25 45 20 45Z" fill="#fff"/><path d="M100 45 C115 40 120 50 115 60 C110 70 100 65 95 55 C92 48 95 45 100 45Z" fill="#fff"/><path d="M45 15 Q35 5 30 8" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><path d="M75 15 Q85 5 90 8" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><circle cx="45" cy="35" r="6" fill="#000"/><circle cx="75" cy="35" r="6" fill="#000"/></mask><rect width="120" height="120" mask="url(#claw-m)"/></svg></span>
+          </div>
+          <div class="marca-col">
+            <span class="marca on" role="img" aria-label="Python"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg></span>
+            <span class="marca" role="img" aria-label="Nginx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0L1.605 6v12L12 24l10.395-6V6L12 0zm6 16.59c0 .705-.646 1.29-1.529 1.29-.631 0-1.351-.255-1.801-.81l-6-7.141v6.66c0 .721-.57 1.29-1.274 1.29H7.32c-.721 0-1.29-.6-1.29-1.29V7.41c0-.705.63-1.29 1.5-1.29.646 0 1.38.255 1.83.81l5.97 7.141V7.41c0-.721.6-1.29 1.29-1.29h.075c.72 0 1.29.6 1.29 1.29v9.18H18z"/></svg></span>
+            <span class="marca" role="img" aria-label="OpenCode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 24H2V0h20zM17 4.8H7v14.4h10z"/></svg></span>
+          </div>
+          <div class="marca-col">
+            <span class="marca on" role="img" aria-label="AWS"><svg viewBox="0 0 256 153" aria-hidden="true"><path d="M72.392053,55.4384106 C72.392053,58.5748344 72.7311258,61.1178808 73.3245033,62.9827815 C74.002649,64.8476821 74.8503311,66.8821192 76.0370861,69.0860927 C76.4609272,69.7642384 76.6304636,70.4423841 76.6304636,71.0357616 C76.6304636,71.8834437 76.1218543,72.7311258 75.0198675,73.5788079 L69.6794702,77.1390728 C68.9165563,77.6476821 68.1536424,77.9019868 67.4754967,77.9019868 C66.6278146,77.9019868 65.7801325,77.4781457 64.9324503,76.7152318 C63.7456954,75.4437086 62.7284768,74.0874172 61.8807947,72.7311258 C61.0331126,71.2900662 60.1854305,69.6794702 59.2529801,67.7298013 C52.6410596,75.5284768 44.3337748,79.4278146 34.3311258,79.4278146 C27.210596,79.4278146 21.5311258,77.3933775 17.3774834,73.3245033 C13.2238411,69.2556291 11.1046358,63.8304636 11.1046358,57.0490066 C11.1046358,49.8437086 13.6476821,43.994702 18.818543,39.586755 C23.989404,35.1788079 30.8556291,32.9748344 39.586755,32.9748344 C42.4688742,32.9748344 45.4357616,33.2291391 48.5721854,33.6529801 C51.7086093,34.0768212 54.9298013,34.7549669 58.3205298,35.5178808 L58.3205298,29.3298013 C58.3205298,22.8874172 56.9642384,18.394702 54.3364238,15.7668874 C51.6238411,13.1390728 47.0463576,11.8675497 40.5192053,11.8675497 C37.5523179,11.8675497 34.5006623,12.2066225 31.3642384,12.9695364 C28.2278146,13.7324503 25.1761589,14.6649007 22.2092715,15.8516556 C20.8529801,16.4450331 19.8357616,16.784106 19.2423841,16.9536424 C18.6490066,17.1231788 18.2251656,17.207947 17.8860927,17.207947 C16.6993377,17.207947 16.1059603,16.3602649 16.1059603,14.5801325 L16.1059603,10.4264901 C16.1059603,9.07019868 16.2754967,8.05298013 16.6993377,7.45960265 C17.1231788,6.86622517 17.8860927,6.27284768 19.0728477,5.6794702 C22.0397351,4.15364238 25.6,2.88211921 29.7536424,1.86490066 C33.9072848,0.762913907 38.3152318,0.254304636 42.9774834,0.254304636 C53.0649007,0.254304636 60.4397351,2.54304636 65.186755,7.1205298 C69.8490066,11.6980132 72.2225166,18.6490066 72.2225166,27.9735099 L72.2225166,55.4384106 L72.392053,55.4384106 Z M37.9761589,68.3231788 C40.7735099,68.3231788 43.6556291,67.8145695 46.7072848,66.797351 C49.7589404,65.7801325 52.4715232,63.9152318 54.7602649,61.3721854 C56.1165563,59.7615894 57.1337748,57.981457 57.6423841,55.9470199 C58.1509934,53.9125828 58.4900662,51.4543046 58.4900662,48.5721854 L58.4900662,45.0119205 C56.0317881,44.418543 53.4039735,43.9099338 50.6913907,43.5708609 C47.9788079,43.2317881 45.3509934,43.0622517 42.7231788,43.0622517 C37.0437086,43.0622517 32.8900662,44.1642384 30.0927152,46.4529801 C27.2953642,48.7417219 25.9390728,51.9629139 25.9390728,56.2013245 C25.9390728,60.1854305 26.9562914,63.1523179 29.0754967,65.186755 C31.1099338,67.3059603 34.0768212,68.3231788 37.9761589,68.3231788 Z M106.045033,77.4781457 C104.519205,77.4781457 103.501987,77.2238411 102.823841,76.6304636 C102.145695,76.1218543 101.552318,74.9350993 101.043709,73.3245033 L81.1231788,7.7986755 C80.6145695,6.10331126 80.3602649,5.0013245 80.3602649,4.40794702 C80.3602649,3.05165563 81.0384106,2.28874172 82.394702,2.28874172 L90.7019868,2.28874172 C92.3125828,2.28874172 93.4145695,2.54304636 94.007947,3.13642384 C94.6860927,3.64503311 95.194702,4.83178808 95.7033113,6.44238411 L109.944371,62.5589404 L123.168212,6.44238411 C123.592053,4.74701987 124.100662,3.64503311 124.778808,3.13642384 C125.456954,2.62781457 126.643709,2.28874172 128.169536,2.28874172 L134.950993,2.28874172 C136.561589,2.28874172 137.663576,2.54304636 138.341722,3.13642384 C139.019868,3.64503311 139.613245,4.83178808 139.952318,6.44238411 L153.345695,63.2370861 L168.010596,6.44238411 C168.519205,4.74701987 169.112583,3.64503311 169.70596,3.13642384 C170.384106,2.62781457 171.486093,2.28874172 173.011921,2.28874172 L180.895364,2.28874172 C182.251656,2.28874172 183.01457,2.96688742 183.01457,4.40794702 C183.01457,4.83178808 182.929801,5.25562914 182.845033,5.76423841 C182.760265,6.27284768 182.590728,6.95099338 182.251656,7.88344371 L161.822517,73.4092715 C161.313907,75.1046358 160.72053,76.2066225 160.042384,76.7152318 C159.364238,77.2238411 158.262252,77.5629139 156.821192,77.5629139 L149.531126,77.5629139 C147.92053,77.5629139 146.818543,77.3086093 146.140397,76.7152318 C145.462252,76.1218543 144.868874,75.0198675 144.529801,73.3245033 L131.390728,18.6490066 L118.336424,73.2397351 C117.912583,74.9350993 117.403974,76.0370861 116.725828,76.6304636 C116.047682,77.2238411 114.860927,77.4781457 113.335099,77.4781457 L106.045033,77.4781457 Z M214.972185,79.7668874 C210.564238,79.7668874 206.156291,79.2582781 201.917881,78.2410596 C197.67947,77.2238411 194.37351,76.1218543 192.169536,74.8503311 C190.813245,74.0874172 189.880795,73.2397351 189.541722,72.4768212 C189.202649,71.7139073 189.033113,70.8662252 189.033113,70.1033113 L189.033113,65.7801325 C189.033113,64 189.711258,63.1523179 190.982781,63.1523179 C191.491391,63.1523179 192,63.2370861 192.508609,63.4066225 C193.017219,63.5761589 193.780132,63.9152318 194.627815,64.2543046 C197.509934,65.5258278 200.646358,66.5430464 203.952318,67.2211921 C207.343046,67.8993377 210.649007,68.2384106 214.039735,68.2384106 C219.380132,68.2384106 223.533775,67.3059603 226.415894,65.4410596 C229.298013,63.5761589 230.823841,60.8635762 230.823841,57.3880795 C230.823841,55.0145695 230.060927,53.0649007 228.535099,51.4543046 C227.009272,49.8437086 224.127152,48.402649 219.97351,47.0463576 L207.682119,43.2317881 C201.49404,41.2821192 196.916556,38.4 194.119205,34.5854305 C191.321854,30.8556291 189.880795,26.7019868 189.880795,22.2940397 C189.880795,18.7337748 190.643709,15.597351 192.169536,12.8847682 C193.695364,10.1721854 195.729801,7.7986755 198.272848,5.93377483 C200.815894,3.98410596 203.698013,2.54304636 207.088742,1.52582781 C210.47947,0.508609272 214.039735,0.0847682119 217.769536,0.0847682119 C219.634437,0.0847682119 221.584106,0.169536424 223.449007,0.42384106 C225.398675,0.678145695 227.178808,1.01721854 228.95894,1.35629139 C230.654305,1.78013245 232.264901,2.20397351 233.790728,2.71258278 C235.316556,3.22119205 236.503311,3.72980132 237.350993,4.2384106 C238.537748,4.91655629 239.38543,5.59470199 239.89404,6.35761589 C240.402649,7.03576159 240.656954,7.96821192 240.656954,9.15496689 L240.656954,13.1390728 C240.656954,14.9192053 239.978808,15.8516556 238.707285,15.8516556 C238.029139,15.8516556 236.927152,15.5125828 235.486093,14.8344371 C230.654305,12.6304636 225.229139,11.5284768 219.210596,11.5284768 C214.378808,11.5284768 210.564238,12.2913907 207.936424,13.9019868 C205.308609,15.5125828 203.952318,17.9708609 203.952318,21.4463576 C203.952318,23.8198675 204.8,25.8543046 206.495364,27.4649007 C208.190728,29.0754967 211.327152,30.6860927 215.819868,32.1271523 L227.856954,35.9417219 C233.960265,37.8913907 238.368212,40.6039735 240.996026,44.0794702 C243.623841,47.5549669 244.895364,51.5390728 244.895364,55.9470199 C244.895364,59.592053 244.13245,62.8980132 242.691391,65.7801325 C241.165563,68.6622517 239.131126,71.205298 236.503311,73.2397351 C233.875497,75.3589404 230.739073,76.8847682 227.09404,77.986755 C223.27947,79.1735099 219.295364,79.7668874 214.972185,79.7668874 Z"/><path d="M230.993377,120.964238 C203.104636,141.562914 162.58543,152.498013 127.745695,152.498013 C78.9192053,152.498013 34.9245033,134.442384 1.69536424,104.434437 C-0.932450331,102.060927 1.4410596,98.8397351 4.57748344,100.704636 C40.5192053,121.557616 84.8529801,134.188079 130.712583,134.188079 C161.65298,134.188079 195.645033,127.745695 226.924503,114.521854 C231.586755,112.402649 235.570861,117.57351 230.993377,120.964238 Z M242.606623,107.740397 C239.046358,103.162914 219.04106,105.536424 209.970861,106.638411 C207.258278,106.977483 206.834437,104.603974 209.292715,102.823841 C225.229139,91.6344371 251.422517,94.8556291 254.474172,98.5854305 C257.525828,102.4 253.62649,128.593377 238.707285,141.139073 C236.418543,143.088742 234.21457,142.071523 235.231788,139.528477 C238.622517,131.136424 246.166887,112.233113 242.606623,107.740397 Z"/></svg></span>
+            <span class="marca" role="img" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+            <span class="marca" role="img" aria-label="Hermes"><svg viewBox="0 0 40 56" aria-hidden="true"><path d="M15.403 35.405q.17.114.101-.03l-.029-.062.047-.038c.05-.046.13-.046.294 0 .05.017.109.033.13.038.055.017.046-.021-.034-.105-.037-.038-.062-.08-.058-.092.008-.033.365-.038.44-.004.033.012.067.02.071.017.017-.017-.063-.084-.138-.122-.097-.05-.11-.07-.063-.105.024-.02.084-.029.214-.037.185-.013.256-.034.164-.055a1 1 0 0 1-.089-.025.3.3 0 0 0-.08-.016q-.038.002-.038-.034c0-.05.06-.067.248-.067.172-.004.239-.013.252-.046.004-.02-.072-.046-.186-.062-.046-.005-.08-.017-.08-.025 0-.029.067-.033.235-.025.147.013.168.009.177-.017.017-.041-.02-.06-.147-.06-.234 0-.26-.066-.033-.08.097-.003.139-.016.139-.028 0-.025.033-.042.083-.042s.102-.033.147-.062c.029-.017-.059-.038-.16-.038-.1 0-.121-.009-.121-.017s.025-.03.062-.05c.034-.018.089-.051.122-.072a3 3 0 0 1 .412-.16c.075-.024.143-.062.143-.088s-.105-.008-.231-.008c-.235 0-.323-.013-.323-.042s.02-.025.046-.033c.08-.033.206-.101.252-.139.05-.042.05-.037-.172.038-.146.05-.332.071-.352.038-.004-.009-.033-.02-.067-.03-.08-.012-.164-.059-.155-.08.008-.028.075-.037.1-.012.021.02.098.025.098.004 0-.02-.075-.083-.176-.134a22.864 22.864 0 0 1-.713-.357 10 10 0 0 0-.387-.193 1 1 0 0 1-.139-.06.2.2 0 0 0-.055-.016 1 1 0 0 1-.201-.076.3.3 0 0 0-.089-.025.2.2 0 0 1-.071-.017c-.017-.008-.08-.02-.147-.033a9 9 0 0 0-.566-.08c-.102-.013-.14-.042-.085-.062.017-.004.126-.017.244-.025.21-.017.268-.008.562.055.097.02.361.104.437.139.025.013.084.033.126.05.075.03.172.071.223.097a.1.1 0 0 0 .041.013c.009 0 .084.033.164.07.083.038.155.076.163.076.005.005.013 0 .013-.008s-.033-.03-.07-.047a1 1 0 0 1-.144-.08.4.4 0 0 0-.088-.046.4.4 0 0 1-.118-.05c-.088-.042-.125-.062-.281-.13a.5.5 0 0 1-.093-.042c-.017-.004-.047-.013-.06-.013a.2.2 0 0 1-.066-.02.7.7 0 0 0-.13-.05 1 1 0 0 1-.151-.05c-.118-.039-.22-.05-.52-.06a2.5 2.5 0 0 0-.714.06c-.357.07-.433.104-.593.267-.281.298-.432.5-.411.555.019.035.12.01.245-.07.08-.05.118-.062.155-.06.033.01.047.005.055-.016.009-.046.26-.198.285-.173.009.009.013.02.009.02a1.146 1.146 0 0 0-.205.16.6.6 0 0 1-.126.097c-.02.004-.034.02-.034.033a.4.4 0 0 1-.074.101c-.039.042-.068.08-.063.084.016.017.067.008.088-.017.02-.03.084-.03.092 0 .008.02-.038.054-.219.168-.159.101-.088.097.118-.004.05-.025.092-.038.101-.033.013.012 0 .033-.13.193q-.157.189-.118.226c.009.009.034 0 .06-.02a.2.2 0 0 1 .054-.034.3.3 0 0 0 .072-.05c.033-.029.067-.042.075-.037a.4.4 0 0 1-.02.121c-.03.097-.03.105-.004.151.033.062.046.062.06.004.032-.126.154-.332.264-.44.13-.135.319-.286.402-.327.03-.017.072-.039.085-.056.033-.029.054 0 .033.042-.06.118-.105.24-.122.307-.08.361-.06.437.122.513.037.017.08.038.088.046.009.009-.012.042-.054.08l-.072.062.025.06c.071.167.345.458.508.533.101.046.122.05.298.05s.206-.004.28-.038c.114-.05.316-.214.433-.344.08-.093.168-.252.173-.298 0-.013-.038-.051-.084-.093-.122-.101-.11-.139.055-.176.046-.013.113-.08.113-.117s-.02-.055-.047-.102q-.091-.183.08-.096c.03.02.13.07.219.117.083.046.218.126.293.176l.135.093-.004.084c-.005.13-.105.323-.231.449-.243.23-.491.356-.982.5-.16.045-.328.061-.634.061-.458 0-.718-.046-1.088-.201-.201-.08-.31-.089-.424-.025-.07.046-.105.109-.042.084a.8.8 0 0 1 .268-.033c.034.008.11.037.172.067.13.067.139.089.08.185-.05.088-.02.105.076.041a.3.3 0 0 1 .146-.05h.063l.004.089.008.083.072-.058a1 1 0 0 1 .083-.063c.025 0 .056.042.056.084 0 .041.004.054.012.067.013.017.02.017.042-.009.084-.1.101-.108.134-.104.025.004.039.02.047.06.02.096.042.104.122.024.113-.113.163-.097.218.067.005.017.025.03.042.03.034 0 .038-.01.059-.106q.011-.046.055-.055c.05-.013.08 0 .18.084.06.046.064.046.093.017.02-.017.038-.046.038-.062.004-.033.02-.038.109-.042.092-.007.104-.002.197.06m-2.14-2.737q.032.001.028.02c-.013.033-.062.038-.062.005 0-.012.012-.025.033-.025m-.118.084c.038-.038.067-.042.067-.009 0 .034-.013.025-.025.025s-.025.009-.025.017-.012.017-.024.017c-.036 0-.036-.008.007-.05m.163.13-.189.131c-.071.05-.155.105-.18.117-.06.03-.063.03-.063.005s.042-.068.109-.114l.138-.097c.06-.038.11-.07.118-.07s.02-.014.038-.03c.03-.025.033-.025.06 0 .024.02.02.03-.03.059m.135-.088c-.02.025-.05.033-.071.013q-.032-.029.024-.042c.05-.013.071 0 .047.029m.104-.042c-.033.02-.063.02-.075 0-.017-.025.059-.06.08-.033.012.012.012.02-.005.033"/><path d="M16.238 32.987c.017 0 .03-.004.025-.009q-.013-.011-.034-.004-.017.014.009.013M13.246 34.502c0-.067-.033-.159-.06-.15-.024.008-.033.121-.008.163.025.05.068.042.068-.013M10.219 37.667c-.08-.046-.323-.105-.39-.092-.03.005-.018.013.05.046.192.097.39.26.558.462.029.038.042.042.054.025.017-.029.005-.139-.029-.21-.024-.063-.143-.176-.243-.23M10.517 40.815c-.025-.02-.059-.037-.076-.037-.042 0-.109.088-.143.189-.029.075-.029.088 0 .142a.2.2 0 0 0 .055.085c.033.029.046.017.08-.085a.6.6 0 0 1 .067-.134c.063-.076.068-.113.017-.16"/><path d="M35.637 0H4.362A4.36 4.36 0 0 0 0 4.362V51.57a4.36 4.36 0 0 0 4.362 4.362h31.276A4.36 4.36 0 0 0 40 51.57V4.362A4.363 4.363 0 0 0 35.637 0M13.632 54.582h-.753q.008-.003.014-.004c.055 0 .697-.328.893-.458.093-.06.16-.075.219-.05.017.004.029.017.029.03 0 .011-.067.088-.146.175-.08.089-.177.202-.21.248zm.82-.443a4 4 0 0 0-.12.306l-.051.139h-.487l.026-.047a7 7 0 0 1 .247-.37c.05-.07.055-.07.18-.083.068-.004.147-.013.173-.02q.076-.015.033.075m-.046-9.49c-.088.018-.21.034-.268.043-.062.008-.188.025-.285.041-.336.05-.449.063-.646.076l-.386.033c-.332.03-.764.017-1.084-.029a1.7 1.7 0 0 1-.554-.217c-.109-.062-.332-.285-.431-.436a4 4 0 0 1-.206-.332c0-.009-.025-.047-.05-.093a27.865 27.865 0 0 1-.343-.613c-.613-1.105-.799-1.462-1.126-2.167a6 6 0 0 1-.281-.722c-.009-.03-.025-.071-.033-.101a3 3 0 0 1-.102-.337 3.832 3.832 0 0 1-.122-.521c-.016-.083-.037-.205-.05-.268-.028-.155-.028-1.104 0-1.293a6 6 0 0 0 .063-.57c.008-.144.033-.198.05-.118.06.293.117.429.256.617.097.135.307.349.483.504.176.151.276.285.319.433a.62.62 0 0 1-.071.52c-.214.298-.24.36-.197.532.012.063.033.13.041.147s.03.075.05.126c.064.15.122.247.286.466.121.163.15.214.13.223-.03.02-.08.004-.134-.042-.021-.025-.046-.042-.055-.042-.02 0-.008.097.025.164.033.076.101.344.101.424s.139.294.365.491c.093.08.173.147.181.147s.038.02.067.05q.094.081.143.025c.025-.033-.012-.097-.104-.15-.034-.026-.063-.047-.063-.056 0-.013.084-.038.244-.066.07-.017.1-.03.285-.114.177-.08.219-.15.063-.1a1.4 1.4 0 0 1-.555.07c-.23-.004-.272-.02-.36-.105a.36.36 0 0 1-.114-.26c0-.097.004-.093.084-.185.097-.117.155-.146.336-.168.067-.008.185-.029.26-.05.114-.029.168-.033.353-.029.197.009.282.017.638.089.135.024.29.066.302.08.02.02-.008.062-.046.062-.088 0-.365.143-.365.184s.017.021.147-.017c.298-.092.436-.142.482-.176a.3.3 0 0 1 .11-.05 1 1 0 0 0 .13-.029l.07-.017v-.088c0-.076-.008-.097-.05-.143-.058-.06-.088-.062-.134-.013-.029.029-.046.033-.121.025-.143-.017-.281-.072-.571-.23l-.06-.034a7 7 0 0 1-.238-.139c-.336-.201-.458-.252-.768-.34-.151-.042-.39-.009-.474.067-.046.042-.088.02-.146-.07a4 4 0 0 0-.182-.231c-.088-.102-.126-.155-.117-.177.004-.012.017-.041.02-.059a1 1 0 0 1 .068-.143c.097-.173.109-.214.117-.382.004-.15.004-.163-.055-.277-.072-.146-.143-.234-.42-.49-.235-.22-.306-.307-.44-.538-.126-.21-.18-.39-.168-.558.008-.097.017-.139.05-.188.042-.067.244-.235.398-.336a3 3 0 0 0 .407-.361c.063-.076.139-.185.273-.395.092-.143.223-.431.265-.579l.047-.151c.012-.029.024-.155.029-.29.004-.21.004-.251-.03-.36a1.7 1.7 0 0 0-.197-.411 2.4 2.4 0 0 0-.466-.467c-.059-.033-.139-.088-.185-.117-.197-.122-.478-.202-.478-.134 0 .067.004.024.013.024s.067.038.13.089c.063.046.16.105.219.134.054.025.109.055.126.062.012.009.097.06.184.11a.9.9 0 0 1 .265.205.6.6 0 0 1 .105.134c0 .033-.047.025-.114-.017-.113-.07-.457-.168-.641-.185-.122-.012-.407.038-.445.071a.07.07 0 0 1-.042.017c-.013 0-.05.02-.076.042l-.05.042.105-.042c.15-.06.432-.072.608-.033.067.017.155.033.193.041q.168.037.31.093a.6.6 0 0 0 .13.033c.022 0 .06.02.097.076a.3.3 0 0 1 .056.101c0 .013.008.033.016.042.018.02.063.193.08.28.005.039 0 .068-.012.072-.009.009-.075-.046-.155-.121a2.3 2.3 0 0 0-.404-.337 1.6 1.6 0 0 0-.336-.138c-.08-.025-.39-.02-.453.008a4 4 0 0 1-.34.122c-.067.017-.14-.093-.315-.474-.05-.105-.102-.273-.089-.299.013-.033.248-.172.357-.205.046-.013.097-.033.117-.042.038-.017.113-.029.285-.041a1.3 1.3 0 0 1 .445.05c.126.03.151.013.092-.067-.054-.067-.134-.125-.302-.206-.097-.046-.11-.058-.092-.08a.1.1 0 0 1 .054-.033c.02-.008.06-.02.089-.033.067-.029.18-.067.302-.101.055-.017.126-.038.16-.05.155-.06.436-.126.742-.176.06-.009.11-.021.114-.03.008-.008-.025-.071-.076-.146-.193-.29-.436-.772-.646-1.276a4 4 0 0 1-.168-.496c0-.037.004-.033.012-.033.017 0 .071.06.071.076s.025.059.06.109c.029.046.059.088.059.092 0 .009.197.303.29.428.272.387.877.974 1.171 1.138a.3.3 0 0 0 .29.029c.062-.021.184-.055.323-.093.041-.012.163-.041.595-.142.31-.075.336-.08.353-.063q.018.018-.06.093c-.092.083-.28.298-.356.403-.122.167-.23.449-.176.449s.062-.02.121-.05a.6.6 0 0 1 .135-.05 1 1 0 0 0 .276-.155c.02-.017.068-.05.105-.076l.18-.122c.182-.122.206-.139.308-.197.252-.142.6-.306.654-.306s.042-.013.06-.025a.2.2 0 0 1 .08-.024.1.1 0 0 0 .054-.013.13.13 0 0 1 .067-.025c.067-.013.273-.084.407-.146a1.2 1.2 0 0 1 .202-.068c.138-.024.113-.05.478.449.042.055.083.093.113.101.025.004.219 0 .428-.013.215-.012.58-.024.81-.033.43-.008 1.335.004 1.427.025.039.008.06.004.089-.02.042-.03.042-.038.046-.432a6 6 0 0 1 .017-.429c.013-.037.05.042.076.151.008.05.029.13.041.177.067.222.101.365.118.453.012.101.062.139.201.152.202.02.609.08.857.13.172.033.352.088.386.117.013.009.029.062.042.118.029.146.041 2.116.012 2.43-.008.126-.024.303-.029.394a10 10 0 0 1-.075.647 1 1 0 0 0-.025.176c-.02.176-.046.365-.093.621-.017.084-.033.202-.042.26-.008.06-.024.147-.033.194-.008.046-.029.155-.042.243l-.054.265a1 1 0 0 0-.02.146 1 1 0 0 1-.018.113l-.033.164c-.012.092-.067.356-.109.579-.017.063-.037.176-.05.243-.013.071-.038.185-.05.26s-.03.155-.034.185c-.017.13-.046.29-.059.335a2 2 0 0 0-.042.219 13 13 0 0 1-.097.52l-.033.185a57 57 0 0 1-.159 1.002 1 1 0 0 0-.025.143 5 5 0 0 1-.076.513c-.008.029-.012.075-.054.466a6 6 0 0 1-.033.252c-.009.05-.03.196-.042.327-.017.13-.037.331-.055.445-.017.154-.024.386-.02.877 0 .718 0 .76.101 1.263.025.139.042.268.038.29a2.4 2.4 0 0 1-.29.28c-.15.14-.349.32-.432.4a.8.8 0 0 1-.18.146c-.017 0-.06-.063-.126-.198a7.4 7.4 0 0 0-.68-1.087c-.324-.432-.663-.822-.865-.986-.344-.281-.528-.337-.932-.273-.083.013-.239.033-.344.05-.111.014-.27.04-.355.052M9.98 47.12c-.062.584-.13.995-.176 1.117a.4.4 0 0 0-.017.092 1 1 0 0 1-.025.122c-.025.071-.08.268-.113.41a.3.3 0 0 1-.034.085c-.008.009-.012.03-.012.046a.3.3 0 0 1-.025.084c-.013.03-.05.13-.084.219-.13.36-.407.848-.617 1.079-.185.21-.298.319-.424.415a1.6 1.6 0 0 1-.642.298c-.038.009-.21.017-.386.017-.345-.004-.495-.029-.66-.117a1.5 1.5 0 0 1-.36-.29c-.072-.088-.168-.26-.155-.276a7 7 0 0 1 .453-.017c.495-.009.743-.038 1.037-.126.218-.067.508-.215.663-.34.235-.19.533-.534.706-.815.037-.06.093-.15.122-.202.083-.13.251-.474.289-.583.017-.056.042-.11.05-.13a.3.3 0 0 0 .033-.076c.009-.02.03-.084.05-.135.06-.155.122-.356.227-.721.02-.089.05-.177.055-.202.008-.02.02-.042.033-.046.02-.01.02.013.012.092m-.87-11.84c.067.218.206.444.315.512.062.037.05.058-.084.134a.43.43 0 0 1-.235.062l-.143.009-.059-.062a.5.5 0 0 1-.084-.13 1 1 0 0 1-.05-.122c-.06-.13-.097-.454-.101-.832 0-.197.004-.235.033-.293.042-.089.105-.13.193-.135h.075l.009.442.055.05.105.08.046.029-.055.047c-.057.048-.061.073-.02.208m-.322.973.024.062.071-.046c.084-.047.147-.055.147-.017s-.02.033-.046.05a1.6 1.6 0 0 0-.311.269c-.067.1-.088.08-.076-.084.013-.134.047-.303.068-.323.026-.02.098.034.123.089m.776 3.252a.07.07 0 0 1 .038.046.7.7 0 0 0 .15.277 1 1 0 0 1 .085.126c0 .088-.235-.155-.277-.285q-.058-.176.004-.164m.734.836c.013 0 .055-.02.089-.042.113-.075.143-.012.046.084-.042.042-.072.06-.11.06-.037 0-.05-.005-.05-.051s.009-.051.025-.051m-.075-.118c-.05 0-.066-.009-.066-.025q-.001-.025.017-.033c.024-.017.117.008.117.033q0 .025-.068.025m-.008-.15c-.097-.034-.205-.123-.185-.151a.4.4 0 0 1 .135-.075c.117-.055.125-.055.184-.034.038.013.101.03.143.042s.097.029.122.042a.14.14 0 0 0 .067.025c.033 0 .23.104.23.125s-.054.025-.154.034c-.395.024-.459.024-.542-.009M7.23 27.144c-.004-.02-.017-.042-.029-.046-.03-.009-.163.138-.247.272-.105.173-.118.155-.135-.143a.8.8 0 0 0-.033-.23c-.02-.025-.025-.025-.067.024-.02.03-.05.055-.06.055-.024 0-.017-.118.017-.252.063-.235.063-.386.009-.315-.067.08-.37.722-.495 1.046-.025.075-.063.16-.075.189a.3.3 0 0 0-.021.084.2.2 0 0 1-.025.062.1.1 0 0 0-.024.062.3.3 0 0 1-.025.085l-.05.121c-.034.092-.21.701-.21.726s-.034.042-.047.013c-.013-.038.07-.42.172-.772l.037-.143c.02-.071.118-.39.139-.462.008-.029.033-.101.05-.16.08-.238.122-.348.168-.44.055-.101.041-.146-.017-.062a.2.2 0 0 0-.034.062c0 .033-.075.038-.285.02l-.31-.02c-.093-.004-.101-.008-.101-.037.004-.05.067-.223.142-.39.025-.06.05-.114.05-.123s.005-.029.013-.046.034-.062.055-.104.042-.089.05-.102c.089-.188.206-.432.219-.453l.055-.101a1 1 0 0 1 .05-.092 2 2 0 0 1 .093-.126l.08-.11h.143l.252.014.109.012.097-.146a5 5 0 0 1 .36-.491l.08-.11c.155-.21.328-.373.328-.31s-.13.215-.21.32a10 10 0 0 0-.168.26c-.08.121-.16.239-.176.268a1.7 1.7 0 0 0-.155.248c-.017.037.017.062.076.062s.083.017.13.038c.097.042.105.038.193-.097.033-.046.097-.139.143-.201.122-.177.172-.244.202-.286.05-.07.369-.486.416-.545.05-.055.097-.06.06-.004-.094.138-.454.726-.521.843a1 1 0 0 1-.06.093 9 9 0 0 0-.214.386l-.067.122c-.067.109-.084.172-.05.172s.054-.017.1-.041c.076-.034.123-.042.304-.055l.218-.008.114-.181c.058-.102.117-.182.13-.177.02.005.008.071-.03.143a22 22 0 0 0-.36.773c-.03.06-.08.176-.113.26a3 3 0 0 1-.08.185c-.02.038-.093.23-.118.307-.008.029-.02.06-.033.062-.008.005-.013.025-.013.046a1 1 0 0 1-.055.173q-.062.164-.139.36c-.088.24-.117.224-.071-.041.044-.27.074-.505.07-.546m-2.115-.324c-.097.1-.13.126-.13.092s.029-.118.05-.164c.06-.143.08-.31.025-.218-.042.067-.08.109-.105.109s-.02-.063.029-.185l.101-.252c.039-.097.084-.21.109-.252.02-.042.067-.139.109-.218.038-.08.084-.164.101-.19a.2.2 0 0 0 .033-.059c0-.01.14-.15.311-.318.172-.164.52-.5.776-.747.458-.45.81-.772.987-.916.168-.139.13-.06-.093.177-.324.345-.684.81-.907 1.162-.033.05-.062.097-.067.102a4 4 0 0 0-.168.256c-.017.024-.067.109-.118.189s-.113.176-.134.218c-.05.093-.345.672-.378.756-.017.037-.05.113-.08.168-.07.163-.18.411-.18.42a.5.5 0 0 1-.038.088c-.02.046-.056.122-.076.173-.076.168-.328.714-.378.81a.6.6 0 0 0-.047.126.1.1 0 0 1-.017.047 3 3 0 0 0-.143.36c-.041.118-.075.151-.075.071s.1-.457.172-.66c.013-.032.046-.134.076-.226s.062-.184.07-.201c.034-.084.11-.281.186-.495a1 1 0 0 1 .05-.126.06.06 0 0 0 .017-.039c0-.013.012-.05.024-.08.05-.096.013-.087-.092.022m2.54-3.413c0-.017.004-.02.017-.017.008.005.017.017.017.025s-.009.017-.017.017c-.014 0-.017-.012-.017-.025m.08-.096c.02-.017.04-.029.054-.02.012.008.008.02-.02.045-.069.05-.09.038-.035-.025m.515 1.97q.02.002.017.016-.014.015-.03.017c-.008 0-.012-.009-.012-.017s.008-.017.025-.017m-.025.091c0 .025-.02.033-.042.017-.012-.017.005-.042.025-.042.009 0 .017.012.017.025m-.545 1.49.092-.206c.02-.041.063-.134.101-.21s.068-.139.068-.146c0-.008.041-.089.092-.181.05-.093.093-.177.093-.185s.017-.042.038-.076c.08-.122.126-.205.18-.303.03-.054.068-.117.085-.143.013-.02.029-.054.037-.067.005-.017.038-.07.071-.126.038-.054.08-.126.101-.16.017-.033.093-.155.168-.268.28-.429.425-.558.223-.197-.282.49-.626 1.175-.726 1.44l-.055.13c-.02.055-.029.14-.016.14.012 0 .059-.03.121-.067s.126-.076.143-.084c.013-.009.067-.038.118-.071.121-.072.289-.206.394-.314.088-.102.235-.315.42-.622.318-.537.445-.726.915-1.351.239-.32.327-.425.34-.412.017.017.025 0-.117.268-.135.265-.487 1-.558 1.184-.008.017-.037.088-.067.151-.03.067-.05.126-.05.13 0 .01-.025.06-.05.118-.025.06-.06.134-.072.173-.017.037-.047.117-.071.176a.6.6 0 0 0-.042.134.2.2 0 0 1-.025.06.12.12 0 0 0-.025.066.1.1 0 0 1-.017.05c-.008.009-.03.068-.05.126-.021.06-.047.126-.05.143-.03.068-.156.42-.169.47-.008.03-.033.094-.05.144-.02.05-.042.117-.05.15-.009.034-.03.102-.042.151-.017.05-.046.16-.067.244-.062.26-.076.214-.076-.265s-.008-.432-.017-.44c-.008-.005-.033.02-.05.059-.02.037-.042.067-.05.067-.03 0-.025-.055.033-.315a.2.2 0 0 0 .009-.084.3.3 0 0 0-.102.046c-.05.03-.143.071-.206.093-.062.02-.15.055-.193.07-.08.034-.18.144-.18.19s-.014.042-.026.059a1 1 0 0 0-.05.13l-.033.097h-.272c-.185 0-.273-.005-.273-.017a.5.5 0 0 1 .055-.149m3.505-1.116a.3.3 0 0 0 .097-.017l.201-.055c.215-.054.244-.062.353-.097.13-.046.167-.08.205-.218.055-.185.163-.52.206-.634.025-.06.05-.13.06-.16l.045-.168c.02-.062.046-.168.063-.23.012-.06.033-.118.046-.127.017-.017.02.19.02.924 0 .736.013 1.184.085 1.646.042.285.025.382-.047.219l-.054-.13c-.105-.223-.16-.361-.16-.39s-.016-.047-.033-.063q-.033-.03-.046 0a1 1 0 0 0 0 .146c.025.277.03.399.017.399s-.042-.055-.071-.122a4 4 0 0 0-.105-.223 1 1 0 0 1-.046-.13c0-.013-.017-.038-.037-.046-.034-.02-.11 0-.383.093-.062.02-.176.054-.251.075-.08.02-.172.05-.206.063-.068.024-.072.041-.114.28-.037.198-.067.152-.067-.091 0-.244-.004-.169-.046-.177-.054-.017-.406.038-.697.109-.206.05-.226.046-.302-.038-.286-.323-.269-.303-.26-.365a.5.5 0 0 1 .024-.109c.008-.029.029-.088.042-.134.012-.047.05-.16.083-.252.033-.093.08-.215.097-.269.02-.054.046-.113.059-.134a.14.14 0 0 0 .025-.059c0-.012.008-.038.024-.05.034-.029.194.042.483.205.219.126.529.261.55.235.004-.004.033-.109.062-.23.03-.122.062-.252.076-.294.017-.042.037-.122.05-.176.033-.126.168-.584.201-.672.025-.07.05-.084.06-.024 0 .016-.025.142-.063.28-.033.135-.083.324-.101.416-.02.092-.047.193-.055.218a.4.4 0 0 0-.013.093c0 .022-.013.084-.025.139-.04.176-.06.33-.052.344m.327-1.659c.008 0 .02.009.029.017.012.02-.017.072-.034.06-.017-.022-.012-.077.005-.077m-2.061 6.17c0 .01-.009.021-.017.021q-.015.005-.017-.02.002-.026.017-.02c.008.003.017.011.017.02m3.164-10.476c.03-.013.047 0 .034.025-.017.02-.038.02-.05 0-.01-.009 0-.02.016-.025m12.622 4.869c0-.21-.029-.491-.066-.638a3 3 0 0 0-.101-.277c-.05-.121-.068-.18-.055-.192q.018-.018.029.009c.008.012.042.058.067.1.067.098.29.45.324.509.041.08.18.306.206.344.02.03.037.038.07.03a.3.3 0 0 1 .126.008 5.56 5.56 0 0 1 .47.117l.26.076c.056.017.118.033.143.042.02.008.075.017.122.024.07.009.084.005.16-.062.092-.084.327-.336.364-.391.02-.033.02-.046-.054-.172-.071-.117-.13-.219-.256-.416-.017-.02-.097-.143-.18-.268a2 2 0 0 1-.156-.244c0-.059.08.021.29.29.264.332.378.466.398.466s.046-.071.07-.189l.018-.097h.084c.075 0 .173.013.436.06.046.012.063.008.071-.013.013-.033-.067-.235-.109-.285a11.498 11.498 0 0 0-.458-.634c-.285-.365-.344-.454-.302-.454s.163.155.349.35c.466.486 1.007 1.027 1.028 1.027.034 0 .02-.033-.046-.126a1 1 0 0 1-.067-.1.4.4 0 0 0-.05-.077.4.4 0 0 1-.051-.07c0-.009-.05-.076-.105-.155a2 2 0 0 1-.121-.173c-.013-.017-.05-.07-.089-.117a.4.4 0 0 1-.07-.105c0-.008-.064-.097-.118-.164-.025-.029-.02-.071.008-.071.03 0 .025.013.025.025q.002.02.02.029c.039.017.555.671.664.835.151.24.172.268.172.286 0 .016.013.024.034.033.024.012.033.012.038-.005.004-.012.012-.214.017-.449.012-.466 0-.617-.06-.76a9 9 0 0 0-.344-.62c-.033-.034-.017-.09.017-.067.013.008.08.075.147.154.163.194.44.508.554.63.164.176.605.78.782 1.075.097.16.293.516.394.714.121.243.402.848.402.869s.02.059.047.121c.08.173.318.756.37.882.012.038.028.084.037.105.02.037.139.382.26.743.042.126.122.39.185.588.059.197.122.411.143.474.042.143.097.349.197.767.122.496.139.571.139.668s-.03.122-.042.05c-.105-.478-.214-.92-.298-1.187-.102-.35-.29-.944-.337-1.067-.008-.029-.024-.07-.029-.1-.008-.03-.033-.094-.05-.144a2 2 0 0 1-.046-.126c-.005-.017-.017-.05-.021-.067a5 5 0 0 1-.117-.335c0-.012-.013-.034-.025-.063l-.042-.105c-.029-.083-.37-.945-.432-1.1a13 13 0 0 0-.504-1.045c-.025-.038-.067-.113-.097-.163a1 1 0 0 0-.07-.117.1.1 0 0 1-.021-.038.6.6 0 0 0-.062-.105l-.105-.16c-.055-.08-.215-.31-.31-.44l-.118-.167c-.085-.118-.181-.231-.19-.223-.008.004.01.033.034.067a.3.3 0 0 1 .046.067c0 .008.017.033.038.062.122.172.143.319.105.71-.047.45-.05.596-.02.697.017.05.038.105.054.117.02.025.02.034.004.042-.025.017-.113-.08-.226-.243-.11-.16-.122-.177-.135-.164-.017.017.039.164.105.29.176.344.374.747.516 1.066a13.63 13.63 0 0 1 .344.793c.017.06.02.089.008.101s-.041-.033-.1-.151c-.266-.555-.429-.869-.55-1.062a4 4 0 0 1-.127-.21c-.033-.055-.084-.135-.113-.181a.4.4 0 0 1-.054-.097c0-.009-.009-.017-.013-.017-.009 0-.046-.06-.088-.126-.071-.126-.097-.155-.114-.139-.013.013.038.219.084.357.097.276.102.298.085.314-.025.02-.076-.046-.185-.24-.046-.08-.097-.142-.113-.146-.025-.004-.025.013-.025.16a2 2 0 0 0 .18.752c.03.075.068.154.08.18.013.03.025.055.025.068s.033.097.076.193c.101.24.097.23.15.365.025.062.076.198.118.294.192.478.28.739.26.76-.017.017-.05-.034-.084-.122a37 37 0 0 0-.541-1.205.2.2 0 0 1-.03-.071c0-.009-.058-.118-.125-.248a5 5 0 0 0-.663-.97.8.8 0 0 1-.117-.146c0-.008-.009-.013-.017-.013-.02 0-.025.08-.005.093.009.004.02.03.025.055.013.041.025.07.143.327.03.063.055.122.055.13s.017.05.041.093c.02.047.042.088.042.097 0 .008.02.06.051.117.025.06.05.114.05.122 0 .009.02.059.05.118.025.059.051.113.051.117s.017.05.038.097c.055.122.109.256.155.382.02.06.046.113.055.126.008.008.025.055.042.101s.088.227.16.403c.13.327.235.608.247.676.009.03.005.038-.017.038-.02 0-.024-.013-.024-.03a.14.14 0 0 0-.025-.062.1.1 0 0 1-.025-.067.2.2 0 0 0-.025-.067 1 1 0 0 1-.06-.126c-.02-.05-.07-.163-.108-.252a9 9 0 0 1-.135-.303 6 6 0 0 1-.104-.235c-.042-.088-.806-1.641-.885-1.792-.038-.07-.08-.105-.093-.07-.009.033-.193.239-.294.331-.104.097-.146.11-.256.063-.037-.017-.109-.046-.163-.071a2 2 0 0 1-.206-.089 2 2 0 0 0-.176-.075c-.042-.017-.089-.034-.105-.042l-.126-.05a2 2 0 0 1-.126-.05c-.02-.009-.075-.025-.126-.042a1.7 1.7 0 0 1-.298-.11c-.067-.037-.075-.012-.02.055.017.025.033.05.033.055 0 .009.054.13.126.273.134.276.192.398.349.734.054.11.113.24.134.285.05.097.155.336.181.395.013.024.025.054.034.07.012.025.134.303.201.466.013.025.03.063.042.093.008.029.033.084.05.125.017.042.05.122.076.177.02.054.06.138.076.184.017.047.033.093.041.101a.06.06 0 0 1 .017.038c0 .013.009.05.02.076.014.029.043.097.06.15.02.056.042.11.05.126.009.017.05.118.089.223.037.105.075.215.088.244s.034.08.05.113a.3.3 0 0 1 .03.088c0 .013.008.05.02.08.017.03.05.122.08.205.03.085.059.169.067.185.004.017.017.05.02.067.004.017.05.155.105.302.05.147.101.294.109.328l.146.445c.009.029.042.13.071.226.029.097.067.219.084.269.038.108.08.239.097.319l.033.109c.042.126.122.39.122.415s.004.033.017.037c.009.005.017.025.017.042s.017.097.042.173c.02.076.06.193.075.256.02.063.055.185.08.268.029.084.054.181.066.219.009.038.042.146.072.243s.062.219.08.268c.012.05.033.122.046.16.017.063.07.24.134.454.025.097.062.218.092.327.009.041.03.104.042.142s.033.114.05.168c.013.055.038.13.05.169.013.037.046.146.075.243.03.097.06.193.063.21.009.017.038.113.071.21.029.097.084.273.126.394a16 16 0 0 1 .378 1.294c.07.272.1.386.117.487.009.046.034.159.055.251.024.092.046.185.046.206 0 .022.005.055.013.071.013.017.025.07.033.126.013.054.03.16.046.226.013.072.03.173.042.231.009.055.02.122.033.147a.4.4 0 0 1 .017.096c0 .03.009.089.02.135.03.113.064.277.08.416l.038.243c.013.076.034.194.042.268.013.076.025.185.038.244.037.28.067.474.084.621.008.089.029.235.041.328.013.092.025.223.034.285.004.062.02.21.033.319s.025.243.025.298c0 .088-.02.134-.042.101a1 1 0 0 1-.017-.122c-.013-.092-.042-.327-.13-.94a4 4 0 0 0-.033-.202c-.009-.042-.02-.13-.03-.192s-.03-.181-.042-.26a4 4 0 0 1-.042-.248c-.008-.055-.02-.139-.033-.185-.008-.041-.029-.143-.047-.223-.012-.08-.037-.197-.05-.268-.012-.067-.033-.163-.041-.21-.021-.122-.068-.336-.093-.45a1 1 0 0 1-.02-.134c0-.02-.014-.071-.026-.121a3 3 0 0 1-.05-.219c-.033-.16-.075-.349-.097-.428l-.067-.285a4 4 0 0 0-.075-.302 2 2 0 0 1-.038-.16c-.013-.046-.033-.139-.055-.202l-.045-.176a18 18 0 0 0-.265-.856 3 3 0 0 0-.08-.244l-.11-.344c-.028-.097-.061-.193-.066-.21a5 5 0 0 1-.121-.37c-.034-.121-.093-.31-.122-.42l-.113-.368a6 6 0 0 0-.093-.303c-.02-.075-.06-.201-.08-.285s-.067-.247-.101-.37c-.033-.12-.075-.26-.088-.309a2 2 0 0 1-.046-.16c-.013-.037-.03-.097-.042-.134a19 19 0 0 0-.143-.504 9 9 0 0 1-.105-.352 18 18 0 0 0-.113-.387c-.02-.062-.076-.239-.118-.386-.046-.147-.084-.285-.092-.302a3 3 0 0 1-.067-.21c-.138-.428-.16-.496-.172-.529-.009-.017-.08-.239-.164-.487-.143-.432-.214-.63-.306-.89-.025-.062-.055-.143-.067-.176a3 3 0 0 0-.071-.193l-.101-.256c-.256-.68-.655-1.566-.852-1.88a3.5 3.5 0 0 0-.31-.437l-.038-.046v.046c0 .06.05.248.126.458.029.088.054.169.05.173-.017.017-.08-.05-.168-.181-.046-.067-.109-.16-.143-.202-.08-.118-.453-.474-.546-.52a3 3 0 0 0-.15-.08c-.039-.017-.085-.038-.102-.038a.2.2 0 0 1-.076-.02.7.7 0 0 0-.163-.038c-.113-.009-.122-.009-.172.033-.055.046-.101.05-.117.008-.009-.012-.02-.041-.034-.062a1 1 0 0 1-.05-.139 2 2 0 0 0-.06-.146c-.05-.101-.046-.105.164-.105s.5.05.785.122c.023 0 .027-.03.023-.185m1.44-1.452q-.001-.015.017-.017.018.002.017.017a.02.02 0 0 1-.017.017c-.013 0-.017-.01-.017-.017m5.784 29.523c.253.599.366 1.22.46 1.858h-.28c-.018-.102-.062-.349-.08-.438-.405-2.062-1.925-3.605-3.951-4.08a8 8 0 0 0-.943-.146.6.6 0 0 1-.139-.025c-.06-.033-.012-.05.093-.041.054.004.277.017.49.024.362.017.488.025.764.071.06.009.16.02.227.03.667.082 1.294.38 1.82.793.26.205.525.434.733.691.317.393.609.796.806 1.263m-.281-22.615c.02-.012.041.067.029.092q-.014.015-.03.017c-.02 0-.02-.096 0-.109m1 15.609c-.004.457-.07.983-.122 1.39-.044.34-.086.674-.185 1.089-.008.036-.07.187-.073.157-.007-.065.096-.687.103-.78.034-.41.029-.39.068-.81.247-2.688-.414-4.314-.533-6.331.095.837.383 1.992.518 2.758.157.877.234 1.474.224 2.526m-.44 2.858a.2.2 0 0 1 .02-.074c.034-.082.063-.056.037.033q-.032.098-.057.041m-.002.23c-.01.004-.026.007-.033.003-.02-.007.016-.096.04-.1s.013.078-.007.096m-5.574-4.56c.05-.138.206-.692.268-.944q.083-.336.084-.155c0 .122-.252 1.058-.307 1.116-.008.009-.013.034-.013.05a.1.1 0 0 1-.024.06c-.041.033-.046-.026-.008-.127m-.017.21q0 .05-.025.05-.024 0-.025-.05 0-.05.025-.05.024 0 .025.05m.395-1.549c.008-.004.017.013.02.038.009.046-.025.084-.042.046-.012-.033-.004-.08.022-.084m1.07-3.425c-.008-.126-.008-.151.013-.143.054.017.126.99.122 1.692 0 .524-.025.835-.122 1.435-.017.11-.033.185-.046.19-.034.011-.03-.094.02-.493.042-.323.046-.419.055-1.136.004-.718 0-.982-.042-1.545m-.042 3.279c.005.008-.008.017-.02.017-.014 0-.026-.009-.026-.017.005-.013.017-.02.025-.02q.014-.001.02.02m3.555-12.774a.2.2 0 0 1-.008-.075c0-.089.037-.076.046.017q.007.102-.038.058m-1.94-3.172c0 .02-.05.017-.062-.004a.04.04 0 0 1 .008-.038c.017-.017.025-.013.038.004a.1.1 0 0 1 .017.038m-.066-.13c0 .046-.005.05-.025.029-.017-.017-.013-.071.008-.071.008 0 .017.02.017.042m-.42 1.09c0 .014-.009.026-.017.026-.013 0-.017-.017-.017-.034 0-.016.004-.029.017-.024.009.004.017.02.017.033m-.386.311c0 .017-.008.034-.017.034-.012 0-.017-.017-.017-.034 0-.016.005-.033.017-.033.009 0 .017.016.017.033M27.097 44.58c0 .029-.03.033-.042.008-.017-.02.004-.055.025-.041.008.008.017.02.017.033m-2.833-19.337.055.143c.02.066.066.197.101.29.033.092.07.205.084.251l.05.143c.013.033.034.101.046.15.017.05.038.127.05.168s.038.118.05.168c.018.05.04.13.056.173a1 1 0 0 1 .025.113c0 .016.004.05.013.07.017.042.075.311.146.66.013.076.037.185.05.248.034.155.03.276-.008.34-.03.046-.122.109-.164.109-.041 0-.046.017-.084.033-.083.042-.168.13-.18.202-.017.071.029.202.092.26.042.042.282.16.32.16.062 0 .608.302.801.445.15.11.34.298.34.34s-.05.025-.13-.033a4 4 0 0 0-.306-.172c-.126-.068-.23-.122-.235-.13 0-.009-.013-.013-.025-.013a1 1 0 0 1-.15-.067 16 16 0 0 0-.395-.182c-.302-.125-.373-.184-.431-.348-.113-.315-.122-.454-.038-.529a.8.8 0 0 1 .146-.093c.05-.024.126-.062.16-.088l.067-.047-.009-.201c-.008-.172-.013-.215-.05-.298-.055-.113-.11-.147-.23-.147a4 4 0 0 0-.556.076c-.07.013-.192.029-.268.042-.47.063-.588.109-.679.256-.042.07-.05.097-.05.218 0 .122.004.155.033.22.055.108.093.13.223.13.248 0 .28.024.298.205.012.105-.03.462-.06.541a1 1 0 0 1-.109.22c-.071.108-.18.23-.478.554-.319.344-.352.349-.189.02.11-.214.168-.29.398-.532.206-.22.24-.273.252-.403s-.017-.198-.113-.273a.9.9 0 0 0-.319-.13c-.059 0-.181-.239-.181-.398s-.009-.072-.017-.097a2 2 0 0 1-.042-.219c-.033-.184-.05-.28-.13-.604a14 14 0 0 0-.206-.806c-.013-.046-.046-.146-.071-.226l-.06-.193c-.004-.03-.046-.147-.088-.268-.043-.122-.097-.273-.118-.336a8 8 0 0 0-.306-.74c-.134-.289-.458-.94-.508-1.01a3 3 0 0 1-.117-.198c-.441-.747-1.247-1.649-2.044-2.287a9 9 0 0 0-.828-.6c-.06-.038-.13-.084-.16-.101-.167-.11-.851-.462-.897-.462s-.034-.009-.046-.017a6 6 0 0 0-.71-.24c-.382-.113-1.13-.205-1.603-.205-.374.004-1.012.06-1.234.113l-.16.029a4 4 0 0 0-.411.092c-.23.067-.314.05-.147-.033.05-.02.097-.042.105-.042a.4.4 0 0 0 .08-.03c.168-.075.197-.088.226-.088.03 0 .046-.012.063-.024a.1.1 0 0 1 .054-.025c.013 0 .084-.02.16-.05.276-.102.663-.227.902-.294.466-.134.558-.16.747-.202.063-.017.147-.033.181-.041.071-.02.14-.034.483-.089.202-.033.285-.038.865-.038.579 0 .65 0 1.14.076.156.024.333.062.43.092a3.45 3.45 0 0 1 .542.16c.012-.001.05.012.08.024l.193.075c.07.03.168.067.21.084.038.017.13.06.197.093s.126.058.126.058c.017 0 .424.227.491.268.033.025.143.097.24.16.096.067.201.139.234.16.038.024.176.134.315.243.265.21.97.898 1.2 1.175.207.244.357.432.48.6.26.349.302.407.335.458l.113.181c.252.374.47.756.697 1.213.227.462.39.806.39.835 0 .03.01.038.021.06.034.06.122.28.147.365a.4.4 0 0 0 .037.087m1.872 8.869c-.005.017-.038.029-.13.037-.407.038-.399.038-.537-.037-.252-.131-.353-.152-.714-.152-.256-.004-.307.005-.45.038-.088.025-.21.067-.268.097-.121.059-.21.062-.29.02a2 2 0 0 0-.142-.054c-.126-.038-.143-.067-.075-.135.075-.08.252-.205.394-.28.282-.147.567-.198 1.015-.181.353.016.613.108.894.314.126.094.307.295.303.333m-7.023-8.718c.03.118.03.172 0 .172s-.041-.033-.146-.235c-.025-.041-.067-.113-.097-.155l-.054-.08h-.383c-.348 0-.386-.004-.411-.029a.1.1 0 0 1-.025-.046.4.4 0 0 0-.059-.097 6 6 0 0 0-.121-.196c-.034-.06-.085-.143-.11-.185a.3.3 0 0 1-.045-.109c0-.017.041-.076.092-.13.092-.101.218-.26.34-.425l.054-.075-.041-.092a4 4 0 0 0-.16-.29c-.163-.285-.193-.34-.18-.349.012-.016.13.118.23.277.101.155.13.181.185.152.041-.02.163-.047.323-.068.13-.012.155-.029.13-.084-.008-.025-.033-.097-.054-.168-.076-.264-.093-.323-.151-.448-.038-.089-.038-.105 0-.105s.189.186.365.412c.122.163.219.272.24.285.016.009.083-.033.436-.29.08-.06.15-.105.155-.105.008 0 .017-.012.02-.024.013-.03-.037-.11-.163-.257-.075-.088-.093-.121-.059-.121s.529.486.73.738c.101.13.21.277.21.294s.034.055.071.113c.105.151.139.215.34.609l.182.356.088-.055a.4.4 0 0 1 .206-.066c.139-.017.172.004.24.126.083.163.15.306.15.331s.008.039.02.06.042.088.063.146c.017.06.05.139.067.181.046.097.024.13-.05.075a3 3 0 0 0-.437-.222c-.134-.05-.155-.038-.143.084.009.062.004.1-.004.1-.017 0-.206-.344-.227-.41-.05-.173-.641-1.07-.83-1.272a.5.5 0 0 1-.08-.1c-.038-.072-.072-.055-.093.041-.013.05-.038.126-.05.173-.084.239-.089.264-.08.348.004.092.02.143.097.31.025.06.05.11.05.118s.017.05.042.101c.084.185.092.206.092.243s-.004.03-.029.013a3 3 0 0 1-.117-.146c-.084-.11-.219-.24-.248-.24s.038.286.084.374a.2.2 0 0 1 .025.071c0 .017.008.05.02.08s.055.13.093.227q.07.17.067.226l-.004.055-.038-.06a4 4 0 0 1-.104-.196c-.114-.235-.273-.441-.336-.441-.064 0-.017.037-.017.084 0 .15-.034.176-.084.062a.5.5 0 0 0-.063-.1c-.029-.026-.037-.026-.113.008-.046.02-.097.046-.105.05-.029.019-.029.255.004.376m-1.196.87c.008.074.02.238.029.369a7 7 0 0 0 .1.818c0 .025-.033.013-.05-.017a3 3 0 0 1-.058-.188 10 10 0 0 0-.093-.303c-.03-.08-.07-.21-.097-.294a2 2 0 0 0-.067-.201 4 4 0 0 1-.075-.193c-.056-.147-.076-.186-.102-.186s-.017.244-.017.542c-.004.35-.012.541-.02.541a.7.7 0 0 1-.109-.176c-.08-.16-.181-.336-.425-.734-.083-.139-.13-.176-.108-.092.008.025.02.092.029.15.008.06.017.114.02.122.004.005.025.135.042.29.02.151.042.314.05.365.025.109.025.268.005.268s-.02-.025-.03-.054a9 9 0 0 0-.218-.697.2.2 0 0 1-.02-.068c0-.038-.064-.121-.09-.121s-.08.02-.134.05c-.155.07-.226.101-.243.101s-.03.017-.046.033c-.03.03-.03.042.008.231.034.185.034.285 0 .248a1 1 0 0 1-.05-.135 1 1 0 0 0-.076-.176c-.071-.109-.462-.303-.747-.365-.042-.009-.126-.03-.185-.042-.062-.017-.13-.029-.15-.033-.021 0-.056-.02-.072-.046-.038-.055-.146-.491-.154-.621 0-.055.004-.06.125-.118.068-.033.16-.075.202-.092s.097-.037.126-.05l.21-.084c.23-.089.252-.11.219-.235-.025-.113-.038-.219-.02-.244.024-.033.033-.02.096.155l.071.202c.013.03.02.055.02.062 0 .025.056.135.068.135s.113-.097.239-.215l.23-.214-.012-.109c-.009-.109-.047-.256-.143-.545-.046-.152-.062-.244-.033-.244s.055.101.1.223c.131.328.14.345.182.382l.037.038.055-.041a.4.4 0 0 1 .063-.047q.044.002.062.134c.017.143.06.319.076.319.029 0 .037-.126.025-.42a4 4 0 0 0-.034-.428 5 5 0 0 0-.092-.382 4.212 4.212 0 0 0-.214-.596q-.126-.277.126 0c.298.319.739.898.924 1.22.042.072.093.152.113.186.08.121.445.868.516 1.049.013.037.047.126.076.193.024.07.06.15.067.185.013.033.042.117.067.193.092.26.105.314.092.332-.008.008-.113-.085-.256-.227l-.24-.239zm4.025 15.874c.02-.06.047-.13.055-.16.013-.03.042-.102.063-.16l.092-.268c.033-.088.071-.201.092-.252l.11-.31c.041-.122.08-.235.083-.256.02-.089.117-.328.134-.337.013-.004.02.089.03.286.016.424.041.903.059 1.112.012.101.029.319.046.487.029.344.067.714.092.847.013.084.013.097-.02.126-.02.02-.11.076-.188.118-.202.104-.194.104-.387.218-.218.126-.676.428-.81.533-.06.042-.109.08-.113.08-.025 0-.017-.054.02-.15.021-.06.047-.13.056-.16a10 10 0 0 1 .117-.353c.009-.029.042-.134.076-.235s.067-.201.071-.218c.009-.017.03-.085.05-.143.042-.135.072-.215.089-.26.015-.038.132-.386.183-.545m-.721-16.68c0 .024-.021.033-.042.016-.013-.017.004-.041.024-.041.009-.001.018.012.018.024m-1.185.217c-.008.03-.042.03-.054 0-.017-.037.024-.076.046-.042.008.013.013.034.008.042m.505 23.438.159.122c.21.176.57.39.936.554.093.042.15.08.143.089-.005.013-.089.07-.189.139a1.5 1.5 0 0 0-.184.13c-.004.008-.03.02-.05.033a1 1 0 0 0-.105.07c-.076.063-.39.282-.592.417a3 3 0 0 0-.198.134.4.4 0 0 1-.054.033c-.004 0-.08.042-.164.092a7 7 0 0 1-.718.37c-.08.033-.21.093-.285.13-.08.038-.176.08-.21.093a1 1 0 0 0-.092.046c-.017.013-.047.025-.067.033a1 1 0 0 0-.101.042c-.075.041-.66.318-.668.318 0 0-.092.042-.202.097-.109.05-.248.112-.306.135-.177.067-.202.067-.21.012a5 5 0 0 0-.16-.495 4 4 0 0 0-.378-.688c-.088-.135-.239-.366-.331-.516-.097-.152-.252-.395-.35-.537-.26-.403-.436-.702-.436-.752s.093-.041.295-.041.394-.034.515-.076a.4.4 0 0 1 .089-.025c.013 0 .122-.046.239-.101l.21-.105.63-.634c.6-.596 1.141-1.09 1.205-1.09s.025.012.025.024c0 .025.033.109.075.197.012.03.024.055.024.063 0 .007.034.088.076.18.27.576.597.92 1.429 1.507m1.079-2.64c-.089-.024-.248-.155-.315-.26-.15-.235-.26-.554-.23-.672.017-.067.172-.222.336-.34.126-.084.34-.218.625-.382.017-.013.071-.046.118-.076.05-.029.105-.062.126-.07a1 1 0 0 0 .092-.055c.03-.02.114-.076.189-.122l.247-.154c.126-.08.16-.076.16.02s.008.097.024.146a1 1 0 0 1 .025.14c0 .02.013.096.029.167l.067.286c.02.084.055.23.076.331.025.102.046.198.046.223 0 .087-.361.457-.604.62a2.4 2.4 0 0 1-.424.21c-.13.043-.428.034-.587-.012m-8.757-21.57c.185.008.265.017.684.071a3.4 3.4 0 0 1 .537.093q.207.046.193-.143c-.004-.084-.017-.197-.02-.252q-.012-.096.008-.097c.013 0 .02.017.03.038.012.05.088.306.113.399l.054.176c.013.054.033.117.042.143.008.02.025.071.029.109.008.037.033.13.05.21.07.28.093.369.181.798.017.075.03.189.038.256.004.067 0 .122-.009.122a.8.8 0 0 1-.104-.172c-.114-.227-.177-.324-.223-.357-.055-.033-.584-.062-.958-.054-.327.008-.314.012-.365-.092-.013-.03-.037-.056-.054-.06-.025-.004-.03.017-.034.197a.7.7 0 0 1-.02.201c-.013.005-.033-.054-.055-.13a4 4 0 0 0-.089-.272c-.029-.08-.066-.193-.088-.252a1 1 0 0 0-.05-.139c-.059-.113-.114-.561-.092-.726l.012-.08zm.043 2.355c.016.033.104.332.104.36 0 .03.009.043.02.067.014.03.03.076.034.097.008.042.05.169.16.479l.066.21c.005.024.017.06.03.075a.13.13 0 0 1 .025.063c0 .015.013.06.025.092.046.105.067.155.143.34.037.098.108.265.159.37.05.109.092.202.092.205 0 .025.252.516.383.747.075.135.138.248.138.256s.009.025.02.038c.014.013.051.07.085.13.101.176.193.328.205.345.055.062.126.196.122.223-.004.02-.03.033-.105.041-.059.005-.15.017-.21.03-.172.024-.214.02-.243-.021a11 11 0 0 1-.429-.852c-.029-.067-.067-.146-.075-.176a4 4 0 0 1-.075-.202c-.03-.084-.063-.168-.067-.185a11 11 0 0 1-.24-.747l-.062-.235a1.5 1.5 0 0 1-.05-.214c0-.021-.013-.063-.025-.105a10 10 0 0 1-.143-.62c-.008-.052-.033-.177-.05-.278a6 6 0 0 1-.084-.52c0-.05.025-.056.046-.013m-.072-.113q-.013-.019.004-.038c.013-.012.02-.008.03.005.003.012.003.029-.005.038q-.018.012-.029-.005m2.21 27.438h-.168l.044-.084a3 3 0 0 1 .113-.193c.033-.042.084-.118.117-.168.248-.352.752-.962.958-1.155.214-.201.344-.268.344-.176s-.041.118-.088.215c-.122.239-.42.6-1.046 1.267zm4.078-.151-.13.15h-2.94l.077-.092c.101-.122.349-.399.634-.714.08-.092.219-.244.303-.34.319-.37.44-.496.621-.647.18-.15.318-.243.37-.243.05 0 .024.02.024.08s-.017.105-.07.197a1 1 0 0 1-.102.151c-.041.05-.101.164-.088.173.004.008.016.004.028-.004a50 50 0 0 1 2.573-1.546q.652-.371 1.305-.741c.273-.156.828-.607 1.164-.516-.046.075-.115.132-.185.192-.248.215-1.268 1.23-1.432 1.428a8 8 0 0 0-.386.5 8 8 0 0 1-.995 1.178c-.339.336-.688.693-.771.794m1.883.048c-.007.029-.016.06-.038.079-.026.02-.061.02-.094.02l-.953-.026q.188-.432.393-.856c.278-.571.584-1.134.991-1.62.526-.63 1.21-1.117 1.95-1.47.741-.353 1.54-.575 2.346-.723-.797.146-1.6.661-2.217 1.154l-.782.71c-.375.43-.695.757-.971 1.262-.259.474-.496.942-.625 1.47m.811.092c.132.004.564.008-.016.008.13-.787.662-1.51 1.2-2.077.618-.652 1.358-1.241 2.155-1.655 1.192-.618 2.567-.52 3.9-.139 1.479.423 2.79 1.858 3.073 3.403l.092.468h-.032zm16.835-3.004a3.016 3.016 0 0 1-3.013 3.012l-2.372.001c-.039-.362-.063-.738.133-1.04.254-.388.681-.607 1.026-.906.367-.32.716-.691.925-1.137.246-.407.569-1.406.681-2.152.064-.422.084-.848.103-1.274a10 10 0 0 0-.054-1.617q-.118-1.193-.368-2.363c-.158-.739-.31-1.507-.537-2.228a.5.5 0 0 1-.02-.105 1 1 0 0 0-.025-.105l-.055-.189c-.017-.06-.037-.146-.05-.193-.012-.046-.033-.109-.041-.143s-.034-.134-.063-.226l-.075-.277-.042-.143a2 2 0 0 1-.047-.15c-.013-.068-.046-.182-.066-.26a2 2 0 0 1-.056-.203l-.029-.1a.7.7 0 0 1-.046-.151l-.055-.185c-.008-.042-.029-.109-.041-.15-.009-.042-.03-.11-.038-.151-.013-.042-.033-.126-.05-.186a20 20 0 0 1-.193-.72l-.046-.17c-.055-.218-.071-.28-.139-.562a4 4 0 0 1-.067-.314c0-.016-.013-.059-.025-.101-.013-.038-.033-.13-.05-.206a4 4 0 0 0-.046-.185c-.009-.029-.025-.084-.034-.126a1.4 1.4 0 0 0-.041-.184 6 6 0 0 1-.093-.411.6.6 0 0 0-.029-.126 1 1 0 0 1-.042-.15 9 9 0 0 0-.097-.42l-.1-.445c-.01-.046-.03-.127-.038-.177-.013-.05-.038-.146-.05-.218-.017-.068-.039-.173-.052-.227a3 3 0 0 1-.05-.218c-.017-.063-.033-.143-.041-.177a3 3 0 0 1-.042-.193l-.076-.352a7 7 0 0 1-.093-.444c-.058-.29-.08-.416-.088-.462-.008-.05-.033-.206-.08-.437a8 8 0 0 1-.05-.268l-.047-.21a1.948 1.948 0 0 0-.046-.286c-.063-.261-.067-.285-.067-.324a1 1 0 0 0-.03-.163c-.013-.067-.037-.181-.05-.252-.013-.067-.038-.177-.05-.235a6.019 6.019 0 0 0-.143-.646.4.4 0 0 1-.013-.084c0-.017-.013-.066-.025-.117-.013-.046-.037-.135-.05-.194l-.046-.168a12.306 12.306 0 0 0-.277-.974c-.008-.012-.02-.054-.033-.091-.008-.039-.054-.164-.097-.286a3 3 0 0 1-.092-.26l-.16-.428a24 24 0 0 0-.243-.613 7 7 0 0 0-.214-.532 1 1 0 0 1-.038-.097c0-.009-.017-.042-.033-.08-.017-.042-.059-.14-.092-.227-.084-.206-.118-.29-.332-.718-.214-.44-.29-.58-.52-.97a9 9 0 0 1-.197-.344 5 5 0 0 0-.235-.336 1 1 0 0 1-.076-.113c-.062-.097-.39-.516-.541-.689-.085-.096-.21-.243-.285-.327-.198-.23-.768-.768-1.142-1.075-.26-.219-.642-.508-.755-.58-.03-.016-.126-.083-.219-.142a10.2 10.2 0 0 0-2.015-1.045c-.15-.06-.219-.084-.265-.105a2 2 0 0 0-.206-.07l-.192-.067c-.038-.017-.24-.08-.626-.198-.42-.121-.474-.138-.771-.206a11 11 0 0 0-.782-.163c-.08-.013-.205-.038-.276-.05a2 2 0 0 0-.188-.025c-.03 0-.122-.009-.198-.025-.352-.06-.734-.08-1.377-.07a10 10 0 0 0-.755.028c-.227.03-.45.055-.588.068-.223.02-.912.13-1.091.167-.039.009-.13.03-.202.042-.075.017-.185.038-.243.05l-.227.046c-.306.063-.89.202-1.028.24a1 1 0 0 1-.117.024 1 1 0 0 0-.11.025c-.037.013-.121.033-.18.05-.198.05-.227.06-.378.101-.084.025-.177.05-.202.06-.151.04-.29.088-.47.15l-.26.085c-.034.013-.077.025-.094.033-.02.009-.104.038-.184.067a2 2 0 0 0-.202.076c-.03.013-.109.042-.177.066-.07.025-.15.056-.176.068-.054.024-.277.121-.41.177-.82.335-2.301 1.095-2.73 1.393-.03.02-.146.092-.26.167a12 12 0 0 0-.903.605c-.139.097-.756.558-.873.659-.437.357-.718.613-1.083.982-.277.282-.613.66-.706.79-.013.017-.067.092-.122.163a11 11 0 0 0-.575.89c-.273.474-.743 1.44-.827 1.691a.4.4 0 0 1-.055.122c-.009.008-.013.025-.013.037 0 .013-.029.11-.067.206-.05.143-.155.454-.235.722a6 6 0 0 0-.101.37c-.051.201-.118.512-.118.546s-.008.059-.017.084a1 1 0 0 0-.033.163l-.054.374c-.034.23-.038.31-.038.94s.004.768.067 1.133c.055.306.126.562.239.856.02.05.037.101.037.105 0 .008.063.138.14.293.117.24.18.345.302.534.084.13.314.39.512.58.126.125.244.234.256.243s.076.06.143.109c.31.247.89.562 1.175.637.025.009.105.033.177.06.264.088.449.138.486.121q.025-.008-.008-.02c-.093-.038-.303-.198-.425-.32a4 4 0 0 1-.23-.285 6 6 0 0 1-.37-.662l-.062-.151c-.017-.042-.037-.093-.046-.11a6 6 0 0 1-.134-.373c-.038-.104-.042-.172-.013-.172.013-.005.054.07.105.163.197.386.512.79.873 1.117.23.21.596.5.637.5s.03.016.051.04l.046.038-.013.21c-.008.206-.033.483-.096 1.088-.017.181-.042.42-.05.529-.01.108-.021.276-.03.369s-.03.306-.042.478c-.017.172-.038.398-.055.504-.012.105-.02.226-.02.268s-.013.177-.03.303c-.04.382-.07.654-.092.856-.025.268-.063.626-.084.764-.017.142-.062.52-.08.705-.025.239-.067.592-.076.617a1 1 0 0 0-.024.172 27 27 0 0 1-.134.995 2 2 0 0 1-.025.155c-.004.013-.017.08-.025.143a13 13 0 0 1-.092.512l-.046.235a19.33 19.33 0 0 1-.096.445c-.098.433-.337 1.012-.52 1.256-.215.28-.467.462-.735.524-.173.042-.689.029-.836-.02a1.5 1.5 0 0 1-.658-.413c-.295-.297-.45-.637-.547-1.187-.033-.194-.029-.857.009-1.05.067-.332.113-.474.268-.784.067-.139.117-.252.109-.257-.017-.012-.36.378-.491.555-.06.084-.122.168-.135.185-.046.062-.16.243-.16.256s-.02.038-.041.066c-.075.105-.214.496-.26.735-.071.365-.076.42-.076.932s.009.617.067.864c.076.307.109.395.248.672.172.352.402.65.676.881.197.164.272.215.5.324.243.122.314.143.65.214.31.067.646.05 1.083-.046.163-.042.604-.23.805-.349.155-.092.185-.113.244-.151a4.4 4.4 0 0 0 1.326-1.46c.097-.164.168-.311.214-.416.02-.046.047-.08.06-.08.033 0 .033-.009.004.167-.047.27-.147.684-.182.714-.008.009-.012.03-.012.046a.3.3 0 0 1-.03.093 1 1 0 0 0-.045.113 7 7 0 0 1-.353.663 3 3 0 0 1-.495.604c-.445.441-.805.656-1.318.777-.163.042-.705.042-.873.004a6 6 0 0 1-.626-.188c-.02-.008-.046-.02-.06-.02-.024 0-.39-.176-.54-.265a2.4 2.4 0 0 1-.555-.425 2.8 2.8 0 0 1-.785-1.246A3.7 3.7 0 0 1 2.393 46a1 1 0 0 0-.033-.185c-.009-.033-.013-.088-.017-.126a.3.3 0 0 0-.013-.1q-.013-.03-.025.008a10 10 0 0 0 .009 1.057c.008.06.02.147.024.194.02.201.11.583.202.864.067.202.31.706.403.836.1.143.306.386.42.5.294.302.78.641 1.212.855.084.042.155.075.16.075.003 0 .054.02.112.05.06.025.215.085.345.127.126.046.24.088.248.096s.038.013.059.013.067.009.093.017c.029.009.097.03.146.042.143.038.143.042.168.26q.026.273.109.52c.163.462.525.87.982 1.1.134.067.172.084.226.097.017.008.063.02.105.038.037.013.143.046.235.072.155.041.176.046.592.046s.445-.005.588-.038c.223-.054.32-.088.495-.176.538-.268 1.046-.785 1.323-1.331.109-.219.168-.256.13-.089a8.532 8.532 0 0 1-.415 1.498c-.34.848-.656 1.356-1.137 1.855-.151.152-.315.311-.37.357l-.061.051H4.355c-1.595 0-2.985-1.366-3.012-2.961V4.36a3.016 3.016 0 0 1 3.012-3.013H35.63a3.016 3.016 0 0 1 3.013 3.013v47.208z"/><path d="M16.09 2.734c-2.063 0-3.734 1.587-3.734 7.56s1.671 7.559 3.733 7.559 3.734-1.587 3.734-7.56-1.672-7.56-3.734-7.56m0 14.118c-.755 0-1.366-1.377-1.366-6.558s.612-6.559 1.365-6.559c.754 0 1.366 1.377 1.366 6.558 0 5.182-.611 6.56-1.366 6.56M34.199 13.142c-1.918-3.384-2.694-5.058-2.963-6.367-.126-.617-.147-1.432-.042-1.839.109-.428.382-.625.865-.625.482 0 .641.13.957.382.185.143.466.432.654.668.856 1.062 1.747 2.984 2.212 4.798.07.272.092.323.168.365a.23.23 0 0 0 .243-.013l.046-.033.004-3.715c.005-3.513 0-3.723-.024-3.777a.26.26 0 0 0-.21-.135c-.173 0-.366.102-.777.412-.416.31-.626.428-.785.428s-.36-.088-.65-.256a4.1 4.1 0 0 0-1.024-.453 2.5 2.5 0 0 0-.856-.122q-1.48.002-2.292.848c-.642.667-.924 1.695-.865 3.156.05 1.271.328 2.476.915 3.937.219.55.387.924.722 1.594.332.677.575 1.126 1.066 1.99 1.444 2.544 2.103 3.887 2.52 5.12.196.588.297 1.02.369 1.545.05.36.054.945.008 1.184-.15.814-.608 1.158-1.33 1.003-.404-.088-.735-.29-1.1-.659-.357-.36-.684-.852-1.004-1.502-.428-.864-.767-1.826-1.2-3.362-.08-.28-.16-.537-.181-.567-.046-.08-.093-.109-.177-.109s-.08.009-.113.05l-.042.055v4.952l.155.214c.084.114.23.324.324.462.109.164.205.286.276.353.332.307.87.672 1.247.847.076.038.29.143.474.244.588.31 1.037.458 1.545.5.154.016.561.012.697-.005a3.05 3.05 0 0 0 1.821-.898c.714-.722 1.067-1.776 1.067-3.182-.001-.365-.03-.953-.063-1.259-.152-1.486-.693-2.758-2.657-6.23M28.493 2.85H25.22c-.23 0-.322.296-.134.427.418.291.842.728.842 1.306v11.089c0 .642-.608 1.165-1.252 1.165s-1.164-.521-1.164-1.165V4.416c.071-.496.452-.878.829-1.14.188-.131.097-.427-.134-.427h-3.83c-.228 0-.321.296-.133.428.418.29.842.728.842 1.306v10.015c0 1.784 1.533 3.23 3.317 3.23s3.404-1.446 3.404-3.23V4.354c.093-.466.458-.826.819-1.077.188-.132.096-.427-.133-.427M12.103 3.277c.187-.132.096-.428-.134-.428H8.6c-.23 0-.322.296-.134.428.419.29.842.728.842 1.306v10.76L6.632 2.85H2.987c-.23 0-.322.296-.134.427.419.291.842.728.842 1.306v18.409c0 .577-.424 1.015-.841 1.306a.234.234 0 0 0 .133.426h2.22c.184-.27.429-.598.743-.965a1.3 1.3 0 0 1-.27-.768V8.2l2.262 10.564a2.3 2.3 0 0 1-.62.607c-.187.131-.096.427.134.427h3.802q.44-.214.898-.411l-.021-.016c-.418-.29-.842-.728-.841-1.305V4.312c.105-.445.459-.792.808-1.035"/></svg></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="aplicaciones" class="cap cap--claro" aria-labelledby="aplicaciones-titulo">
+        <header class="cap-cabeza">
+          <p class="hud">05 / Aplicaciones</p>
+          <h2 id="aplicaciones-titulo">Problemas reales. Resultados observables.</h2>
+        </header>
+        <!-- La terminal REEMPLAZA a las cinco tarjetas: los títulos pasan a
+             ser las pestañas y lo que decía cada tarjeta lo escribe la
+             terminal. Por eso no hay cifras inventadas — el texto es el que
+             ya estaba, partido en las líneas que la coma separaba. -->
+        <div class="terminal" id="terminal">
+          <div class="term-marco">
+            <div class="term-caras">
+              <div class="term-panel" role="tabpanel" id="panel-talento" aria-labelledby="tab-talento" tabindex="0">
+                <p class="term-orden"><span class="term-signo" aria-hidden="true">$</span><span class="term-cmd">nortiqa talento</span></p>
+                <div class="term-salida" role="log" aria-live="polite">
+                  <p class="term-linea term-hueco" data-espera="200">&nbsp;</p>
+                  <p class="term-linea" data-espera="420">normalización de CVs</p>
+                  <p class="term-linea" data-espera="260">análisis de perfiles</p>
+                  <p class="term-linea" data-espera="260">comparación documentada de candidatos</p>
+                </div>
+                <p class="term-cola"><span class="term-signo" aria-hidden="true">$</span></p>
+              </div>
+              <div class="term-panel" role="tabpanel" id="panel-operaciones" aria-labelledby="tab-operaciones" tabindex="0" hidden>
+                <p class="term-orden"><span class="term-signo" aria-hidden="true">$</span><span class="term-cmd">nortiqa operaciones</span></p>
+                <div class="term-salida" role="log" aria-live="polite">
+                  <p class="term-linea term-hueco" data-espera="200">&nbsp;</p>
+                  <p class="term-linea" data-espera="420">seguimiento de tareas</p>
+                  <p class="term-linea" data-espera="260">lectura documental</p>
+                  <p class="term-linea" data-espera="260">minutas</p>
+                  <p class="term-linea" data-espera="260">control de estados</p>
+                </div>
+                <p class="term-cola"><span class="term-signo" aria-hidden="true">$</span></p>
+              </div>
+              <div class="term-panel" role="tabpanel" id="panel-datos" aria-labelledby="tab-datos" tabindex="0" hidden>
+                <p class="term-orden"><span class="term-signo" aria-hidden="true">$</span><span class="term-cmd">nortiqa datos</span></p>
+                <div class="term-salida" role="log" aria-live="polite">
+                  <p class="term-linea term-hueco" data-espera="200">&nbsp;</p>
+                  <p class="term-linea" data-espera="420">consulta en lenguaje natural</p>
+                  <p class="term-linea" data-espera="260">reporting</p>
+                  <p class="term-linea" data-espera="260">soporte a decisiones operativas</p>
+                </div>
+                <p class="term-cola"><span class="term-signo" aria-hidden="true">$</span></p>
+              </div>
+              <div class="term-panel" role="tabpanel" id="panel-administracion" aria-labelledby="tab-administracion" tabindex="0" hidden>
+                <p class="term-orden"><span class="term-signo" aria-hidden="true">$</span><span class="term-cmd">nortiqa administracion</span></p>
+                <div class="term-salida" role="log" aria-live="polite">
+                  <p class="term-linea term-hueco" data-espera="200">&nbsp;</p>
+                  <p class="term-linea" data-espera="420">documentos</p>
+                  <p class="term-linea" data-espera="260">resúmenes</p>
+                  <p class="term-linea" data-espera="260">plantillas</p>
+                  <p class="term-linea" data-espera="260">expedientes internos consistentes</p>
+                </div>
+                <p class="term-cola"><span class="term-signo" aria-hidden="true">$</span></p>
+              </div>
+              <div class="term-panel" role="tabpanel" id="panel-comercial" aria-labelledby="tab-comercial" tabindex="0" hidden>
+                <p class="term-orden"><span class="term-signo" aria-hidden="true">$</span><span class="term-cmd">nortiqa comercial</span></p>
+                <div class="term-salida" role="log" aria-live="polite">
+                  <p class="term-linea term-hueco" data-espera="200">&nbsp;</p>
+                  <p class="term-linea" data-espera="420">clasificación de oportunidades</p>
+                  <p class="term-linea" data-espera="260">propuestas</p>
+                  <p class="term-linea" data-espera="260">seguimiento de contactos</p>
+                </div>
+                <p class="term-cola"><span class="term-signo" aria-hidden="true">$</span></p>
+              </div>
+            </div>
+            <div class="term-barra">
+              <div class="term-tabs" role="tablist" aria-label="Aplicaciones">
+                <button class="term-tab on" role="tab" id="tab-talento" aria-controls="panel-talento" aria-selected="true" tabindex="0">Talento</button>
+                <button class="term-tab" role="tab" id="tab-operaciones" aria-controls="panel-operaciones" aria-selected="false" tabindex="-1">Operaciones</button>
+                <button class="term-tab" role="tab" id="tab-datos" aria-controls="panel-datos" aria-selected="false" tabindex="-1">Datos</button>
+                <button class="term-tab" role="tab" id="tab-administracion" aria-controls="panel-administracion" aria-selected="false" tabindex="-1">Administración</button>
+                <button class="term-tab" role="tab" id="tab-comercial" aria-controls="panel-comercial" aria-selected="false" tabindex="-1">Comercial</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap" class="cap cap--claro-2" aria-labelledby="roadmap-titulo">
+        <header class="cap-cabeza">
+          <p class="hud">06 / Roadmap</p>
+          <h2 id="roadmap-titulo">Del prototipo al producto.</h2>
+        </header>
+        <p class="etapa">
+          <small class="hud">Etapas</small>
+          <strong>MVP / Prototipos / Productos Escalables</strong>
+        </p>
+        <div class="tarjetas">
+          <article class="tarjeta">
+            <svg class="modulos" viewBox="0 0 24 24" aria-hidden="true" style="--paso: 0"><rect x="9" y="9" width="6" height="6" transform="rotate(-7 12 12)"/></svg>
+            <span class="hud">01</span>
+            <h3>Prototipos funcionales</h3>
+            <p>Validar flujo, utilidad y calidad de salida.</p>
+          </article>
+          <article class="tarjeta">
+            <svg class="modulos" viewBox="0 0 24 24" aria-hidden="true" style="--paso: 1"><rect x="5" y="9" width="6" height="6"/><rect x="13" y="9" width="6" height="6"/></svg>
+            <span class="hud">02</span>
+            <h3>Pilotos controlados</h3>
+            <p>Usuarios reales, medición y ajuste operativo.</p>
+          </article>
+          <article class="tarjeta">
+            <svg class="modulos" viewBox="0 0 24 24" aria-hidden="true" style="--paso: 2"><rect x="5" y="5" width="6" height="6"/><rect x="13" y="5" width="6" height="6"/><rect x="5" y="13" width="6" height="6"/><rect x="13" y="13" width="6" height="6"/></svg>
+            <span class="hud">03</span>
+            <h3>Producto replicable</h3>
+            <p>Arquitectura, onboarding y módulos reutilizables.</p>
+          </article>
+          <article class="tarjeta">
+            <svg class="modulos" viewBox="0 0 24 24" aria-hidden="true" style="--paso: 3"><rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/><rect x="17" y="1" width="6" height="6"/><rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/><rect x="17" y="9" width="6" height="6"/><rect x="1" y="17" width="6" height="6"/><rect x="9" y="17" width="6" height="6"/><rect x="17" y="17" width="6" height="6"/></svg>
+            <span class="hud">04</span>
+            <h3>Escala cloud</h3>
+            <p>Seguridad, costos y despliegue multi-cliente.</p>
+          </article>
+        </div>
+        <div class="franja-partners">
+          <p>Buscamos partners y programas que aceleren infraestructura, evaluación de modelos, seguridad y despliegue.</p>
+          <div class="partners" aria-label="Partners y programas">
+            <!-- Logos a color de gilbarbara/logos, CC0-1.0. Las marcas son de
+                 sus dueños: acá figuran como programas a los que se aspira, no
+                 como acuerdos vigentes — lo dice el párrafo de al lado. -->
+            <img class="partner partner--ms"  src="assets/img/marcas/microsoft.svg"    alt="Microsoft"    width="512" height="110">
+            <img class="partner partner--gcp" src="assets/img/marcas/google-cloud.svg" alt="Google Cloud" width="256" height="206">
+            <img class="partner partner--aws" src="assets/img/marcas/aws.svg"          alt="AWS"          width="256" height="153">
+            <img class="partner partner--nv"  src="assets/img/marcas/nvidia.svg"       alt="NVIDIA"       width="512" height="98">
+          </div>
+        </div>
+      </section>
+
+      <section id="contacto" class="cap cap--cierre" aria-labelledby="contacto-titulo">
+        <header class="cap-cabeza">
+          <p class="hud">07 / Conversemos</p>
+          <h2 id="contacto-titulo">¿Qué proceso querés transformar?</h2>
+        </header>
+        <p>Si es repetitivo, documental, operativo o intensivo en información, podemos convertirlo en un flujo claro, trazable y medible.</p>
+
+
+        <!-- RAMA PROVISORIA. En `main` acá va el formulario de contacto;
+             esta rama lo saca y deja solo el correo, que es el camino que
+             funciona mientras no haya casilla ni webhook.
+             No editar esto a mano: se rehace desde main. -->
+        <div class="acciones">
+          <a href="mailto:hola@nortiqalab.com">hola@nortiqalab.com →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="pie-marca">
+        <a href="index.html" class="brand">NORTIQA<small>Sistemas de Inteligencia Organizacional</small></a>
+        <p>Inteligencia para organizaciones que evolucionan.</p>
+      </div>
+      <nav class="pie-links" aria-label="Pie de página">
+        <a href="productos-ia.html">Productos</a>
+        <a href="index.html#metodo">Método</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="programas-startup-ia.html">Programas</a>
+        <a href="privacidad.html">Privacidad</a>
+        <a href="aviso-legal.html">Aviso legal</a>
+      </nav>
+      <span class="hud">© 2026 Nortiqa Lab · Argentina · Construyendo desde el sur</span>
+
+      <!-- Una empresa que vende observabilidad muestra la suya. -->
+      <dl class="medicion">
+        <div><dt>Dependencias</dt><dd id="m-deps">0</dd></div>
+        <div><dt>Peso propio</dt><dd id="m-peso" data-peso="375">375 KB</dd></div>
+        <div><dt>Listo en</dt><dd id="m-carga">—</dd></div>
+        <div><dt>Nodos DOM</dt><dd id="m-nodos">—</dd></div>
+      </dl>
+    </footer>
+
+    <div id="estado" class="hud">
+      <span><i class="senal" aria-hidden="true"></i> Capacidad emergente · módulo <b id="e-foco">01</b></span>
+      <span class="solo-ancho">Desplazá para explorar</span>
+      <span><span class="solo-ancho">Render</span> <b id="e-fps">—</b> fps</span>
+    </div>
+  </body>
 </html>

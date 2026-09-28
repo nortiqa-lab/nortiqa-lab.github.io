@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Nortiqa Lab">
+  <style>
+    .m { fill: #1A1F23; }
+    .t { fill: #7C8A84; }
+    @media (prefers-color-scheme: dark) {
+      .m { fill: #F4F6F5; }
+      .t { fill: #7E9691; }
+    }
+  </style>
+  <rect x="0" y="0" width="30" height="30" class="m"/>
+  <rect x="35" y="0" width="30" height="30" class="m"/>
+  <rect x="70" y="0" width="30" height="30" class="m"/>
+  <rect x="0" y="35" width="30" height="30" class="m"/>
+  <rect x="35" y="35" width="30" height="30" class="m"/>
+  <rect x="70" y="35" width="30" height="30" fill="#C9A15B"/>
+  <rect x="0" y="70" width="30" height="30" class="m"/>
+  <rect x="35" y="70" width="30" height="30" class="m"/>
+  <rect x="70" y="70" width="30" height="30" class="t"/>
+</svg>

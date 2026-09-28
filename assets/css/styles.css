@@ -1,0 +1,2305 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   NORTIQA — sistema visual v2 "monolito"
+   --------------------------------------------------------------------------
+   Paleta del manual: #0D2B26 verde · #0F1F2E azul · #C9A15B oro
+   #F4F6F5 hueso · #E1E4E2 gris · #1A1F23 casi negro
+
+   Tipografía de marca: Aeonik (comercial). Sustituto libre: Hanken Grotesk.
+   Se cambia en una sola variable, --sans.
+
+   Capa 1  BASE    elementos semánticos pelados → viste las 7 interiores
+   Capa 2  .home   la portada cinematográfica
+
+   Sin librerías. Sin build. Abre con file://.
+   ========================================================================== */
+
+/* Hanken Grotesk, servida desde `assets/fonts/`. Era la última dependencia
+   remota del sitio: con el `@import` de Google, abrir el archivo sin internet
+   dejaba la tipografía en la del sistema. Comprobado que Chrome la carga bajo
+   `file://` con ruta relativa, así que no hace falta incrustarla en base64.
+
+   Dos archivos para toda la familia porque la fuente es VARIABLE (100–900):
+   un peso más no cuesta un archivo más. Primero `latin-ext`, después `latin`,
+   en el orden en que las sirve Google. */
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/hanken-grotesk-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/hanken-grotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* JetBrains Mono, sólo para la terminal. OFL 1.1 — el texto en
+   `assets/licenses/jetbrains-mono.txt`.
+
+   Subconjunto latino y SIN TABLAS DE SUSTITUCIÓN: 90 KB del original quedan en
+   8,3. Las ligaduras se sacaron a propósito, no por peso — JetBrains Mono trae
+   ligaduras de código y convertiría un `--flag` en una raya. En una terminal
+   eso es mentira: ahí hay dos guiones. */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/jetbrains-mono-latin.woff2') format('woff2');
+}
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark;
+
+  --green:  #0D2B26;
+  --navy:   #0F1F2E;
+  --gold:   #C9A15B;
+  /* La monoespaciada de las dos terminales del sitio —la de Aplicaciones y la
+     volanta del hero—. La pila del sistema queda DETRÁS como reserva: sin una
+     familia elegida, cada visitante veía la suya (Px437 acá, Menlo en Mac,
+     Consolas en Windows: tres terminales distintas). */
+  --term-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+               Consolas, 'Liberation Mono', monospace;
+  --bone:   #F4F6F5;
+
+  --void:     #040E0C;
+  --ground:   #071714;
+  --surface:  #0B221E;
+  --surface-2:#0E2A25;
+
+  --ink:    var(--bone);
+  --ink-2:  #9FB4AE;
+  --ink-3:  #7E9691;
+  --rule:   #1A3A34;
+  --rule-2: #122A25;
+
+  /* Los dos grises del manual de marca que nunca habían entrado a los tokens.
+     Las tablas y los cuadros salen del verde: verde sobre verde aplanaba la
+     página y no daba contraste. El fondo, las reglas de sección y el hero
+     siguen siendo verdes — el gris es de los cuadros, no de la página. */
+  --gris:       #1A1F23;   /* del manual */
+  --gris-claro: #E1E4E2;   /* del manual */
+  --gris-alto:  #232A30;   /* un escalón arriba: el hover */
+  --gris-hondo: #14181D;   /* los cuadros secundarios */
+  --gris-linea: #2B3238;   /* las juntas de las tablas */
+
+  /* La paleta clara del sitio original (`nortiqalab.com`). El diseño de Codex
+     ALTERNA claro y oscuro sección por sección; el nuestro era oscuro de punta
+     a punta y por eso se veía apagado. Estos son sus valores exactos. */
+  --claro:     #F3F5F2;   /* surface-soft */
+  --claro-2:   #E9EEEB;   /* el tono alterno */
+  --claro-3:   #DFE8E3;   /* surface-tint: el hover */
+  --tinta:     #17221D;   /* el texto sobre claro */
+  --tinta-2:   #5F6C68;   /* text-muted */
+  --tinta-3:   #7C8A84;
+  --linea:     #D3DBD7;   /* border */
+  --linea-2:   #C8CEC7;
+
+  /* El acento de capítulo. Por defecto es el oro de marca; sobre fondo claro
+     el oro no llega a 4,5:1 contra #F3F5F2 —da 2,2— así que los capítulos
+     claros lo bajan a un oro oscuro. `--gold` sigue siendo el oro literal
+     para el hero, el encabezado y el pie, que son oscuros siempre. */
+  --acento: var(--gold);
+
+  /* El relieve: relleno igual al fondo de la sección, más su sombra y su luz.
+     El radio es FIJO y uno solo para todas las piezas del relieve, chicas y
+     grandes: es lo que las hace leer como el mismo material. Si escalara con
+     el tamaño, un chip y una franja parecerían dos sistemas distintos. */
+  --relieve-radio:  8px;
+  --relieve:        var(--surface);
+  --relieve-sombra: rgba(0, 0, 0, 0.45);
+  --relieve-luz:    rgba(255, 255, 255, 0.05);
+
+  /* El color del haz, en componentes RGB sueltos para que el canvas los pueda
+     componer con alfa. Los capítulos claros los oscurecen: oro sobre blanco no
+     se ve. Los lee `haz.js` de la grilla, no están fijos en el JS. */
+  --haz-h: 201, 161, 91;
+  --haz-v: 74, 158, 146;
+
+  --gold-dim:  #8A6E3E;
+  --gold-soft: rgba(201, 161, 91, 0.10);
+
+  --sans: 'Hanken Grotesk', 'Aeonik', system-ui, -apple-system, sans-serif;
+
+  --step--2: 0.6875rem;
+  --step--1: 0.8125rem;
+  --step-0:  1rem;
+  --step-1:  1.1875rem;
+  --step-2:  clamp(1.3rem, 1.15rem + 0.7vw, 1.6rem);
+  --step-3:  clamp(2.8rem, 1.9rem + 4.6vw, 5.6rem);
+  --step-4:  clamp(3.4rem, 2.2rem + 5.6vw, 7rem);
+
+  --gutter:  clamp(1.25rem, 0.7rem + 2.4vw, 3.5rem);
+
+  /* Alto de las dos piezas fijas. Las usa el hero para no quedar debajo. */
+  /* 5.25rem y no 5: el encabezado mide 80,19 px —la marca son dos líneas— y
+     con 5rem la reserva quedaba 0,19 px CORTA. Con el degradado de antes ese
+     solape era invisible; con la barra opaca recorta el borde del contenido.
+     Sobran 3,8 px, que es holgura y no decoración. */
+  --alto-cabecera: 5.25rem;
+  --alto-barra:    2.6rem;
+  --shell:   80rem;
+  --measure: 60ch;
+
+  /* El relleno vertical de cada capítulo, o sea la MITAD del aire entre dos
+     secciones. Subido: con la alternancia clara/oscura el relleno es además el
+     tamaño del bloque de color, así que más aire hace que cada capítulo se lea
+     como una escena y no como un bloque más de la lista.
+     El interior (`--rhythm-s`) queda igual a propósito: separar más por fuera
+     sin tocar lo de adentro es justamente lo que agrupa. */
+  --rhythm:   clamp(5rem, 3.4rem + 6.2vw, 10.5rem);
+  --rhythm-s: clamp(1.75rem, 1.3rem + 1.9vw, 3rem);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* La interlínea del cuerpo. Es token porque hay un cálculo que la necesita:
+     la altura del eyebrow, más abajo. */
+  --interlinea: 1.6;
+
+  /* Malla de fondo de los capítulos. Reproduce la textura del fondo ENCOM
+     —grilla de 6px en verde azulado sobre negro— en CSS: pesa cero, no se
+     escala y evita meter un archivo de 97 KB al sitio. */
+  --malla:      rgba(0, 120, 112, 0.085);
+  --malla-paso: 6px;
+  --malla-halo: rgba(0, 84, 78, 0.20);   /* el verde donde vive la grilla */
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Base
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: var(--interlinea);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Interlínea y espaciado van CON el tamaño, no aparte. Un titular de 90 px con
+   interlínea de párrafo se abre demasiado entre renglones, y cuanto más grande
+   es el tipo más suelto se ve: hay que cerrarlo. Por eso al subir la escala
+   bajan los dos —1.06 a 0.96, y -0.025 a -0.042em—. */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.042em;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--step-4); font-weight: 400; letter-spacing: -0.048em; }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; }
+
+h1 em, h2 em, h3 em { font-style: normal; color: var(--acento); }
+
+p { margin: 0; max-width: var(--measure); }
+
+a {
+  color: inherit; text-decoration: none;
+  transition: color 160ms var(--ease), border-color 160ms var(--ease),
+              background-color 160ms var(--ease);
+}
+
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+ul, ol { margin: 0; padding: 0; list-style: none; }
+small { font-size: var(--step--1); }
+::selection { background: var(--gold); color: var(--void); }
+
+/* Etiqueta de instrumento. Es el vernáculo del propio manual de marca
+   (NORTIQA, ARQUITECTURA + SISTEMAS VIVOS), no un adorno genérico. */
+.hud {
+  font-size: var(--step--2);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* --------------------------------------------------------------------------
+   3. Precargador — mide la compilación real del shader
+   -------------------------------------------------------------------------- */
+
+#precarga {
+  position: fixed; inset: 0; z-index: 90;
+  display: grid; place-content: center; gap: 1.35rem;
+  background: var(--void);
+  transition: opacity 900ms var(--ease), visibility 900ms;
+}
+
+#precarga.fuera { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.precarga-grilla {
+  display: grid;
+  grid-template-columns: repeat(3, 1.5rem);
+  grid-auto-rows: 1.5rem;
+  gap: 0.32rem;
+  justify-content: center;
+}
+
+.precarga-grilla i { background: var(--rule-2); transition: background-color 240ms var(--ease); }
+.precarga-grilla i.on { background: var(--bone); }
+.precarga-grilla i.oro { background: var(--gold); }
+
+.precarga-pie { display: flex; justify-content: space-between; gap: 2.5rem; min-width: 17rem; }
+
+/* Acá vivía el cromo achaflanado: un `clip-path` que cortaba la esquina
+   superior izquierda y la inferior derecha del CTA del encabezado y de los dos
+   botones del hero. Se sacó — los botones van cuadrados.
+
+   Con él se fueron la variable `--chaflan` y la clase `.chaflan`, que ya
+   estaba muerta: ningún elemento del sitio la usaba. */
+
+/* --------------------------------------------------------------------------
+   5. Encabezado y pie
+   -------------------------------------------------------------------------- */
+
+body > a[href="#contenido"] {
+  position: fixed; left: -9999px; top: 0; z-index: 95;
+  background: var(--gold); color: var(--void);
+  font-weight: 600; font-size: var(--step--1); padding: 0.85rem 1.35rem;
+}
+body > a[href="#contenido"]:focus { left: 0.5rem; top: 0.5rem; }
+
+body > header {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 1rem var(--rhythm-s);
+  padding: 1.1rem var(--gutter);
+  /* SÓLIDO siempre, hero incluido. Adentro del hero tuvo un degradado que se
+     desvanecía hacia abajo y dejaba ver la escena 3D por detrás de la barra.
+     Se fue: la página no tiene más transparencias, y una sola regla —el mismo
+     color en todas las situaciones— es más fácil de sostener que un material
+     que cambia según dónde estés.
+
+     El precio, dicho: los primeros 80 px de la escena quedan tapados.
+
+     `background-color` y no el atajo `background`, para que el color pueda
+     transicionar cuando el tono cambia de claro a oscuro. */
+  background-color: var(--void);
+  background-image: none;
+  transition: background-color 240ms var(--ease), border-color 240ms var(--ease);
+  /* La regla de abajo aparece al salir del hero: sigue marcando que la página
+     se despegó del tope, que ahora es lo único que lo señala. */
+  border-bottom: 1px solid transparent;
+}
+
+body > header > a:first-of-type,
+.brand {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  justify-content: start;
+  column-gap: 0.7rem;
+  row-gap: 0.12rem;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 1.0625rem;
+  letter-spacing: 0.28em;
+}
+
+body > header > a:first-of-type::before,
+.brand::before {
+  content: "";
+  grid-row: 1 / 3;
+  width: 1.7rem; height: 1.7rem;
+  background:
+    linear-gradient(var(--gold), var(--gold)) 100% 50% / 30% 30% no-repeat,
+    linear-gradient(var(--bone), var(--bone)) 0    0   / 30% 30% no-repeat,
+    linear-gradient(var(--bone), var(--bone)) 50%  0   / 30% 30% no-repeat,
+    linear-gradient(var(--bone), var(--bone)) 100% 0   / 30% 30% no-repeat,
+    linear-gradient(var(--bone), var(--bone)) 0    50% / 30% 30% no-repeat,
+    linear-gradient(var(--bone), var(--bone)) 50%  50% / 30% 30% no-repeat,
+    linear-gradient(var(--bone), var(--bone)) 0    100%/ 30% 30% no-repeat,
+    linear-gradient(var(--bone), var(--bone)) 50%  100%/ 30% 30% no-repeat;
+}
+
+body > header > a:first-of-type::after,
+.brand::after {
+  content: "";
+  position: absolute;
+  width: 0.46rem; height: 0.46rem;
+  top: 1.22rem; left: 1.22rem;
+  border: 1px solid var(--ink-3);
+}
+
+body > header > a:first-of-type small,
+.brand small {
+  grid-column: 2;
+  font-size: 0.5rem; font-weight: 500; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-3); white-space: nowrap;
+}
+
+body > header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem clamp(1rem, 0.5rem + 1.4vw, 2rem); }
+#nav-links { display: flex; flex-wrap: wrap; gap: 0.6rem clamp(1rem, 0.5rem + 1.4vw, 2rem); }
+
+body > header nav a {
+  font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-2); padding-block: 0.4rem;
+}
+body > header nav a:hover { color: var(--gold); }
+
+body > header nav > a:last-child {
+  color: var(--void); background: var(--bone);
+  padding: 0.7rem 1.15rem; min-height: 44px;
+  display: inline-flex; align-items: center;
+}
+body > header nav > a:last-child:hover { background: var(--gold); }
+
+body > footer {
+  position: relative; z-index: 1;
+  /* Mismo ancho de caja que los capítulos, sin envoltorio extra: el relleno
+     lateral crece hasta centrar un contenido de `--shell`. El pie sigue
+     ocupando todo el ancho —su fondo y su filete superior llegan al borde—,
+     pero lo que se lee queda alineado con el resto de la página. */
+  padding: var(--rhythm-s) max(var(--gutter), calc((100% - var(--shell)) / 2))
+           clamp(4.5rem, 3.5rem + 3vw, 6rem);
+  border-top: 1px solid var(--rule);
+  background: var(--ground);
+  display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--rhythm-s);
+  font-size: var(--step--1); color: var(--ink-2);
+}
+/* `flex: 1 1 16rem` vale para los <p> que son hijos DIRECTOS del pie, que es
+   una fila: ahí 16rem es un ancho. El de `.pie-marca` no: ese contenedor es una
+   COLUMNA, y el mismo flex-basis pasa a ser un ALTO — 256 px de caja para una
+   línea de 21. Eso era el hueco del pie.
+
+   Tercera vez que aparece este mismo mecanismo en el sitio: pasó con el núcleo
+   del mapa (`flex-basis: 100%` ganándole a `width`) y con `.cap-texto` en
+   Arquitectura. La regla: un `flex-basis` heredado por un contenedor de
+   dirección distinta cambia de eje y deja de significar lo que se escribió. */
+body > footer > p { flex: 1 1 16rem; }
+.pie-marca > p { flex: 0 0 auto; }
+body > footer a:not(.brand) { color: var(--ink-2); font-size: var(--step--1); }
+body > footer a:not(.brand):hover { color: var(--gold); }
+
+/* --------------------------------------------------------------------------
+   6. Capa base (las 7 interiores, sin clases)
+   -------------------------------------------------------------------------- */
+
+/* `main` NO lleva z-index: con uno crearía un contexto de apilado propio y
+   encerraría dentro suyo el orden que fija el contrato de apilado de más
+   abajo. Sin z-index pinta en orden de documento, que es lo que se necesita. */
+body > main { position: relative; }
+body:not(.home) > main { padding-top: 5.5rem; }
+
+body:not(.home) > main > section {
+  padding: var(--rhythm) var(--gutter);
+  max-width: calc(var(--shell) + var(--gutter) * 2);
+  margin-inline: auto;
+  display: flex; flex-direction: column; gap: var(--rhythm-s);
+  align-items: flex-start;
+  background: var(--void);
+}
+body:not(.home) > main > section + section { border-top: 1px solid var(--rule-2); }
+
+body:not(.home) > main > section > p:first-child {
+  max-width: none; font-size: var(--step--2); font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--acento);
+}
+
+body:not(.home) > main > section > article {
+  align-self: stretch; display: flex; flex-direction: column; gap: 0.55rem;
+  padding-block: var(--rhythm-s); border-top: 1px solid var(--rule-2);
+  font-size: var(--step--1); color: var(--ink-3);
+}
+body:not(.home) > main > section > article h3 { font-size: var(--step-2); color: var(--ink); }
+body:not(.home) > main > section > article p  { font-size: var(--step-0); color: var(--ink-2); }
+
+body:not(.home) > main > section > a {
+  align-self: flex-start; font-size: var(--step--2); font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.95rem 1.5rem; min-height: 44px;
+  display: inline-flex; align-items: center;
+  border: 1px solid var(--rule); color: var(--ink);
+}
+body:not(.home) > main > section > a:hover { border-color: var(--gold); color: var(--gold); }
+body:not(.home) > main > section > a:first-of-type { background: var(--gold); border-color: var(--gold); color: var(--void); }
+body:not(.home) > main > section > a:first-of-type:hover { background: var(--bone); border-color: var(--bone); }
+body:not(.home) > main > section > ul { display: grid; gap: 0.5rem; }
+
+/* --------------------------------------------------------------------------
+   7. La escena
+   -------------------------------------------------------------------------- */
+
+#escena {
+  position: fixed; inset: 0; z-index: 0;
+  width: 100%; height: 100%; display: block;
+  background: var(--void);
+}
+
+
+.sin-webgl #escena { display: none; }
+.sin-webgl #hero { background: radial-gradient(90% 70% at 50% 62%, #123029 0%, var(--void) 70%); }
+
+/* --------------------------------------------------------------------------
+   8. Hero
+   -------------------------------------------------------------------------- */
+
+/* Velo plano sobre la escena, en lugar de la malla que había acá.
+
+   La malla eran dos tramas de 1 px enmascaradas con un radial. Se fue: sobre
+   una escena 3D que ya tiene su propia geometría, una grilla encima compite en
+   vez de acompañar —y las líneas finas sobre un canvas en movimiento titilan—.
+
+   Queda un velo del verde institucional en el centro que cae al negro de marca
+   en los bordes. Es una viñeta: concentra la atención donde está el titular y
+   cierra las esquinas.
+
+   Elipse y no círculo, y el foco un poco por ARRIBA del centro geométrico. Un
+   círculo sobre una pantalla apaisada deja los costados negros y el verde
+   queda de medallón; la elipse sigue la forma del hero. Y subir el foco manda
+   el borde oscuro hacia abajo, que es donde `::after` ya apaga el pie: los dos
+   degradados tiran para el mismo lado en vez de pelearse.
+
+   El paso intermedio al 52% existe para que el verde no muera de golpe: con
+   dos stops solos la caída se ve como un anillo.
+
+   A 0.88 el velo es casi opaco: la escena no desaparece, queda como una
+   presencia detrás del color. Es un tinte, no una ventana.
+
+   Encima de la escena y no debajo: la escena es opaca. */
+#hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 92% 78% at 50% 45%,
+    var(--green) 0%,
+    color-mix(in srgb, var(--green) 42%, var(--void)) 52%,
+    var(--void) 100%);
+  opacity: 0.88;
+}
+
+/* Acá vivía un segundo velo: un degradado al negro en el 52% inferior, encima
+   de la viñeta. Eran dos capas tapando lo mismo. Se sacó — queda sólo la
+   viñeta radial de `::before`.
+
+   Lo que hacía: apagar el pie del hero para que el titular y la tira de
+   capacidades se despegaran de la escena. Si con una sola capa el texto de
+   abajo cuesta leerse, el botón es la opacidad de la viñeta (0.88) o el
+   `text-shadow` que ya tiene `.hero-copy`, no volver a apilar. */
+
+#hero {
+  /* SIN `z-index`, por lo mismo que `.cap`. */
+  position: relative;
+  min-height: 100svh;
+  /* Tres filas: aire, el texto, y la tira de capacidades abajo de todo, con
+     hueco entre las dos últimas. */
+  display: grid; grid-template-rows: 1fr auto auto;
+  row-gap: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+  /* Arriba, el alto del encabezado fijo. Abajo, el de la barra de estado
+     —también fija— más aire: sin eso la tira le queda DEBAJO, que es
+     exactamente lo que pasó. Las dos alturas son variables, no números
+     sueltos, porque si crece una tiene que crecer el hueco. */
+  padding: var(--alto-cabecera) var(--gutter)
+           calc(var(--alto-barra) + clamp(1.25rem, 0.9rem + 1.4vw, 2.25rem));
+}
+
+#hero > * { position: relative; z-index: 2; }
+
+.hero-copy {
+  grid-row: 2; justify-self: center; max-width: 46rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.1rem;
+  text-align: center;
+  /* Sombra en vez de velo: la escena queda limpia y el texto legible
+     sobre cualquier zona del agua. */
+  text-shadow: 0 2px 30px rgba(4, 14, 12, 0.95), 0 1px 4px rgba(4, 14, 12, 0.9);
+}
+
+.hero-copy h1 { max-width: 16ch; }
+
+/* La volanta: una línea de terminal que se escribe sola, arriba del titular.
+
+   Es EL MISMO OBJETO que la terminal de Aplicaciones, y eso es la decisión:
+   misma familia, mismo cuerpo, mismo signo `$`, misma geometría de cursor y el
+   mismo latido de 1,06 s —por eso reusa `term-late` y no define un keyframe
+   propio—. Dos terminales en un sitio tienen que ser la misma terminal.
+
+   Acá estuvieron antes un tablero de LEDs y un destello barriendo el texto.
+   El tablero era un objeto ajeno a la escena; el destello, invisible. Esto es
+   lo que el sitio ya sabía hacer, traído al hero.
+
+   VA A LA IZQUIERDA, sola. El resto del hero —titular, bajada, botones— sigue
+   centrado; la volanta arranca en la S de "Sistemas", apoyada en la misma
+   vertical que la primera línea del titular. Esa sangría NO está acá: la mide
+   `volanta.js`, porque el titular es texto centrado y su borde izquierdo
+   depende de la tipografía cargada y del ancho de la ventana.
+
+   La caja va a todo el ancho de la columna, que de paso resuelve el temblor:
+   si midiera el contenido, cada letra correría el centrado y se movería el
+   hero entero. */
+.volanta {
+  align-self: stretch;
+  /* Sin esto hereda `--measure` (60ch), que en monoespaciada da 522px y corta
+     la caja antes del borde de la columna. */
+  max-width: none;
+  font-family: var(--term-mono);
+  /* 14,5px, el mismo cuerpo que la terminal de 05. */
+  font-size: 0.90625rem;
+  line-height: 1.9;
+  /* Sin tracking: en una monoespaciada el `ch` tiene que valer exactamente lo
+     que avanza una letra, y `letter-spacing` no entra en la cuenta del `ch`.
+     Con tracking, el ancho reservado queda corto y la última letra se recorta. */
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  text-align: left;
+  color: #D7E4DF;
+}
+
+/* El prompt: `~ >`. El `~` apagado marca dónde estás; el `>` encendido te da
+   el turno. En la referencia el segundo signo era un `)`, que no es lo que usa
+   ninguna shell —el turno se pide con `>`, o con el `❯` de fish y Starship—.
+   Va el `>` de ASCII y no el `❯`: la punta fina depende de que la familia
+   tenga ese glifo, y si no lo tiene cae en otra fuente y rompe el paso de la
+   monoespaciada justo al lado de un texto que se mide en `ch`.
+
+   El cian es el único del sitio y por eso está medido: contra el verde
+   profundo del hero se lee como acento de terminal, no como un color nuevo
+   de la paleta.
+
+   El espacio entre los dos signos es un espacio de verdad, no un margen: en
+   una monoespaciada mide exactamente un carácter, que es lo que debe medir. */
+.volanta-signo { margin-right: 0.65rem; user-select: none; }
+.volanta-tilde { color: #6E8B84; }
+.volanta-punta { color: #4FC3AC; }
+
+/* Se revela animando el ANCHO en `ch`, no cortando la cadena: el texto está
+   entero en el DOM en todo momento. Es lo mismo que hace `.term-cmd`. */
+.volanta-txt {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: 0;
+}
+
+/* El cursor va como hermano y no como `::after` del texto: el texto tiene
+   `overflow: hidden` y se lo comería mientras el ancho es cero.
+
+   Por defecto va FIJO. Late sólo en la pausa entre que terminó de escribirse
+   la palabra y que empieza a borrarse, y late DOS veces exactas: eso es el
+   `2` del final, que es lo que separa esto de la terminal de Aplicaciones
+   —allá el cursor no para nunca, como en el original de cult-ui—.
+
+   Contar parpadeos obliga a que no late siempre: con `infinite`, cuántos
+   entran en la pausa depende de en qué momento del ciclo terminó la palabra,
+   y serían dos o tres según la palabra. La clase la pone y la saca
+   `volanta.js`, que espera exactamente 2 × 1,06 s. */
+.volanta-cursor {
+  display: inline-block;
+  width: 0.55em; height: 1.05em;
+  vertical-align: -0.2em;
+  background: #EAF2EF;
+}
+.volanta.latiendo .volanta-cursor {
+  animation: term-late 1.06s steps(1, end) 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Queda la frase entera, quieta, y el cursor sin latir. */
+  .volanta.latiendo .volanta-cursor { animation: none; }
+}
+
+.hero-copy > p:last-of-type { color: var(--ink-2); max-width: 52ch; }
+
+.acciones { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; margin-top: 0.5rem; }
+
+.acciones a {
+  font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 0.95rem 1.6rem; min-height: 44px;
+  display: inline-flex; align-items: center;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--void) 60%, transparent);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.acciones a:hover { border-color: var(--acento); color: var(--acento); }
+.acciones a:first-child { background: var(--acento); border-color: var(--acento); color: var(--claro); }
+.acciones a:first-child:hover { background: var(--bone); border-color: var(--bone); color: var(--void); }
+
+/* --- Rail de capítulos ------------------------------------------------- */
+
+#capitulos {
+  /* Más cerca del borde que el contenido: el `--gutter` llega a 3,5rem y ese
+     espacio le hace falta al texto, no al rail. */
+  position: fixed;
+  left: clamp(0.85rem, 0.4rem + 1.1vw, 1.75rem);
+  top: 50%; transform: translateY(-50%);
+  z-index: 30;
+  display: grid; gap: 0.5rem;
+}
+
+#capitulos a {
+  display: grid; grid-template-columns: 0.5rem auto; align-items: center; gap: 0.7rem;
+  font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-3); min-height: 26px;
+}
+#capitulos a::before {
+  content: ""; width: 0.5rem; height: 0.5rem;
+  border: 1px solid currentColor; transition: background-color 200ms var(--ease);
+}
+#capitulos a:hover { color: var(--ink-2); }
+#capitulos a[aria-current="true"] { color: var(--gold); }
+#capitulos a[aria-current="true"]::before { background: var(--gold); }
+
+/* El rail solo aparece cuando entra CON SUS ETIQUETAS. Antes había un modo
+   intermedio de marcadores sin etiqueta, y una columna de cuadraditos mudos no
+   navega nada: es ruido al costado del texto. O se lee o no está.
+
+   El corte sale de una cuenta, no del ojo: el rail mide ~121 px y arranca a
+   ~28 px del borde, así que termina en ~149. El contenido empieza en
+   `(ancho - 80rem) / 2`. Para dejar 24 px de aire hace falta
+   `(ancho - 1280) / 2 >= 173`, o sea 1626 px ≈ 102rem. Se redondea a 104.
+
+   ⚠️ Depende del ANCHO del rail: si se le agrega relleno o filete, hay que
+   rehacer esta cuenta y la del relleno de `.marcas`. */
+@media (max-width: 104rem) { #capitulos { display: none; } }
+
+/* --- Barra de estado --------------------------------------------------- */
+
+#estado {
+  position: fixed; inset: auto 0 0 0; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.7rem var(--gutter);
+  border-top: 1px solid var(--rule-2);
+  background: color-mix(in srgb, var(--void) 82%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-variant-numeric: tabular-nums;
+}
+#estado > * { display: flex; align-items: center; gap: 0.55rem; }
+#estado b { color: var(--gold); font-weight: 600; }
+
+.senal { width: 0.4rem; height: 0.4rem; background: var(--gold); border-radius: 50%; }
+@media (prefers-reduced-motion: no-preference) { .senal { animation: latir 2.4s var(--ease) infinite; } }
+@keyframes latir { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+@media (max-width: 56rem) { #estado .solo-ancho { display: none; } }
+
+/* --------------------------------------------------------------------------
+   9. Capítulos de contenido
+   -------------------------------------------------------------------------- */
+
+.cap {
+  /* SIN `z-index`: ver el contrato de apilado más arriba. El relleno opaco se
+     fue a `::before` justamente para poder sacarlo de acá — como fondo de la
+     sección quedaba por debajo de la escena 3D. */
+  position: relative;
+  padding: var(--rhythm) var(--gutter);
+  display: flex; flex-direction: column; gap: var(--rhythm-s);
+  align-items: stretch;
+  /* La cabecera es `position: fixed`, así que un ancla deja el arranque de la
+     sección debajo de la barra. `scroll-margin-top` corre el punto de frenado
+     lo que mide el cromo — y como usa la variable, sigue sola al breakpoint de
+     56rem, donde la cabecera crece a 5.5rem. */
+  scroll-margin-top: var(--alto-cabecera);
+}
+
+/* El relleno: tapa la escena 3D, deja pasar el campo de módulos. */
+.cap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* El fondo de la sección es una variable: cada variante de capítulo la
+     redefine y con eso cambia toda la sección, texto y cuadros incluidos. */
+  background-color: var(--cap-fondo, var(--void));
+}
+
+/* La malla vive dentro de un halo verde y se desvanece en el negro, como en
+   la textura original. La máscara radial es lo que la insinúa en vez de
+   imponerla. */
+.cap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(125% 62% at 50% 0%, var(--malla-halo) 0%, transparent 72%),
+    repeating-linear-gradient(to right,  var(--malla) 0 1px, transparent 1px var(--malla-paso)),
+    repeating-linear-gradient(to bottom, var(--malla) 0 1px, transparent 1px var(--malla-paso));
+  /* Todo en `scroll`: con las tramas en `fixed` la malla quedaba clavada al
+     viewport y el capítulo se deslizaba por encima de una grilla quieta. Tiene
+     que viajar con el contenido. */
+  background-attachment: scroll;
+  -webkit-mask-image: radial-gradient(115% 58% at 50% 0%, #000 0%, rgba(0,0,0,0.35) 42%, transparent 78%);
+  mask-image: radial-gradient(115% 58% at 50% 0%, #000 0%, rgba(0,0,0,0.35) 42%, transparent 78%);
+}
+
+
+.cap > * { position: relative; z-index: 2; max-width: calc(var(--shell)); margin-inline: auto; width: 100%; }
+
+/* El primer capítulo arranca opaco. Tuvo un degradado transparente para
+   "emerger" de la escena, pero por esa franja se veía la parte baja del
+   lienzo —donde están las piezas reflejadas en el plano— y cortado por el
+   borde de la sección parecía un espejo. Igual no hace falta: el velo del
+   hero ya termina en --void, así que la transición es continua sin él. */
+
+/* LA ONDA DE ENFOQUE. Va entre el relleno del capítulo (0) y el texto (2), en
+   la capa 1: por eso pisa el `z-index: 2` que `.cap > *` le pone a todo hijo
+   directo. Un `#id` gana sin trucos de orden.
+
+   El tamaño va EXPLÍCITO, como en `.haz`: un `<canvas>` es un elemento
+   reemplazado y con `inset` solo no se estira — se queda con sus 300×150 px
+   intrínsecos y se planta arriba a la izquierda.
+
+   `--onda-techo` es la intensidad y la lee `onda.js` de acá, no la trae
+   escrita. Es el único botón: 0 la apaga, 1 es la del pen a plena luz. */
+#onda {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%;
+  max-width: none; margin: 0;
+  display: block; pointer-events: none;
+  --onda-techo: 0.16;
+}
+
+.cap + .cap { border-top: 1px solid var(--rule-2); }
+
+/* El epígrafe SIEMPRE arriba del titular, nunca al costado.
+
+   Esto era una grilla de dos columnas —epígrafe a la izquierda, titular a la
+   derecha, alineados por la base—, y las secciones que van adentro de
+   `.cap-cols` o de `.cap-lado` lo apilaban por su cuenta. Resultado: Enfoque y
+   Arquitectura lo mostraban arriba, y Productos, Método, Aplicaciones, Roadmap
+   y Conversemos al lado. Dos tratamientos para lo mismo en la misma página.
+
+   Apilado en todas. Las dos reglas de más abajo que lo apilaban quedan sin
+   trabajo, pero se dejan: son las que fijan el hueco de 0.9rem en esos dos
+   contextos.
+
+   El bloque se alinea a la izquierda. La excepción es el cierre, que va
+   centrado entero —epígrafe, titular, párrafo y botones— y tiene su regla más
+   abajo. */
+.cap-cabeza {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  gap: 0.6rem; align-items: start;
+}
+.cap-cabeza > p { max-width: none; color: var(--acento); }
+
+/* Aplicaciones: el TITULAR centrado, el epígrafe donde está. Se centra sólo el
+   texto del h2 —no el bloque— así que el `05 / APLICACIONES` sigue arrancando
+   en la misma x que el de las otras seis secciones. */
+#aplicaciones .cap-cabeza > h2 { text-align: center; }
+
+/* Base: dos columnas, título a la izquierda y párrafos a la derecha. Enfoque
+   usa esta. NO va apilada: sin nada que ocupe la derecha —Arquitectura tiene el
+   mapa, Enfoque no— la sección queda medio vacía. */
+.cap-cols { display: flex; flex-wrap: wrap; gap: var(--rhythm-s) var(--rhythm); align-items: flex-start; }
+.cap-cols > .cap-cabeza { flex: 1 1 19rem; display: flex; flex-direction: column; gap: 0.9rem;
+  align-items: flex-start; }
+.cap-cols > .cap-cabeza > p { align-self: flex-start; }
+
+.cap-texto { flex: 1 1 27rem; display: flex; flex-direction: column; gap: 1.1rem; }
+.cap-texto > p { color: var(--ink-2); }
+.cap-texto > p:first-child {
+  font-size: var(--step-2); font-weight: 400; line-height: 1.3;
+  letter-spacing: -0.015em; color: var(--ink);
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem; }
+/* Relieve, sobre el `Neumorphism Button` de adamgiebl (uiverse.io, MIT).
+   La ilusión es que la pieza está extruida del fondo, iluminada desde arriba a
+   la izquierda: por eso el relleno tiene que ser EXACTAMENTE el color de la
+   sección, y la sombra y la luz salen de ese mismo color. Si el relleno no
+   coincide, se ve una caja pegada encima y no un relieve.
+
+   Sin `cursor: pointer` a propósito: no son enlaces ni hacen nada al hacer
+   clic. Reaccionan al mouse, que es lo que se buscaba, sin prometer que
+   llevan a algún lado. */
+.chip {
+  font-size: var(--step--2); font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-2);
+  padding: 0.62rem 1.05rem;
+  border-radius: var(--relieve-radio);
+  background: var(--relieve);
+  border: 1px solid var(--relieve);
+  box-shadow:  6px  6px 12px var(--relieve-sombra),
+              -6px -6px 12px var(--relieve-luz);
+  transition: box-shadow 220ms var(--ease), color 220ms var(--ease),
+              transform 220ms var(--ease);
+}
+/* Al pasar el mouse sube un poco y la sombra se alarga. Es la misma luz, sólo
+   cambia la distancia.
+
+   Y ahí termina. Tuvo un `:active` que lo hundía con sombras hacia adentro, y
+   eso contradecía lo que dice el comentario de arriba: un estado de apretado
+   promete que al soltar pasa algo, y no pasa nada. El chip reacciona a que
+   estás ahí, no invita a tocarlo. */
+.chip:hover {
+  color: var(--acento);
+  transform: translateY(-1px);
+  box-shadow:  9px  9px 18px var(--relieve-sombra),
+              -9px -9px 18px var(--relieve-luz);
+}
+
+.chip--oro { color: var(--acento); }
+
+
+.tarjetas {
+  position: relative;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: 1px; background: var(--gris-linea); border: 1px solid var(--gris-linea);
+}
+/* Los haces (`haz.js`): un lienzo por GRILLA, puesto DETRÁS de los cuadros.
+   Los cuadros son opacos, así que el haz solo puede asomar por la junta de
+   1 px que los separa — el recorte es físico, no dibujado, y no hay manera de
+   que el haz aparezca en el medio de un cuadro.
+
+   `inset: -1px` y no 0: se estira sobre el borde del módulo para que las reglas
+   de arriba y abajo también sean vía. En pantalla ancha cada grilla entra en
+   una sola fila y esas dos reglas son las ÚNICAS divisiones horizontales que
+   hay. */
+.haz {
+  position: absolute; top: -1px; left: -1px; z-index: 0;
+  /* El tamaño va EXPLÍCITO. `<canvas>` es un elemento reemplazado: con
+     `inset` solo, no se estira — se queda con su tamaño intrínseco de
+     300×150 px y se planta arriba a la izquierda, asomando por debajo de la
+     grilla. El componente original también lo dimensiona (`h-full w-full`).
+     El +2px es para cubrir el borde de 1 px del módulo. */
+  width: calc(100% + 2px); height: calc(100% + 2px);
+  display: block; pointer-events: none;
+}
+
+.tarjeta {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; gap: 0.8rem;
+  padding: clamp(1.4rem, 1rem + 1.3vw, 2.1rem);
+  background: var(--gris);
+  transition: background-color 220ms var(--ease);
+}
+.tarjeta:hover { background: var(--gris-alto); }
+.tarjeta > .hud { color: var(--acento); }
+.tarjeta p { color: var(--ink-2); }
+.tarjeta ul { display: grid; gap: 0.4rem; padding-top: 0.3rem; }
+.tarjeta li { font-size: 0.875rem; color: var(--ink-3); padding-left: 1.05rem; position: relative; }
+.tarjeta li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; background: var(--gold-dim); }
+.tarjeta > a:last-child {
+  align-self: flex-start; font-size: var(--step--2); font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--acento);
+  margin-top: auto; padding-top: 0.7rem; min-height: 44px;
+  display: inline-flex; align-items: flex-end;
+}
+.tarjeta > a:last-child:hover { color: var(--bone); }
+
+/* CINCO O UNA. Cinco pasos es primo: cualquier otro reparto deja huérfanos
+   —3+2 a 1100 px, 2+2+1 a 700— y cada paso arrastra su regla, así que la
+   huérfana queda con una línea colgando sola. Por encima de 72rem entran las
+   cinco en fila (regla más abajo); por debajo, apiladas. Apiladas las barras
+   quedan una sobre otra, que también se lee como progresión. */
+/* `perspective` acá y no en cada paso: puesta en el padre, las cinco tarjetas
+   giran vistas desde el MISMO punto de fuga y el volteo se lee como un solo
+   gesto. En cada hija, cada una tendría su propia perspectiva y girarían como
+   cinco objetos sueltos que casualmente hacen lo mismo. */
+.pasos { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 var(--rhythm-s); perspective: 1400px; }
+
+/* Vidrio esmerilado: las tarjetas se apoyan sobre la onda, y sin fondo el
+   degradado les pasaba por encima del texto. El desenfoque la deja verse
+   —sigue moviéndose detrás— pero aplanada, que es para lo que sirve. */
+.paso {
+  display: flex; flex-direction: column; gap: 0.55rem;
+  padding: 1.6rem 1.1rem; border-top: 1px solid var(--rule); position: relative;
+  /* Sin tinte: sólo el desenfoque. `backdrop-filter` no necesita fondo —
+     trabaja sobre lo que hay detrás—, así que la tarjeta es vidrio limpio. */
+  background: transparent;
+  -webkit-backdrop-filter: blur(10px) saturate(115%);
+  backdrop-filter: blur(10px) saturate(115%);
+}
+
+/* El índice de cada paso, para escalonar el volteo y la barra. */
+.paso:nth-child(1) { --i: 0; }
+.paso:nth-child(2) { --i: 1; }
+.paso:nth-child(3) { --i: 2; }
+.paso:nth-child(4) { --i: 3; }
+.paso:nth-child(5) { --i: 4; }
+
+/* El volteo, uno atrás del otro. `backwards` los deja de canto ANTES de su
+   turno: sin eso los cinco se ven planos al entrar y recién después se voltean,
+   que es el gesto al revés.
+
+   Y va con `.en-vista`, o sea que sin JavaScript —o con movimiento reducido—
+   las tarjetas están puestas y las barras llenas desde el principio. La
+   animación agrega, no sostiene. */
+#metodo.en-vista .paso {
+  /* El eje va por el CENTRO de la tarjeta, no por su borde de arriba: gira
+     sobre sí misma en vez de caer colgada de la regla. */
+  transform-origin: center center;
+  animation: paso-voltea 900ms var(--ease) backwards;
+  animation-delay: calc(var(--i) * 260ms);
+}
+@keyframes paso-voltea {
+  /* `rotateY`: el eje es VERTICAL y la tarjeta gira como una puerta. Con
+     `rotateX` el eje es horizontal y se vuelca hacia adelante, que es el
+     otro gesto. */
+  from { opacity: 0; transform: rotateY(-84deg); }
+  to   { opacity: 1; transform: none; }
+}
+/* La marca dorada sobre la regla NO es un adorno: es dónde estás parado en el
+   proceso. Antes los cinco pasos repetían el mismo 2.5rem —una barra al 25%
+   dibujada cinco veces—, que es ruido. Ahora crece: 20, 40, 60, 80, 100.
+
+   Dice lo que la sección argumenta. El paso 05 es «integramos y desplegamos
+   sólo después de validar el flujo»: una barra que se llena es exactamente eso,
+   que nada avanza hasta que lo anterior está.
+
+   Acá decía «SIN animación, y a propósito», para que el gesto de Roadmap no
+   quedara como un tic más de la página. Cambió por pedido de Leandro: ahora
+   cada barra se llena CUANDO SU TARJETA TERMINA DE VOLTEARSE, así que no son
+   dos efectos sueltos — es uno solo, la tarjeta cae y entonces el proceso
+   avanza. */
+.paso::before {
+  content: ""; position: absolute; top: -1px; left: 0;
+  width: var(--avance, 20%); height: 3px; background: var(--acento);
+  transition: width 220ms var(--ease);
+}
+/* La barra arranca en 0 y se llena DESPUÉS del volteo de su propia tarjeta:
+   el retardo es el de su volteo más la duración del volteo. `backwards` la
+   mantiene en 0 hasta que le toca; cuando la animación termina vuelve a mandar
+   el `width` estático, que ya vale lo mismo. */
+#metodo.en-vista .paso::before {
+  animation: paso-barra 560ms var(--ease) backwards;
+  animation-delay: calc(var(--i) * 260ms + 900ms);
+}
+@keyframes paso-barra {
+  from { width: 0; }
+  to   { width: var(--avance, 20%); }
+}
+
+.paso:nth-child(1) { --avance:  20%; --meta:  20; }
+.paso:nth-child(2) { --avance:  40%; --meta:  40; }
+.paso:nth-child(3) { --avance:  60%; --meta:  60; }
+.paso:nth-child(4) { --avance:  80%; --meta:  80; }
+.paso:nth-child(5) { --avance: 100%; --meta: 100; }
+
+/* EL NÚMERO QUE VIAJA EN LA PUNTA DE LA BARRA.
+
+   Un custom property no se puede animar salvo que esté DECLARADO con su tipo:
+   sin `@property`, el navegador lo trata como un texto cualquiera y salta de 0
+   al final sin pasar por el medio. Declarado como `<integer>`, interpola — y
+   `counter-reset` lo convierte en algo que `content` puede escribir. Es la
+   única forma de contar en CSS sin JavaScript.
+
+   Va en `::after` y arranca INVISIBLE, porque el número no es información que
+   la tarjeta tenga que dar: la barra ya dice dónde estás. El número existe
+   sólo mientras la barra crece, y se apaga al llegar.
+
+   Por eso también es `aria-hidden` de hecho: un `::after` no entra en el árbol
+   de accesibilidad como contenido, así que no hay nada que anunciar. */
+@property --pct {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.paso::after {
+  counter-reset: pct var(--pct);
+  content: counter(pct) "%";
+  position: absolute; top: 0.3rem; left: 0;
+  margin-left: 0.45rem;
+  font-size: 0.5625rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--acento);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* El `left` recorre lo mismo que el ancho de la barra y con los mismos
+   tiempos, así que el número va montado en la punta. Aparece enseguida, se
+   apaga sobre el final: cuando la barra llega a su número, el número ya no
+   está. */
+#metodo.en-vista .paso::after {
+  animation: paso-cuenta 560ms var(--ease) backwards;
+  animation-delay: calc(var(--i) * 260ms + 900ms);
+}
+@keyframes paso-cuenta {
+  0%   { --pct: 0;           left: 0;              opacity: 0; }
+  14%  {                                           opacity: 1; }
+  78%  {                                           opacity: 1; }
+  100% { --pct: var(--meta); left: var(--avance);  opacity: 0; }
+}
+.paso .hud { color: var(--acento); }
+.paso p { color: var(--ink-2); font-size: 0.9375rem; }
+
+/* `gap: 0`: los dos únicos hijos en flujo son el mapa y el tablero, y el
+   tablero va PEGADO al mapa. La separación de la columna con lo de arriba la
+   sigue dando el `margin-top` del propio mapa. */
+.arq { display: flex; flex-direction: column; gap: 0; margin-top: 0.4rem; }
+.arq-nucleo { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem 1.2rem; padding: 1.3rem; border: 1px solid var(--gris-linea); background: var(--gris); }
+.arq-nucleo > strong { font-size: var(--step-2); font-weight: 600; letter-spacing: 0.06em; color: var(--acento); line-height: 1; }
+.arq-nucleo > small { margin-right: auto; }
+/* Fuera de la vista, dentro del documento. No se usa `display: none` ni
+   `visibility: hidden`: las dos lo sacan también del árbol de accesibilidad, y
+   lo que se busca es lo contrario — que el lector de pantalla SÍ lo encuentre. */
+.solo-lectores {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden; white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+/* El tablero de LEDs, directamente sobre el capítulo — sin caja.
+
+   Tuvo una tira oscura mientras los puntos eran verde de terminal, porque ese
+   verde sobre el claro de la sección da 1,80:1 y es ilegible. Con los puntos
+   en gris el problema desaparece: `--ink-2` da 4,67:1 sobre el mismo fondo, y
+   es el gris del párrafo de al lado. Los apagados van en `--rule`, 1,20:1: se
+   leen como trama, no compiten.
+
+   Los dos colores los lee `tablero.js` del CSS, así que el tablero sigue al
+   capítulo si alguna vez le cambian la paleta.
+
+   El ancho sale solo: es hermano del mapa dentro de `.arq`. */
+.tablero {
+  /* Pegado al mapa, sin caja propia: los puntos apoyan directamente contra el
+     borde inferior del mapa. */
+  margin-top: 0;
+  padding: 0;
+  overflow: hidden;
+
+  /* Los dos grises del letrero, acá y no en el JS, que los lee de estas dos
+     variables. Es un ADORNO: repite palabras que ya están escritas en
+     `.arq-cadena`, que sigue en el documento para los lectores de pantalla.
+     Por eso se pueden aclarar por debajo del mínimo de un texto.
+
+     Están ACLARADOS a propósito hasta el umbral de lo perceptible: 1,59:1
+     contra el fondo. Se buscaba que apenas se vean.
+
+     Los dos se aclararon JUNTOS. El número que gobierna si las letras se
+     distinguen de la trama no es encendido contra el fondo sino encendido
+     contra apagado —hoy 1,46:1—; bajando sólo el primero, el letrero se
+     desarma en un campo de puntos parejo antes de volverse tenue. */
+  --led:     #B6C0BC;
+  --led-off: #E0E5E2;
+  line-height: 0;      /* el canvas es en línea: sin esto deja un hueco abajo */
+}
+.tablero canvas { display: block; }
+
+
+.arq-cadena { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem 0.7rem; }
+.arq-cadena > span {
+  font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-2); padding: 0.55rem 0.85rem; border-bottom: 2px solid var(--rule);
+}
+.arq-cadena > i { font-style: normal; color: var(--acento); font-size: 0.6rem; }
+
+.etapa {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 1rem;
+  padding: 1.05rem 1.3rem; border-left: 3px solid var(--acento);
+  /* SIN `max-width: none`: se salía de la caja central y arrancaba pegada al
+     borde, justo donde vive el rail de capítulos. Medido: el contenido empezaba
+     exactamente en la misma x que el rail, en todos los anchos. */
+  background: var(--gris);
+}
+.etapa strong { font-size: var(--step-1); font-weight: 600; }
+
+.capacidades {
+  position: relative;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 1px; background: var(--gris-linea); border-block: 1px solid var(--gris-linea);
+}
+.capacidad { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 0.2rem; padding: 1.15rem 1.3rem; background: var(--gris-hondo); max-width: none; }
+.capacidad strong { font-weight: 600; font-size: var(--step-0); }
+.capacidad small { font-size: 0.8125rem; color: var(--ink-3); }
+
+.medicion {
+  flex: 1 1 100%;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  gap: 1px; background: var(--gris-linea); border: 1px solid var(--gris-linea);
+  /* Sin `margin-top`: el pie ya separa sus filas con `gap: var(--rhythm-s)`, y
+     el margen lo duplicaba — 96 px entre el copyright y la medición. */
+  font-variant-numeric: tabular-nums;
+}
+/* En UNA línea, etiqueta y número al lado, como la barra de estado. Apiladas
+   la fila medía 83 px; así queda en el mismo registro que el cromo fijo. */
+.medicion > div {
+  background: var(--gris-hondo); padding: 0.5rem 1rem;
+  display: flex; flex-direction: row; align-items: baseline; gap: 0.6rem;
+}
+.medicion dt { font-size: 0.625rem; color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase; }
+.medicion dd { margin: 0; font-size: var(--step--1); font-weight: 600; color: var(--acento); }
+
+.pie-marca { display: flex; flex-direction: column; gap: 0.9rem; flex: 1 1 20rem; }
+.pie-links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; flex: 1 1 18rem; }
+body > footer > .hud { flex: 1 1 100%; }
+
+/* --------------------------------------------------------------------------
+   10. Adaptación
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 72rem) {
+  .pasos, #aplicaciones .tarjetas, .capacidades { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+@media (max-width: 48rem) {
+  .cap-cabeza { grid-template-columns: 1fr; gap: 0.4rem; }
+  body > header { align-items: flex-start; }
+  #hero { min-height: 92svh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body > header, #estado, #capitulos, #escena, #precarga, .medicion { display: none !important; }
+  body { background: #fff; color: #000; }
+}
+
+/* --------------------------------------------------------------------------
+   12. Variantes de capítulo
+   -------------------------------------------------------------------------- */
+
+/* El sitio original alterna claro y oscuro sección por sección; el nuestro era
+   oscuro de punta a punta y por eso se leía apagado. Acá la variante no toca
+   ninguna regla de componente: redefine TOKENS dentro del capítulo y con eso
+   arrastra el texto, los cuadros, las juntas, la malla, el acento y hasta el
+   color del haz.
+
+   ⚠️ Los cuadros tienen que quedar OPACOS en todas las variantes. El lienzo de
+   los haces va detrás de ellos y son ellos los que lo recortan: un cuadro
+   translúcido deja ver el haz de punta a punta, que es justo lo que se sacó. */
+
+.cap--claro,
+.cap--claro-2 {
+  --cap-fondo:   var(--claro);
+  --ink:         var(--tinta);
+  --ink-2:       var(--tinta-2);
+  --ink-3:       var(--tinta-3);
+  --rule:        var(--linea);
+  --rule-2:      var(--linea-2);
+  --acento:      #7A6032;     /* el oro de marca sobre claro da 2,2:1 */
+  --gris:        #FFFFFF;     /* el cuadro, un paso más claro que la sección */
+  --gris-alto:   var(--claro-3);
+  --gris-hondo:  var(--claro-2);
+  --gris-linea:  var(--linea);
+  --malla:       rgba(23, 34, 29, 0.05);
+  --malla-halo:  transparent;
+  --relieve:        var(--claro);
+  --relieve-sombra: #D3D8D4;
+  --relieve-luz:    #FFFFFF;
+  --haz-h:       122, 96, 50;
+  --haz-v:       33, 91, 70;
+  color: var(--ink);
+}
+
+.cap--claro-2 {
+  --cap-fondo: var(--claro-2);
+  --relieve:        var(--claro-2);
+  --relieve-sombra: #C9CFCB;
+  --gris:      var(--claro);
+  --gris-hondo: #E1E7E3;
+}
+
+/* El azul profundo del manual, que en el original es la sección de productos. */
+.cap--azul {
+  --cap-fondo:  var(--navy);
+  --gris:       #152B3D;
+  --gris-alto:  #1B3347;
+  --gris-hondo: #122435;
+  --gris-linea: #23394C;
+  --rule:       rgba(244, 246, 245, 0.14);
+  --rule-2:     rgba(244, 246, 245, 0.10);
+  --ink-2:      #9DABB0;
+  --ink-3:      #7F8D93;
+  --malla:      rgba(244, 246, 245, 0.028);
+  --malla-halo: transparent;
+}
+
+/* El cierre: el degradado verde→azul del original. Va en `::before`, que es
+   donde vive el relleno de la sección. */
+/* El cierre va centrado —titular, párrafo y botones— PERO el epígrafe no: ése
+   arranca a la izquierda, en la misma x que el de las otras seis secciones.
+   Así el `07 / CONVERSEMOS` sigue la serie de la página y lo que cambia de eje
+   es sólo el bloque que pide la acción. */
+.cap--cierre {
+  --malla: transparent;
+  --malla-halo: transparent;
+  text-align: center;
+}
+.cap--cierre::before {
+  background-image: linear-gradient(120deg, var(--green) 0%, var(--navy) 100%);
+}
+.cap--cierre .cap-cabeza { justify-items: center; }
+.cap--cierre .cap-cabeza > .hud { justify-self: start; text-align: start; }
+.cap--cierre .cap-cabeza,
+.cap--cierre > p { margin-inline: auto; }
+
+/* --------------------------------------------------------------------------
+   13. La tira de capacidades, al pie del hero
+   -------------------------------------------------------------------------- */
+
+/* Como en el original: cinco capacidades separadas por filetes, sobre la
+   escena, sin relleno. Es la misma `.capacidades` de antes —mismo marcado—
+   pero sin la caja: acá el fondo es la escena 3D y taparla sería un desperdicio. */
+#hero > .tira {
+  grid-row: 3;
+  position: relative; z-index: 2;
+  width: 100%; max-width: var(--shell); margin-inline: auto;
+  /* Cuatro exactas, no `auto-fit`: con `auto-fit` el navegador arma tantas
+     columnas como entren —ocho a 1440 px— y las capacidades quedan apretadas a
+     la izquierda con huecos al costado. Eran cinco hasta que salió Plataforma. */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid rgba(244, 246, 245, 0.12);
+}
+/* --------------------------------------------------------------------------
+   La terminal de Aplicaciones
+   --------------------------------------------------------------------------
+   Reemplaza a las cinco tarjetas que había acá: los títulos son las pestañas y
+   lo que decía cada tarjeta lo escribe la terminal.
+
+   Copia del `terminal-animation` de cult-ui, incluido lo que se me había
+   escapado en el primer intento: la barra de pestañas va ABAJO y CENTRADA, en
+   pastillas —no arriba, en solapas—, y la ventana ENTRA DESLIZÁNDOSE desde
+   abajo cuando aparece en pantalla.
+
+   Trae la segunda tipografía del sitio, monoespaciada de la pila del sistema:
+   una terminal sin mono no es una terminal, no suma un archivo, y el `ch` que
+   anima el tipeo sólo es exacto con ancho fijo.
+   -------------------------------------------------------------------------- */
+
+/* La sección pierde su relleno de abajo: la ventana tiene que APOYARSE en el
+   borde inferior. No es un capricho de encuadre — de ahí nace el movimiento.
+   La ventana sube desde ese borde, y por eso el original la redondea sólo
+   arriba y la deja viva abajo. Con aire muerto debajo, sube hacia la nada y el
+   gesto no se lee.
+
+   El relleno de arriba y los laterales no se tocan: la sección conserva su
+   ritmo con las vecinas. */
+#aplicaciones { padding-bottom: 0; }
+
+.terminal {
+  /* Antes acá vivía la pila del sistema, y eso significaba que la terminal NO
+     tenía tipografía elegida: usaba lo que el `fontconfig` de cada visitante
+     devolviera para `monospace`. En la máquina de Leandro eso resolvía a
+     Px437 IBM VGA 8x16, una tipografía de mapa de bits; en una Mac, Menlo; en
+     Windows, Consolas. Tres visitantes, tres terminales.
+
+     La pila queda DETRÁS como reserva, por si el archivo no carga. */
+  /* La familia vive en `:root`: la usan la terminal de 05 y la volanta del
+     hero, y las dos tienen que ser la misma terminal. */
+  margin-top: var(--rhythm-s);
+  /* 43rem es el ancho del demo original (`max-w-[43rem]`), y no es arbitrario:
+     una terminal se lee en columna angosta. A todo el ancho del capítulo, las
+     líneas quedan flotando a la izquierda de un campo negro enorme —que es lo
+     que pasaba— y el ojo no encuentra dónde apoyarse.
+
+     Pisa el `max-width` de `.cap > *` por orden en la hoja, no por
+     especificidad: las dos reglas valen lo mismo y gana la última. */
+  max-width: 43rem;
+  /* Recorta el marco mientras entra desde abajo. Sin esto, los 16rem de
+     desplazamiento inicial estiran la página. */
+  overflow: hidden;
+  font-family: var(--term-mono);
+}
+
+.term-marco {
+  display: flex;
+  flex-direction: column;
+  background: #071310;
+  border: 1px solid #14332C;
+  /* `rounded-t-xl` del original: redondeado arriba, vivo abajo. La ventana
+     está pensada para apoyarse en el borde inferior. */
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+/* La entrada. `translateY(16rem)` y la curva son los del original
+   —`translate-y-64`, `cubic-bezier(0.16, 1, 0.3, 1)`, un segundo—: arranca
+   rápido y frena largo, que es lo que la hace ver pesada en vez de saltada. */
+.term-marco {
+  transform: translateY(16rem);
+  transition: transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.terminal.visible .term-marco { transform: translateY(0); }
+
+/* Alto fijo para las caras: sin esto la barra de pestañas sube y baja según
+   cuántas líneas tenga la pestaña elegida, y la barra es justo lo que el
+   visitante está por tocar. */
+/* 22rem de contenido más la barra dan una ventana de unas 26rem, cerca de las
+   28 del original. Alto FIJO y no según el contenido: sin esto la barra de
+   pestañas sube y baja según cuántas líneas tenga la elegida, y la barra es
+   justo lo que el visitante está por tocar. */
+.term-caras {
+  flex: 1;
+  min-height: 22rem;
+  padding: 1.6rem 1.75rem 0.9rem;
+}
+/* Acá estuvo la marca en ASCII —la grilla del logotipo dibujada con bloques,
+   con interlínea 1 para que las filas se fundieran en columnas—. Se sacó: el
+   logotipo ya está en el encabezado de la página y repetirlo adentro de la
+   terminal lo gastaba. Con él se fueron `.term-acento` y el uso de
+   `.term-tenue` en el cartel. */
+
+.term-panel { overflow-x: auto; }
+.term-panel:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.term-panel > p,
+.term-salida > p {
+  margin: 0;
+  white-space: pre;
+  /* 14,5px. Venía de 13 y quedaba chico contra el titular de la sección. */
+  font-size: 0.90625rem;
+  line-height: 1.9;
+  color: #8FA8A2;
+}
+
+.term-signo { color: #55706A; margin-right: 0.65rem; user-select: none; }
+
+/* El tipeo anima el ANCHO en `ch`, no corta la cadena: así el texto está
+   entero en el DOM desde el principio y un lector de pantalla encuentra la
+   orden completa en vez de una línea a medio escribir. El original tipea con
+   `command.slice(0, n)` y pierde eso. */
+.term-cmd {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: 0;
+  color: #EAF2EF;
+}
+
+.term-linea { opacity: 0; transition: opacity 240ms var(--ease); }
+.term-linea.on { opacity: 1; }
+.term-hueco { line-height: 0.9; }
+
+/* El cursor de bloque: en la orden mientras escribe, y en el prompt final
+   cuando terminó. En el original nunca se apaga (`hideCursorOnComplete` en
+   falso) y late para siempre. */
+.term-orden::after,
+.term-cola::after {
+  content: "";
+  display: none;
+  width: 0.55em; height: 1.05em;
+  vertical-align: -0.2em;
+  background: #EAF2EF;
+}
+.term-panel.tipeando .term-orden::after,
+.term-panel.listo .term-cola::after {
+  display: inline-block;
+  animation: term-late 1.06s steps(1, end) infinite;
+}
+.term-cola { opacity: 0; transition: opacity 240ms var(--ease); }
+.term-panel.listo .term-cola { opacity: 1; }
+@keyframes term-late { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+/* --- La barra de pestañas, abajo y centrada ------------------------------ */
+
+.term-barra { display: flex; justify-content: center; padding: 0 1rem 1.5rem; }
+
+.term-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px;
+  border: 1px solid #1B3B34;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.term-tabs::-webkit-scrollbar { display: none; }
+
+/* Las pestañas NO van en monoespaciada aunque el original lo haga: no son
+   salida de terminal, son navegación. Llevan el mismo tratamiento que el menú
+   del encabezado —Hanken Grotesk, versalitas, 0.16em de espaciado, peso 600—
+   para que se lean como parte del sitio y no como un widget pegado.
+
+   Así la monoespaciada queda acotada a lo único que de verdad la necesita: lo
+   que la terminal escribe. */
+.term-tab {
+  flex: 0 0 auto;
+  appearance: none;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.45rem 0.85rem;
+  background: none;
+  font-family: var(--sans);
+  font-size: var(--step--2);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6E8580;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease), color 150ms var(--ease);
+}
+.term-tab:hover { color: #C7D6D1; }
+/* La pastilla activa: clara sobre el fondo oscuro, como en el original. */
+.term-tab.on { background: var(--bone); color: #0A1B17; }
+.term-tab:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+@media (max-width: 40rem) {
+  .term-caras { padding: 1.15rem 1.1rem 0.8rem; min-height: 13rem; }
+  .term-panel > p, .term-salida > p { font-size: 0.84rem; }
+  .term-tab { padding: 0.4rem 0.6rem; letter-spacing: 0.1em; }
+}
+
+/* Movimiento reducido: la ventana ya está en su lugar y `terminal.js` deja las
+   líneas puestas. Queda el cursor quieto, que es un rasgo del objeto, no una
+   animación de entrada. */
+@media (prefers-reduced-motion: reduce) {
+  .term-marco { transform: none; transition: none; }
+  .term-linea, .term-cola { transition: none; }
+  .term-panel.tipeando .term-orden::after,
+  .term-panel.listo .term-cola::after { animation: none; }
+}
+
+
+/* Acá hubo un desenfoque progresivo detrás de la tira —dos capas de
+   `backdrop-filter` con máscaras solapadas, de nada arriba a todo abajo—.
+   Se sacó: costaba desenfocar un canvas vivo en cada cuadro y no aportaba
+   nada visible sobre una escena que ya es oscura en esa zona.
+
+   O sea que la regla escrita más arriba —el vidrio va SÓLO fuera del hero—
+   se probó y se confirmó. No volver a intentarlo sin una razón nueva. */
+
+#hero > .tira > .capacidad {
+  background: none;
+  /* Icono a la izquierda y las dos líneas al lado, como en el original. */
+  flex-direction: row; align-items: center;
+  gap: 0.8rem;
+  padding: clamp(0.9rem, 0.7rem + 0.6vw, 1.35rem) 1rem;
+  border-right: 1px solid rgba(244, 246, 245, 0.09);
+}
+#hero > .tira > .capacidad:first-child { padding-left: 0; }
+#hero > .tira > .capacidad:last-child  { border-right: 0; }
+#hero > .tira > .capacidad > span { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+#hero > .tira strong { font-size: var(--step--1); font-weight: 600; }
+#hero > .tira small  { font-size: var(--step--2); color: var(--ink-3); }
+
+/* Iconos de Lucide (ISC), incrustados. Toman el color del capítulo por
+   `currentColor`, que es justamente lo que un `<img>` no puede hacer. */
+.icono {
+  flex: 0 0 auto;
+  width: 1.55rem; height: 1.55rem;
+  color: var(--acento);
+  overflow: visible;
+}
+/* Los de las tarjetas de productos: más grandes que los de la tira del hero,
+   porque ahí acompañan a un texto en la misma línea y acá encabezan la tarjeta
+   solos. Toman `--acento` de `.icono`, que en el capítulo azul es el oro —el
+   mismo del `01 · MVP FUNCIONAL` que va justo abajo—, así que el icono y su
+   epígrafe se leen como una sola cosa.
+
+   SIN animación propia. La tarjeta ya reacciona al mouse cambiando de fondo;
+   sumarle un movimiento al icono sería un segundo efecto para el mismo gesto.
+   Si alguna vez se anima, que sea una y que signifique algo. */
+.icono--prod {
+  width: 2rem; height: 2rem;
+  margin-bottom: 0.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Pantallas anchas y BAJAS
+   --------------------------------------------------------------------------
+   En un FHD de 1920x1080 el viewport útil son unos 937 px, y tres secciones no
+   entraban: productos por 76, arquitectura por 152, roadmap por 107.
+
+   El ritmo entre secciones está en `clamp(..., 10.5rem)`, o sea 168 px arriba
+   y 168 abajo: 336 px de aire, más de un tercio de la pantalla. Esa clamp
+   crece con el ANCHO, que es la medida equivocada acá — el problema no es que
+   la pantalla sea angosta, es que es baja.
+
+   Así que el corte mira el alto. En un monitor alto el ritmo queda como está.
+   -------------------------------------------------------------------------- */
+@media (min-width: 72rem) and (max-height: 62rem) {
+  :root {
+    --rhythm: 5.5rem;
+    /* El titular del hero también se acota. A 112 px envuelve a cuatro
+       renglones y el hero pasa de 813 a 883: la tira de capacidades se metía
+       35 px debajo de la barra de estado. Los titulares de sección no se
+       tocan — el hero es el único que compite con cromo fijo arriba y abajo. */
+    --step-4: clamp(3rem, 2rem + 4.4vw, 5.5rem);
+  }
+  /* El mapa se dimensiona por `aspect-ratio`, así que en pantalla ancha crece
+     a lo alto sin que nada lo frene: 525 px a 1920.
+
+     Se acota el ANCHO y no el alto. Con `max-height` la caja deja de ser 5:4
+     —quedaba 699x384— y las dos órbitas, que son `border-radius: 50%`, se
+     vuelven elipses. Acotando el ancho el mapa se achica entero.
+
+     Y el techo va en `.arq`, no en `.mapa`: el tablero de LEDs es su hermano y
+     tiene que seguir midiendo lo mismo. Acotando sólo el mapa quedaban 400
+     contra 699 y dejaban de leerse como una sola caja. */
+  .cap-cols--par > .arq { max-width: 30rem; margin-inline: auto; }
+}
+
+/* --------------------------------------------------------------------------
+   Las etapas de Roadmap
+   --------------------------------------------------------------------------
+   Cuatro estados del MISMO módulo cuadrado del isotipo: 1 · 2 · 4 · 9. Lo que
+   cambia entre tarjeta y tarjeta es cuántos hay y qué tan alineados están, no
+   qué tan intrincados son — el módulo mide siempre 6 y nunca se deforma.
+
+   La primera etapa va girada siete grados: el prototipo funciona pero está
+   torcido. De ahí en adelante, todo a escuadra.
+
+   Es a propósito lo contrario de «va volviéndose más complejo». La página
+   argumenta que no se suma complejidad porque sí, y la progresión real de
+   Roadmap no es de simple a intrincado: es de uno suelto a muchos iguales.
+   Eso es lo que dicen «producto replicable» y «escala multi-cliente».
+   -------------------------------------------------------------------------- */
+.modulos {
+  width: 2rem; height: 2rem;
+  /* Los módulos van OSCUROS, del color de la tinta del capítulo. Estaban en
+     `--acento` —oro— y con eso los cuatro iconos eran una mancha dorada que
+     competía con los números y los títulos. */
+  fill: var(--tinta);
+  /* El que se enciende. NO es `--acento`: en un capítulo claro eso vale
+     #7A6032, un oro apagado a propósito para que el TEXTO llegue a 4,5:1.
+     Esto no es texto, es un adorno, y puede usar el oro real del manual. */
+  --modulo-on: #C9A15B;
+  flex: 0 0 auto;
+  margin-bottom: 0.1rem;
+}
+
+/* ⚠️ `:nth-of-type` y NO `:nth-child`. `haz.js` inyecta un `<canvas class="haz">`
+   como PRIMER HIJO de `.tarjetas`, así que las cuatro tarjetas son los hijos 2
+   a 5. Con `nth-child` todo quedaba corrido una posición: la etapa 1 recibía la
+   animación de dos módulos, la 4 no recibía ninguna. `nth-of-type` cuenta sólo
+   entre `<article>`, y el canvas deja de estorbar.
+
+   La primera etapa es UN módulo: no hay gris por donde viajar, así que queda
+   encendido. Es el prototipo — uno, y andando. */
+#roadmap .tarjeta:nth-of-type(1) .modulos rect { fill: var(--modulo-on); }
+
+/* En las otras tres el módulo encendido RECORRE la grilla.
+
+   El ciclo dura lo mismo en las tres —4,2 s—, así que cuantos más módulos hay
+   más rápido salta: la etapa de nueve se lee como un barrido y la de dos como
+   un pulso lento. La progresión de la sección contada por la velocidad, que es
+   de lo que habla la sección.
+
+   Corre sólo con la sección en pantalla, como todo lo demás del sitio. */
+#roadmap.en-vista .tarjeta:nth-of-type(2) .modulos rect { animation: modulo-2 4200ms var(--ease) infinite; }
+#roadmap.en-vista .tarjeta:nth-of-type(3) .modulos rect { animation: modulo-4 4200ms var(--ease) infinite; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect { animation: modulo-9 4200ms var(--ease) infinite; }
+
+#roadmap.en-vista .tarjeta:nth-of-type(2) .modulos rect:nth-of-type(2) { animation-delay: 2100ms; }
+
+/* 2×2: en el DOM las celdas van TL, TR, BL, BR. Con ese orden el encendido
+   salta en diagonal de TR a BL y se ve como un parpadeo, no como un
+   recorrido. Los retardos lo mandan en círculo: TL → TR → BR → BL. */
+#roadmap.en-vista .tarjeta:nth-of-type(3) .modulos rect:nth-of-type(2) { animation-delay: 1050ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(3) .modulos rect:nth-of-type(4) { animation-delay: 2100ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(3) .modulos rect:nth-of-type(3) { animation-delay: 3150ms; }
+
+/* 3×3: barrido por filas, que es el orden del DOM. */
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(2) { animation-delay:  467ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(3) { animation-delay:  933ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(4) { animation-delay: 1400ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(5) { animation-delay: 1867ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(6) { animation-delay: 2333ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(7) { animation-delay: 2800ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(8) { animation-delay: 3267ms; }
+#roadmap.en-vista .tarjeta:nth-of-type(4) .modulos rect:nth-of-type(9) { animation-delay: 3733ms; }
+
+/* El encendido SUBE rápido y BAJA lento, como los módulos del precargador
+   —que no saltan de un color al otro, se funden con `transition: 240ms
+   var(--ease)`—. Acá el mismo gesto en keyframes:
+
+     sube en un tercio de su turno · se sostiene hasta el final del turno ·
+     se apaga en el doble de tiempo que tardó en prender
+
+   La bajada se solapa con la subida del módulo siguiente, y ese solape es lo
+   que hace que se lea como un cuadro QUE VIAJA y no como luces que parpadean
+   por turnos: siempre hay uno encendido y otro apagándose atrás.
+
+   Los porcentajes cambian con N porque el turno de cada módulo es 1/N del
+   ciclo: a más módulos, turno más corto, y el mismo gesto comprimido. */
+@keyframes modulo-2 {
+  0%   { fill: var(--tinta); }
+  17%  { fill: var(--modulo-on); }
+  50%  { fill: var(--modulo-on); }
+  83%  { fill: var(--tinta); }
+  100% { fill: var(--tinta); }
+}
+@keyframes modulo-4 {
+  0%   { fill: var(--tinta); }
+  8%   { fill: var(--modulo-on); }
+  25%  { fill: var(--modulo-on); }
+  42%  { fill: var(--tinta); }
+  100% { fill: var(--tinta); }
+}
+@keyframes modulo-9 {
+  0%   { fill: var(--tinta); }
+  3.7% { fill: var(--modulo-on); }
+  11%  { fill: var(--modulo-on); }
+  24%  { fill: var(--tinta); }
+  100% { fill: var(--tinta); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* La regla global deja la duración en nada, así que las animaciones terminan
+     en su último cuadro: TODO oscuro y ningún módulo encendido. Se deja el
+     primero prendido a mano, que es el estado quieto que tiene sentido. */
+  #roadmap .modulos rect:nth-of-type(1) { fill: var(--modulo-on); }
+}
+
+/* La entrada: las cuatro etapas aparecen EN ORDEN cuando la sección entra en
+   pantalla, y una sola vez. Es un gesto orquestado —la progresión ocurriendo—
+   y no cuatro efectos sueltos reaccionando cada uno por su lado.
+
+   Sin JavaScript se ven igual: el estado por defecto es visible y la animación
+   sólo corre cuando `app.js` marca la sección. Y con movimiento reducido, la
+   regla global deja la duración en nada, así que aparecen y listo. */
+#roadmap.en-vista .modulos {
+  animation: etapa-entra 420ms var(--ease) backwards;
+  animation-delay: calc(var(--paso) * 130ms);
+}
+@keyframes etapa-entra {
+  from { opacity: 0; transform: translateY(6px) scale(0.92); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* El módulo activado del isotipo: una de las cuatro celdas, llena. */
+.icono--grilla rect:nth-of-type(2) { fill: currentColor; }
+
+/* --------------------------------------------------------------------------
+   14. El cromo fijo sobre secciones claras
+   -------------------------------------------------------------------------- */
+
+/* El encabezado, el rail y la barra de estado son `fixed`: quedan fuera de la
+   sección y no heredan sus tokens. Sobre un capítulo claro, texto hueso sobre
+   claro desaparece.
+
+   `app.js` marca un tono POR PIEZA en el `body` —`data-tono-cab`,
+   `data-tono-rail`, `data-tono-barra`— y acá basta con INTERCAMBIAR dos tokens
+   —`--void` y `--bone`— para que cada una se dé vuelta entera, botón e isotipo
+   incluidos. No hace falta reescribir ninguna regla. */
+/* Un tono POR PIEZA, y cada una mira lo que tiene detrás en el lugar donde
+   está: el encabezado lo que cruza su borde inferior, el rail el medio del
+   viewport —ocupa todo el alto—, y la barra lo que tiene justo encima. Con una
+   sola respuesta para las tres, el encabezado quedaba claro sobre el hero
+   oscuro y la barra tomaba el tono de una sección que ni siquiera se veía
+   abajo. */
+body[data-tono-cab="claro"] > header,
+body[data-tono-rail="claro"] #capitulos,
+body[data-tono-barra="claro"] #estado {
+  --void:   var(--claro);
+  --bone:   var(--tinta);
+  --ink:    var(--tinta);
+  --ink-2:  var(--tinta-2);
+  --ink-3:  var(--tinta-3);
+  --gold:   #7A6032;
+  --rule:   var(--linea);
+  --rule-2: var(--linea-2);
+  color: var(--tinta);
+}
+
+/* --------------------------------------------------------------------------
+   15. Disposición de las tarjetas
+   -------------------------------------------------------------------------- */
+
+/* Las tarjetas de productos ENVUELVEN.
+
+   Acá vivió un riel: una sola fila que se corría en horizontal cuando no
+   entraba, con `container-type: inline-size` y `grid-auto-flow: column`. El
+   scroll lo hacía el envoltorio y no la grilla, porque el lienzo de los haces
+   va posicionado adentro y si la grilla se desplazaba, los haces se quedaban
+   atrás y caían fuera de las juntas.
+
+   Se fue: envolviendo, las tarjetas entran en el ancho de la página y nadie
+   tiene que descubrir que hay contenido corrido al costado. `.tarjetas` ya
+   envuelve sola —`auto-fit` con mínimo de 17rem—, así que `.tarjetas--fila`
+   se queda sin overrides y el riel sin trabajo.
+
+   Vuelve a haber celdas vacías cuando la última fila no se completa, que es
+   justo lo que el recorte de `haz.js` sabe manejar: recorta a la caja de cada
+   tarjeta, así que un hueco no deja pasar el haz. */
+.riel { min-width: 0; }
+
+/* CUATRO, DOS O UNA. Nunca tres.
+
+   `auto-fit` arma todas las columnas que entren, y con cuatro tarjetas eso
+   incluye el 3 — que deja una huérfana sola al lado de una celda vacía del
+   tamaño de dos tarjetas. Es el único reparto de los cuatro posibles que se ve
+   roto, y el navegador no tiene forma de saberlo.
+
+   Así que las columnas no se negocian: se declaran por tramo, y el 3 no está
+   en la lista. Vale para las dos grillas de cuatro tarjetas que tiene el
+   sitio, productos y roadmap.
+
+   Los cortes salen de la medida, no del gusto: una tarjeta deja de leerse por
+   debajo de unas 17rem. A 73rem de viewport la grilla mide ~1090 px, que es lo
+   que necesitan cuatro; a 40rem mide ~580, que alcanza para dos. */
+#productos .tarjetas,
+#roadmap .tarjetas {
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 40rem) {
+  #productos .tarjetas,
+  #roadmap .tarjetas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 73rem) {
+  #productos .tarjetas,
+  #roadmap .tarjetas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Dos y no tres: con cuatro capacidades, tres columnas dejan una huérfana sola
+   en la segunda fila. Dos dan un 2x2 parejo. */
+@media (max-width: 64rem) { #hero > .tira { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Ventanas bajas: a 633 px de alto el hero desbordaba 141 px y la tira se iba
+   abajo del pliegue. El que ocupa es el h1 a tres líneas, así que acá se achica
+   la tipografía y los huecos en vez de recortar contenido, y el hero deja de
+   exigir la pantalla entera. */
+@media (max-height: 46rem) {
+  #hero {
+    min-height: auto;
+    row-gap: clamp(0.9rem, 0.6rem + 1vw, 1.4rem);
+  }
+  .hero-copy { gap: 0.7rem; }
+  .hero-copy h1 { font-size: clamp(1.9rem, 1.2rem + 2.4vw, 2.9rem); }
+  .hero-copy > p:last-of-type { font-size: var(--step-0); }
+  #hero > .tira > .capacidad { padding-block: 0.7rem; }
+}
+
+/* --------------------------------------------------------------------------
+   El menú de hamburguesa
+   --------------------------------------------------------------------------
+   Por debajo de 48rem el menú envolvía debajo de la marca y el encabezado
+   pasaba de 80 a 123 px —medido—. Como el encabezado es `fixed`, esos 43 px de
+   más se los come el contenido en todas las pantallas chicas.
+
+   El botón sólo existe ahí abajo. Arriba, el menú es el de siempre.
+
+   El panel toma `var(--void)` OPACO y no el degradado del encabezado: abierto
+   sobre la escena 3D del hero, cualquier transparencia deja el texto ilegible.
+   Y como el tono del encabezado intercambia `--void` con `--bone`, el mismo
+   token da el fondo correcto sobre el hero oscuro y sobre un capítulo claro,
+   sin una regla más.
+   -------------------------------------------------------------------------- */
+
+.hamburguesa {
+  display: none;
+  appearance: none; background: none; border: 0; padding: 0;
+  /* 44 px: el objetivo táctil mínimo. El dibujo son 22 px, el resto es zona
+     de toque — no se ve, pero se agradece con el pulgar. */
+  width: 44px; height: 44px;
+  place-items: center;
+  color: var(--bone);
+  cursor: pointer;
+}
+.hamburguesa:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.hamburguesa-lineas { position: relative; display: block; }
+.hamburguesa-lineas,
+.hamburguesa-lineas::before,
+.hamburguesa-lineas::after {
+  width: 22px; height: 1.5px;
+  background: currentColor;
+  transition: transform 240ms var(--ease), background-color 140ms var(--ease);
+}
+.hamburguesa-lineas::before,
+.hamburguesa-lineas::after { content: ""; position: absolute; left: 0; }
+.hamburguesa-lineas::before { top: -7px; }
+.hamburguesa-lineas::after  { top:  7px; }
+
+/* Abierto, las tres líneas se vuelven una cruz: la del medio se apaga y las
+   otras dos se juntan y giran. */
+body > header.abierto .hamburguesa-lineas { background: transparent; }
+body > header.abierto .hamburguesa-lineas::before { transform: translateY(7px) rotate(45deg); }
+body > header.abierto .hamburguesa-lineas::after  { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 48rem) {
+  .hamburguesa { display: grid; }
+
+  /* `nowrap`: la marca y el botón se quedan en una línea pase lo que pase. */
+  body > header { flex-wrap: nowrap; }
+
+  body > header nav {
+    position: absolute; inset: 100% 0 auto 0;
+    display: none;
+    flex-direction: column; align-items: stretch;
+    gap: 0;
+    padding: 0.25rem var(--gutter) 1.25rem;
+    background: var(--void);
+    border-bottom: 1px solid var(--rule);
+  }
+  body > header.abierto nav { display: flex; }
+
+  #nav-links { flex-direction: column; align-items: stretch; gap: 0; }
+
+  body > header nav a {
+    display: flex; align-items: center;
+    min-height: 48px; padding-block: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  body > header nav > a:last-child {
+    justify-content: center;
+    margin-top: 1rem; border-bottom: 0;
+  }
+}
+
+/* Antes el menú envolvía acá y el encabezado pasaba de 79 a 122 px, así que la
+   reserva subía a 8rem. Con la hamburguesa vuelve a una sola línea y la reserva
+   baja: eran 43 px de cromo fijo que el contenido recuperaba en todas las
+   pantallas chicas. */
+@media (max-width: 56rem) {
+  :root { --alto-cabecera: 5.5rem; }
+  #hero > .tira > .capacidad { padding-inline: 0.75rem; }
+}
+
+/* En el teléfono aprieta el ancho, no el alto: el h1 envuelve a cuatro líneas y
+   la tira cae a dos columnas por tres filas. Mismo tratamiento compacto. */
+@media (max-width: 40rem) {
+  #hero { row-gap: 1.1rem; }
+  .hero-copy h1 { font-size: clamp(1.9rem, 1.3rem + 3vw, 2.6rem); }
+  #hero > .tira > .capacidad { padding-block: 0.65rem; }
+}
+
+/* --------------------------------------------------------------------------
+   16. Carrusel de marcas (`LogoCarousel` de cult-ui)
+   -------------------------------------------------------------------------- */
+
+/* Tres ventanas centradas; en cada una los logos se turnan. El original usa
+   `motion/react` con un resorte; acá el movimiento lo hacen transiciones CSS y
+   el turno un solo `setInterval` de 2 s —no hace falta trabajo por cuadro para
+   un cambio cada dos segundos—.
+
+   El escalonado entre columnas es `transition-delay`, no un temporizador por
+   columna: mismo efecto, un solo reloj. */
+/* Barra a todo el ancho, sin fondo ni marco. El `margin-inline` negativo
+   cancela el relleno lateral del capítulo y llega al borde del viewport; no se
+   usa `100vw` porque incluye la barra de scroll y agrega desplazamiento
+   horizontal. Hay que declarar las tres —`max-width`, `width`, `margin-inline`—
+   porque `.cap > *` las fija a la caja central y hay que soltarlas. */
+/* SEIS columnas y no cinco. Con cinco, los dos tramos donde la barra envuelve
+   dejaban una huérfana: 3 columnas daban 3+2 y 2 columnas daban 2+2+1. Seis es
+   divisible por los tres repartos —6, 3 y 2— así que ninguno deja sobrante. */
+.marcas {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: 0;
+  max-width: none;
+  width: auto;
+  margin-inline: calc(var(--gutter) * -1);
+  /* Sin `margin-top`: `.cap` ya separa a sus hijos con `gap: var(--rhythm-s)`,
+     y el margen lo duplicaba —96 px desde el fondo de la columna más alta—.
+     Mismo caso que la medición en el pie. */
+}
+
+.marca-col {
+  position: relative;
+  width: 100%;
+  height: clamp(2.6rem, 2.2rem + 2vw, 4rem);
+}
+/* Escalonado entre columnas, una por una: es `transition-delay` y no un
+   temporizador por columna, así el reloj sigue siendo uno solo. */
+.marca-col:nth-child(2) .marca { transition-delay: 150ms; }
+.marca-col:nth-child(3) .marca { transition-delay: 300ms; }
+.marca-col:nth-child(4) .marca { transition-delay: 450ms; }
+.marca-col:nth-child(5) .marca { transition-delay: 600ms; }
+
+/* Menos columnas en pantallas angostas: con `auto-fit` el navegador armaría
+   tantas como entren y las cinco quedarían apretadas a un costado. */
+@media (max-width: 64rem) { .marcas { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: clamp(1rem, 2vw, 2rem); } }
+@media (max-width: 40rem) { .marcas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Reposo: esperando abajo, invisible y desenfocado. */
+.marca {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  opacity: 0;
+  transform: translateY(10%);
+  filter: blur(8px);
+  transition: opacity 500ms var(--ease), transform 500ms var(--ease), filter 500ms var(--ease);
+}
+.marca svg {
+  width: 100%; height: 100%;
+  max-width: 2.6rem; max-height: 2.6rem;
+  fill: var(--ink-2);
+  transition: fill 220ms var(--ease);
+}
+.marca.on { opacity: 1; transform: none; filter: none; }
+/* Saliendo: hacia arriba. Es un estado aparte del de reposo porque el que se va
+   sube y el que espera está abajo; con una sola clase no se distinguen. */
+.marca.sale {
+  opacity: 0;
+  transform: translateY(-20%);
+  filter: blur(6px);
+  transition-duration: 300ms;
+}
+.marcas:hover .marca.on svg { fill: var(--acento); }
+
+
+/* --------------------------------------------------------------------------
+   17. Partners
+   -------------------------------------------------------------------------- */
+
+/* A COLOR y no monocromos: son marcas ajenas, no parte del sistema visual del
+   sitio. Van como `<img>` porque no necesitan tomar el color del capítulo —al
+   revés, tienen que conservar el suyo—.
+
+   Alto DISTINTO por logo, a mano. Las proporciones no coinciden ni de cerca:
+   Microsoft es 4,65:1 y NVIDIA 5,2:1 porque traen el logotipo con texto, y
+   Google Cloud es 1,24:1 porque solo existe el ícono. Normalizando por alto
+   parejo, los dos anchos dominarían y el ícono quedaría de estampilla. Estos
+   valores igualan el PESO ÓPTICO, no la caja. */
+/* La franja: el texto a la izquierda con medida corta, los logos alineados al
+   borde derecho y todo centrado verticalmente dentro de una caja de una línea.
+   Dos columnas de verdad —`auto` en la derecha— para que los logos ocupen lo
+   que necesitan y el texto se quede con el resto, en vez de repartir mitades.
+
+   Por debajo de 60rem no entran las dos: se apila y los logos se van a la
+   izquierda, a la misma línea vertical que el texto. */
+.franja-partners {
+  margin-top: var(--rhythm-s);
+  /* Relieve neumórfico, el mismo sistema que `.chip`: la caja es del MISMO
+     color que la sección y el volumen lo hacen las dos sombras opuestas —una
+     oscura abajo a la derecha, una blanca arriba a la izquierda—. Por eso los
+     tres tokens y no un color propio: cada capítulo los redefine y la franja
+     sube del fondo que le toque.
+
+     La distancia sí escala con el tamaño. `.chip` usa 6/12 porque mide dos
+     centímetros; a 1280px de ancho esa misma sombra la dejaría pegada al
+     fondo. Son 16/34, la proporción equivalente. */
+  border-radius: var(--relieve-radio);
+  background: var(--relieve);
+  box-shadow:  16px  16px 34px var(--relieve-sombra),
+              -16px -16px 34px var(--relieve-luz);
+  padding: clamp(1.5rem, 1.1rem + 1.5vw, 2.5rem) clamp(1.6rem, 1.1rem + 1.8vw, 3rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.5rem, 0.8rem + 2.8vw, 4rem);
+}
+.franja-partners > p {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--ink-2);
+}
+@media (max-width: 60rem) {
+  .franja-partners { grid-template-columns: minmax(0, 1fr); }
+  .franja-partners .partners { justify-content: flex-start; }
+}
+
+.partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(1.25rem, 0.8rem + 1.9vw, 2.75rem);
+}
+.partners .partner {
+  width: auto;
+  height: var(--alto-logo);
+  display: block;
+  /* Los logos ajenos no se recolorean ni se recortan. */
+  max-width: 100%;
+  object-fit: contain;
+}
+/* Escalados a ~0,8 de lo que eran: adentro de la franja acompañan al texto en
+   vez de dominar la sección. Las PROPORCIONES entre los cuatro no se tocan —son
+   las que igualan el peso óptico, no la caja—. */
+.partner--ms  { --alto-logo: clamp(0.84rem, 0.72rem + 0.4vw, 1.12rem); }
+.partner--nv  { --alto-logo: clamp(0.76rem, 0.64rem + 0.4vw, 1.04rem); }
+.partner--aws { --alto-logo: clamp(1.28rem, 1.04rem + 0.8vw, 1.76rem); }
+.partner--gcp { --alto-logo: clamp(1.42rem, 1.16rem + 0.88vw, 1.96rem); }
+
+
+/* Al salir del hero ya sólo aparece la regla de abajo: el color sólido lo pone
+   la regla base, hero incluido.
+
+   Acá hubo vidrio —`backdrop-filter: blur(16px) saturate(125%)` sobre un 62%
+   de `--void`—. Se sacó junto con el degradado del hero: un panel de menú
+   abierto sobre una escena en movimiento necesita tapar, y desenfocar media
+   pantalla detrás de una barra fija se paga en cada cuadro.
+
+   `--rule` lo intercambia el tono de cada pieza, así que la regla se adapta al
+   capítulo claro u oscuro sin una regla más. */
+body.fuera-hero > header {
+  border-bottom-color: var(--rule);
+}
+
+
+/* La barra de tecnologías va a todo el ancho, pero el rail de capítulos es
+   `fixed` sobre la izquierda y le pasaba por encima al primer logo —176 px de
+   solape, medido a 1842—. Los logos respetan la zona del rail usando SUS
+   MISMOS cortes: oculto por debajo de 88rem, marcadores sin etiqueta hasta
+   104rem, con etiquetas por encima. El relleno va simétrico para que la fila
+   no quede corrida. */
+.marcas { padding-inline: var(--gutter); }
+@media (min-width: 104rem) { .marcas { padding-inline: calc(var(--gutter) + 8rem); } }
+
+
+/* --------------------------------------------------------------------------
+   18. El mapa de arquitectura
+   -------------------------------------------------------------------------- */
+
+/* Un núcleo con sus órbitas y las piezas alrededor. La grilla y los dos anillos
+   salen del diagrama del sitio original; el relieve, de dos elementos de
+   uiverse (MIT): el núcleo lleva el botón extruido de FColombati y las piezas,
+   el chip de adamgiebl que ya usa el resto del sitio.
+
+   Las piezas van en porcentajes, no en píxeles: la caja cambia de tamaño con el
+   ancho y las posiciones tienen que seguirla. */
+.mapa {
+  /* El diámetro del núcleo, acá y no en `.mapa-nucleo`, porque ahora lo usan
+     dos elementos: el núcleo de vidrio y el aro que lo rodea. Escrito dos
+     veces, el día que cambie uno el aro queda descentrado de tamaño. */
+  --nucleo: clamp(4.5rem, 3.5rem + 4vw, 6.5rem);
+  position: relative;
+  margin-top: var(--rhythm-s);
+  aspect-ratio: 5 / 4;
+  min-height: 20rem;
+  border: 1px solid var(--rule);
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 2.75rem 2.75rem;
+}
+
+/* Las dos órbitas. */
+.mapa::before,
+.mapa::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.mapa::after { inset: 29%; }
+
+/* El núcleo: extruido, con la luz desde arriba como el original de uiverse.
+   Sombra afuera abajo, halo afuera arriba, y los dos reflejos por dentro. */
+/* El núcleo, en vidrio. Cinco capas, de abajo hacia arriba: el fondo que se ve
+   a través, el desenfoque con saturación, el tinte que sostiene el contraste,
+   el reflejo del borde y la sombra en dos partes.
+
+   El tinte NO es una decisión estética: el piso lo da el cálculo. Sobre el peor
+   fondo posible, hueso sobre #0D2B26 llega a 4,5:1 recién desde alfa 0,66; va
+   en 0,72 y da 5,62:1.
+
+   ⚠️ Por eso el rótulo "Core" NO es dorado. El oro de marca sobre este tinte
+   necesita alfa 0,90 para llegar a 4,5:1, y con 0,90 ya no se ve nada detrás:
+   deja de ser vidrio. El oro se mudó al reflejo del borde, que no lleva texto y
+   no tiene piso que cumplir.
+
+   `brightness` por debajo de 1 porque el fondo de la sección es claro: sobre
+   fondo claro el vidrio tiene que hundirse, no encenderse. */
+/* ---------------------------------------------------------------------------
+   EL NÚCLEO — `lucky-falcon-75` de xXJollyHAKERXx (uiverse.io, MIT)
+
+   COPIA LITERAL. Las tres reglas de abajo están tal como se publican: los
+   mismos nombres de clase, los mismos colores, el mismo `spinning82341`. No se
+   tocó un valor. Si algo hay que ajustar, se ajusta ACÁ ABAJO, en el bloque de
+   colocación, para que esto siga siendo comparable con el original.
+
+   Acá vivía una esfera de vidrio con NQ / CORE adentro. Está guardada entera
+   en `../nortiqa-taller/nucleo-vidrio.css`, con su marcado. -------------- */
+
+.spinner {
+  background-image: linear-gradient(rgb(186, 66, 255) 35%,rgb(0, 225, 255));
+  width: 100px;
+  height: 100px;
+  animation: spinning82341 1.7s linear infinite;
+  text-align: center;
+  border-radius: 50px;
+  filter: blur(1px);
+  box-shadow: 0px -5px 20px 0px rgb(186, 66, 255), 0px 5px 20px 0px rgb(0, 225, 255);
+}
+
+.spinner1 {
+  /* Lo ÚNICO que cambia del original. Era `rgb(36, 36, 36)`, que no es un color
+     elegido: es el fondo de la página de uiverse, y ahí este disco desaparece.
+     Su trabajo es ser invisible contra lo que tiene atrás. Va el fondo del
+     capítulo —hoy #E9EEEB— y como variable, para que siga al capítulo si
+     alguna vez cambia de paleta. */
+  background-color: var(--cap-fondo);
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  filter: blur(10px);
+}
+
+@keyframes spinning82341 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* EL ENVOLTORIO. Lleva la colocación y el rótulo; el `.spinner` de arriba
+   queda tal como se publica.
+
+   Existe por dos razones. Una: el `.spinner` gira, así que el rótulo no puede
+   vivir adentro de él —giraría—, y necesita un padre quieto que los alinee a
+   los dos. La otra: en teléfono el mapa deja de ser un diagrama y se vuelve
+   una grilla de piezas; con el núcleo repartido en dos elementos sueltos y
+   absolutos, los dos se quedaban flotando encima de los chips. Juntos, se
+   mueven juntos. */
+.nucleo {
+  position: absolute;
+  left: calc(50% - 50px);
+  top:  calc(50% - 50px);
+  width: 100px; height: 100px;
+  display: grid; place-items: center;
+  pointer-events: none;
+}
+
+/* COLOCACIÓN del componente — lo único que se le agrega, aparte para no
+   ensuciar la copia. El centrado NO puede ir en `transform`: el keyframe
+   escribe ahí y se llevaría puesto el `translate`. */
+.spinner {
+  position: absolute;
+  left: 0; top: 0;
+  /* 5,1 s en vez de 1,7: el triple de lento. El original es un LOADER y tiene
+     que verse ocupado; acá es el latido de un núcleo en un diagrama que se mira
+     mientras se lee al lado. La regla de arriba conserva el valor publicado. */
+  animation-duration: 5.1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+}
+
+/* El rótulo del núcleo, en el hueco del aro. Los tamaños y el interletrado son
+   los que tenía adentro de la esfera de vidrio: lo que se fue es el vidrio, no
+   el rótulo. Va DESPUÉS del `.spinner` en el marcado, así queda encima sin
+   necesidad de `z-index`. */
+.nucleo-texto {
+  /* `relative` y no `absolute`: lo centra el `place-items` del envoltorio. El
+     `relative` es sólo para que quede por encima del `.spinner`, que sí es
+     absoluto, sin tener que inventar un `z-index`. */
+  position: relative;
+  display: grid; justify-items: center; gap: 0.15rem;
+  text-align: center;
+  color: var(--tinta);
+}
+.nucleo-texto > strong { font-size: var(--step-2); font-weight: 600; letter-spacing: 0.06em; line-height: 1; }
+.nucleo-texto > small  { color: var(--tinta); opacity: 0.68; font-size: 0.5rem; }
+
+.mapa-item { position: absolute; }
+.m1 { left:  9%; top: 18%; }
+.m2 { right: 9%; top: 14%; }
+.m3 { right: 4%; top: 48%; }
+.m4 { right: 16%; bottom: 15%; }
+.m5 { left: 14%; bottom: 15%; }
+.m6 { left:  4%; top: 48%; }
+
+/* Angosto: el diagrama no entra, así que se desarma en una fila de piezas con
+   el núcleo arriba. Posicionar en porcentajes a 380 px las encima. */
+@media (max-width: 48rem) {
+  .mapa {
+    aspect-ratio: auto; min-height: 0;
+    /* Grilla y no flex: en flex, `flex-basis: 100%` para darle fila propia al
+       núcleo le PISA el ancho, y con `aspect-ratio: 1` se vuelve un círculo del
+       ancho de la caja —medido: 587 px a 700 de ventana—. En grilla,
+       `grid-column: 1 / -1` le da la fila entera sin tocarle el tamaño. */
+    display: grid;
+    /* Columnas CONTADAS, no `auto-fit`. Con `auto-fit` el navegador mete las
+       que entren y las seis piezas caían 5+1: una huérfana sola en la última
+       fila. Son seis, así que 2 o 3 columnas las reparten parejo siempre. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: center; align-items: center;
+    gap: 0.6rem;
+    padding: 1.25rem;
+  }
+  .mapa::before, .mapa::after { display: none; }
+  /* El núcleo entero —aro y rótulo— toma la fila completa arriba de las
+     piezas. `relative` porque el `.spinner` de adentro es absoluto y necesita
+     a quién agarrarse; si acá quedara `static`, se iría a buscar el `.mapa` y
+     volvería a caer encima de los chips. */
+  .nucleo {
+    position: relative;
+    left: auto; top: auto;
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .mapa-item { position: static; }
+}
+
+/* Tres columnas en cuanto entran: 3+3 en vez de 2+2+2. */
+@media (min-width: 30rem) and (max-width: 48rem) {
+  .mapa { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+
+/* Arquitectura: el texto APILADO a la izquierda y el mapa a la derecha. Es una
+   variante porque el corte es otro —bloque de texto contra diagrama, no título
+   contra párrafos— y para eso el texto necesita su propio envoltorio.
+
+   ⚠️ `.cap-lado >` y no `.cap-cols >`: el envoltorio rompe todo selector de hijo
+   directo que lo cruce. Cuando se agregó, el rótulo volvió al layout base y se
+   puso AL LADO del título en vez de encima, sin que fallara nada. */
+/* `start` y no `center`: las dos columnas arrancan a la misma altura. Con
+   `center` la grilla las centraba entre sí y el mapa quedaba 31 px por debajo
+   del texto —más los 48 de su propio margen, 79 en total—. */
+.cap-cols--par {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: var(--rhythm-s) var(--rhythm);
+  align-items: start;
+}
+/* El mapa arranca a la altura del TITULAR, no del eyebrow. Se baja exactamente
+   lo que ocupa el eyebrow: su caja de línea —`--step--2` por la interlínea del
+   cuerpo— más el hueco de `.cap-cabeza`. Calculado y no un 32 px suelto: si
+   cambia la escala tipográfica, la alineación se corrige sola.
+
+   Y se anulan los dos márgenes que el mapa traía de cuando esto era una sola
+   columna apilada: ahí separaban del texto de arriba, acá sólo lo corrían. */
+.cap-cols--par > .arq {
+  margin-top: calc(var(--step--2) * var(--interlinea) + 0.9rem);
+}
+.cap-cols--par .mapa { margin-top: 0; }
+.cap-lado { display: flex; flex-direction: column; gap: var(--rhythm-s); }
+/* `.cap-texto` trae `flex: 1 1 27rem`, escrito para `.cap-cols`, que es una
+   FILA: ahí 27rem es un ancho. Acá adentro el contenedor es una COLUMNA y el
+   mismo `flex-basis` pasa a ser un ALTO — 432 px de caja para un texto que
+   ocupa 170. Eso era el hueco entre el texto y el mapa.
+
+   `auto`: que mida lo que mide su contenido. */
+.cap-lado > .cap-texto { flex: 0 0 auto; }
+.cap-lado > .cap-cabeza { display: flex; flex-direction: column; gap: 0.9rem;
+  align-items: flex-start; }
+.cap-lado > .cap-cabeza > p { align-self: flex-start; }
+/* La medida la llevan los párrafos, no el contenedor. */
+.cap-lado .cap-texto > p { max-width: 46ch; }
+.cap-cols--par > .arq { width: 100%; }
+
+/* Angosto: el diagrama debajo del texto. */
+@media (max-width: 64rem) {
+  .cap-cols--par { grid-template-columns: 1fr; align-items: start; }
+  /* Apilado no hay nada a la izquierda con qué alinearse: el desplazamiento
+     que baja el mapa hasta el titular sólo tiene sentido en dos columnas. */
+  .cap-cols--par > .arq { margin-top: 0; }
+}
