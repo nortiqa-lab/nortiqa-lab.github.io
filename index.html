@@ -3,173 +3,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nortiqa Lab</title>
+  <meta name="description" content="NORTIQA diseña e implementa sistemas de inteligencia organizacional para convertir procesos críticos en operaciones trazables, medibles y progresivamente automatizables.">
+  <meta name="robots" content="index,follow">
+  <title>NORTIQA — Sistemas de inteligencia organizacional</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --border: #1e1e2e;
-      --accent: #7c6af7;
-      --accent2: #a78bfa;
-      --text: #e2e2f0;
-      --muted: #6b6b8a;
+      --green: #0D2B26;
+      --blue: #0F1F2E;
+      --gold: #C9A15B;
+      --paper: #F7F5EF;
+      --surface: #FFFFFF;
+      --text: #14201E;
+      --muted: #60706C;
+      --border: #DDE3DF;
     }
     body {
-      background: var(--bg);
+      background: var(--paper);
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
     header {
-      padding: 1.5rem 2rem;
+      padding: 1.25rem clamp(1.25rem, 4vw, 4rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       border-bottom: 1px solid var(--border);
+      background: rgba(247,245,239,.94);
+    }
+    .brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: .75rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+      color: var(--green);
     }
-    .logo-mark {
-      width: 32px; height: 32px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-radius: 8px;
-    }
-    .logo-text { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
-    .logo-text span { color: var(--muted); font-weight: 400; }
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(124,106,247,0.1);
-      border: 1px solid rgba(124,106,247,0.3);
-      color: var(--accent2);
-      font-size: 0.75rem;
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      margin-bottom: 2rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.05;
-      margin-bottom: 1.5rem;
-    }
-    h1 .grad {
-      background: linear-gradient(135deg, var(--accent2) 0%, #c4b5fd 50%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    p.sub {
-      color: var(--muted);
-      font-size: 1.15rem;
-      max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 3rem;
-    }
-    .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .btn {
-      padding: 0.8rem 1.8rem;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border: 1px solid var(--accent);
-    }
-    .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--muted); }
-    .grid {
+    .mark {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--border);
+      grid-template-columns: repeat(2, 8px);
+      grid-template-rows: repeat(2, 8px);
+      gap: 3px;
+    }
+    .mark span { width: 8px; height: 8px; background: var(--green); }
+    .mark span:last-child { background: var(--gold); }
+    .status {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+    main {
+      width: min(1120px, calc(100% - 2.5rem));
+      margin: 0 auto;
+      flex: 1;
+      padding: clamp(4rem, 9vw, 8rem) 0;
+    }
+    .eyebrow {
+      color: var(--gold);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      max-width: 920px;
+      color: var(--blue);
+      font-size: clamp(2.6rem, 7vw, 6rem);
+      line-height: .98;
+      letter-spacing: -.055em;
+      font-weight: 780;
+    }
+    .lead {
+      max-width: 720px;
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.7;
+    }
+    .principle {
+      margin-top: 2rem;
+      max-width: 720px;
+      padding-left: 1rem;
+      border-left: 3px solid var(--gold);
+      color: var(--green);
+      font-weight: 650;
+      line-height: 1.6;
+    }
+    .grid {
+      margin-top: clamp(4rem, 8vw, 7rem);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
       border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      max-width: 700px;
-      width: 100%;
-      margin-top: 5rem;
+      background: var(--border);
+      gap: 1px;
     }
     .card {
       background: var(--surface);
-      padding: 2rem 1.5rem;
-      text-align: left;
+      padding: 2rem;
+      min-height: 210px;
     }
-    .card-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-    .card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-    footer {
-      padding: 1.5rem 2rem;
-      border-top: 1px solid var(--border);
-      text-align: center;
+    .card .n {
+      color: var(--gold);
+      font-size: .72rem;
+      letter-spacing: .12em;
+      margin-bottom: 2.2rem;
+    }
+    .card h2 {
+      color: var(--green);
+      font-size: 1.15rem;
+      margin-bottom: .85rem;
+    }
+    .card p {
       color: var(--muted);
-      font-size: 0.8rem;
+      line-height: 1.65;
+      font-size: .93rem;
     }
-    footer a { color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
+    .closing {
+      margin-top: clamp(4rem, 8vw, 7rem);
+      padding: 2.25rem;
+      background: var(--green);
+      color: #fff;
+    }
+    .closing strong {
+      display: block;
+      color: var(--gold);
+      margin-bottom: .65rem;
+      letter-spacing: .04em;
+    }
+    .closing p {
+      max-width: 760px;
+      line-height: 1.65;
+      color: #E5ECE9;
+    }
+    footer {
+      padding: 1.5rem clamp(1.25rem, 4vw, 4rem);
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .8rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      .status { display: none; }
+      h1 { line-height: 1.03; }
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo-mark"></div>
-    <div class="logo-text">Nortiqa <span>Lab</span></div>
+    <div class="brand" aria-label="NORTIQA">
+      <div class="mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <span>NORTIQA</span>
+    </div>
+    <div class="status">Sitio institucional</div>
   </header>
 
   <main>
-    <div class="badge">En construcción</div>
-    <h1>Building AI<br><span class="grad">infrastructure</span></h1>
-    <p class="sub">Agentes inteligentes, automatización y herramientas de IA para equipos que quieren moverse más rápido.</p>
-    <div class="cta-group">
-      <a href="https://nortiqalab.com" class="btn btn-primary">Ir al sitio</a>
-      <a href="mailto:contacto@nortiqalab.com" class="btn btn-ghost">Contacto</a>
-    </div>
+    <div class="eyebrow">Inteligencia organizacional</div>
+    <h1>Convertimos procesos críticos en sistemas que se pueden medir, gobernar y mejorar.</h1>
+    <p class="lead">
+      Diseñamos e implementamos capacidades integradas para reducir fricción operativa,
+      aumentar trazabilidad y transformar información dispersa en decisiones y ejecución.
+    </p>
+    <p class="principle">Primero ordenar el proceso y el dato. Después automatizar.</p>
 
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Agentes IA</h3>
-        <p>Agentes y automatizaciones orientados a procesos, decisiones y resultados medibles.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🔧</div>
-        <h3>Infraestructura</h3>
-        <p>Infraestructura gobernada, desplegable y preparada para operar con trazabilidad.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🔗</div>
-        <h3>Integraciones</h3>
-        <p>Integraciones entre sistemas, datos y flujos de trabajo con trazabilidad.</p>
-      </div>
-    </div>
+    <section class="grid" aria-label="Capacidades">
+      <article class="card">
+        <div class="n">01</div>
+        <h2>Diagnóstico</h2>
+        <p>Entendemos procesos, datos, riesgos y puntos de fricción antes de recomendar una intervención.</p>
+      </article>
+      <article class="card">
+        <div class="n">02</div>
+        <h2>Transformación</h2>
+        <p>Integramos gestión, automatización, analítica e inteligencia de forma incremental y medible.</p>
+      </article>
+      <article class="card">
+        <div class="n">03</div>
+        <h2>Operación y mejora</h2>
+        <p>Seguimos el desempeño, la adopción y la confiabilidad para convertir soluciones en capacidades sostenibles.</p>
+      </article>
+    </section>
+
+    <section class="closing">
+      <strong>Principio de arquitectura</strong>
+      <p>
+        Diseñamos soluciones modulares e interoperables. La tecnología es un medio:
+        el resultado, la trazabilidad y la capacidad de evolución son el producto.
+      </p>
+    </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 Nortiqa Lab</p>
+    <span>© 2026 NORTIQA</span>
+    <span>Versión institucional provisional</span>
   </footer>
 </body>
 </html>
